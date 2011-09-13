@@ -16,13 +16,15 @@ namespace B_Type_2_Dev
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
         }
 

@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using B_Type_2_Dev.Globals;
+
 namespace B_Type_2_Dev.Drawing
 {
     public interface ITransformable
@@ -15,18 +17,10 @@ namespace B_Type_2_Dev.Drawing
         float Rotation { get; set; }
     }
 
-    class Entity : ITransformable
+    class Sprite : ITransformable
     {
-        private Frame _Frame;
-        private Color _Color;
+        private Animation _Frame;
         private Vector2 _position;
-        private float _scale;
-        private float _rotation;
-
-        public Frame Frame
-        {
-            get { return _Frame; }
-        }
 
         public Animation Animation
         {
@@ -35,12 +29,12 @@ namespace B_Type_2_Dev.Drawing
 
         public int Height
         {
-            get { return _Frame.SourceRectangle.Height; }
+            get { return _Frame.CurrentFrame.SourceRectangle.Height; }
         }
 
         public int Width
         {
-            get { return _Frame.SourceRectangle.Width; }
+            get { return _Frame.CurrentFrame.SourceRectangle.Width; }
         }
 
         public float X
@@ -55,29 +49,17 @@ namespace B_Type_2_Dev.Drawing
             set { _position.Y = value; }
         }
 
-        public float Scale
-        {
-            get { return _scale; }
-            set { _scale = value; }
-        }
+        public float Scale { get; set; }
+        public float Rotation { get; set; }
+        public Color Color { get; set; }
 
-        public float Rotation
-        {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        public Color Color
-        {
-            get { return _Color; }
-            set { _Color = value; }
-        }
-
-        public Entity(Frame frame, Vector2 startPosition)
+        public Sprite(Animation frame, Vector2 startPosition)
         {
             _Frame = frame;
             _position = startPosition;
-            _Color = Color.White;
+            Color = Color.White;
+            Scale = 1f;
+            Rotation = 0f;
         }
 
         public void Update(GameTime gameTime)
@@ -87,21 +69,22 @@ namespace B_Type_2_Dev.Drawing
 
         public void Draw()
         {
-            //G.SpriteBatch.Draw(_Frame.Texture, _position, _Frame.SourceRectangle, _Color);
+            //G.SpriteBatch.Draw(_Frame.Texture, _position, _Frame.CurrentFrame.SourceRectangle, _Color);
+            Draw(_position.X, _position.Y, Scale, Rotation, Color);
         }
 
 
         public void Draw(Color color)
         {
-            //G.SpriteBatch.Draw(_Frame.Texture, _position, _Frame.SourceRectangle, color);
+            G.SpriteBatch.Draw(_Frame.Texture, _position, _Frame.CurrentFrame.SourceRectangle, color);
         }
 
         public void Draw(float x, float y, float scale, float rotation, Color color)
         {
             Vector2 texCenter = new Vector2(Width / 2, Height / 2);
-            texCenter = new Vector2(0, 0);
+           // texCenter = new Vector2(0, 0);
 
-            //G.SpriteBatch.Draw(_Frame.Texture, new Vector2(x + texCenter.X, y + texCenter.Y), _Frame.SourceRectangle, color, rotation, texCenter, scale, SpriteEffects.None, 0);
+            G.SpriteBatch.Draw(_Frame.Texture, new Vector2(x + texCenter.X, y + texCenter.Y), _Frame.CurrentFrame.SourceRectangle, color, rotation, texCenter, scale, SpriteEffects.None,0);
         }
     }
 }

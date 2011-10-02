@@ -9,6 +9,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using B_Type_2_Dev.Globals;
+using B_Type_2_Dev.Drawing;
+
 namespace B_Type_2_Dev
 {
     /// <summary>
@@ -19,6 +22,8 @@ namespace B_Type_2_Dev
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Sprite player;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -26,6 +31,7 @@ namespace B_Type_2_Dev
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
+            G.Content = Content;
         }
 
         /// <summary>
@@ -37,6 +43,7 @@ namespace B_Type_2_Dev
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            player = new Sprite(AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{.5f,1f}),new Vector2(200f,200f));
 
             base.Initialize();
         }
@@ -49,6 +56,7 @@ namespace B_Type_2_Dev
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            G.SpriteBatch = spriteBatch;
 
             // TODO: use this.Content to load your game content here
         }
@@ -73,6 +81,10 @@ namespace B_Type_2_Dev
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+
+            player.Update(gameTime);
+            player.Rotation += (float)(2f*gameTime.TotalGameTime.TotalSeconds);
+            player.Scale += (float) (.0001f*gameTime.TotalGameTime.TotalSeconds);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -87,6 +99,9 @@ namespace B_Type_2_Dev
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            G.SpriteBatch.Begin();
+            player.Draw();
+            G.SpriteBatch.End();
 
             base.Draw(gameTime);
         }

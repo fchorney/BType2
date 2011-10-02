@@ -5,9 +5,5 @@ using System.Text;
 
 namespace B_Type_2_Dev.Drawing
 {
-    class Player : Entity
-    {
 
-
-    }
 }

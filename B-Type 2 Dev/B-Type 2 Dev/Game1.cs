@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using B_Type_2_Dev.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,8 +9,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
-using B_Type_2_Dev.Globals;
 using B_Type_2_Dev.Drawing;
 
 namespace B_Type_2_Dev
@@ -43,8 +42,11 @@ namespace B_Type_2_Dev
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Sprite(AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{.5f,1f}),new Vector2(200f,200f));
-
+            //player = new Sprite(AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{.5f,1f}),new Vector2(200f,200f));
+            player = new Sprite(new Vector2(200f,200f));
+            player.AddAnimation("main", AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{0.5f,1.0f},true,5));
+            player.AddAnimation("alternate", AnimationFactory.GenerateAnimation(@"Sprites/spaceship2",64,64,2,new double[]{0.1f,0.2f}));
+            //player.Animation.Loop = false;
             base.Initialize();
         }
 
@@ -83,8 +85,8 @@ namespace B_Type_2_Dev
 
 
             player.Update(gameTime);
-            player.Rotation += (float)(2f*gameTime.TotalGameTime.TotalSeconds);
-            player.Scale += (float) (.0001f*gameTime.TotalGameTime.TotalSeconds);
+            //player.Rotation += (float)(2f*gameTime.TotalGameTime.TotalSeconds);
+            //player.Scale += (float) (.0001f*gameTime.TotalGameTime.TotalSeconds);
             // TODO: Add your update logic here
 
             base.Update(gameTime);

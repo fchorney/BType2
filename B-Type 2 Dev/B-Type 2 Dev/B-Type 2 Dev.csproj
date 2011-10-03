@@ -110,7 +110,7 @@
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\Sprite.cs" />
     <Compile Include="Drawing\Player.cs" />
-    <Compile Include="Utility\Globals.cs" />
+    <Compile Include="Core\Globals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

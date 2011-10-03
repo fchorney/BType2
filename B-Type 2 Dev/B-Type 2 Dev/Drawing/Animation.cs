@@ -1,97 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using B_Type_2_Dev.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using B_Type_2_Dev.Globals;
-
 namespace B_Type_2_Dev.Drawing
 {
-
-    //public class Frame
-    //{
-    //    private String _AssetName;
-    //    private Texture2D _Texture;
-    //    private Rectangle _SourceRectangle;
-
-    //    public virtual int Height
-    //    {
-    //        get { return _Texture.Height; }
-    //    }
-
-    //    public virtual int Width
-    //    {
-    //        get { return _Texture.Width; }
-    //    }
-
-    //    public virtual Texture2D Texture
-    //    {
-    //        get { return _Texture; }
-    //    }
-
-    //    public virtual Rectangle SourceRectangle
-    //    {
-    //        get { return _SourceRectangle; }
-    //    }
-
-    //    internal Frame() { }
-
-    //    public Frame(string assetName, Rectangle sourceRectangle)
-    //    {
-    //        _AssetName = assetName;
-    //        _SourceRectangle = sourceRectangle;
-    //        LoadResources();
-    //    }
-
-    //    public void LoadResources()
-    //    {
-    //        // Load Texture
-    //        _Texture = G.Content.Load<Texture2D>(_AssetName);
-    //    }
-
-    //    public virtual void Update(GameTime gameTime)
-    //    {
-
-    //    }
-    //}
-
-    //public class Animation : Frame
-    //{
-    //    public List<Frame> Frames;
-    //    public int CurrentFrame;
-    //    public double AnimationSpeed;
-    //    private double _TimeInFrame;
-
-    //    internal int _TotalFrames;
-
-    //    public int TotalFrames
-    //    {
-    //        get { return _TotalFrames; }
-    //    }
-
-    //    public override Texture2D Texture
-    //    {
-    //        get { return Frames[CurrentFrame].Texture; }
-    //    }
-
-    //    public override Rectangle SourceRectangle
-    //    {
-    //        get { return Frames[CurrentFrame].SourceRectangle; }
-    //    }
-
-    //    public override void Update(GameTime gameTime)
-    //    {
-    //        _TimeInFrame += gameTime.ElapsedGameTime.TotalSeconds;
-    //        if (AnimationSpeed > 0 && _TimeInFrame >= AnimationSpeed)
-    //        {
-    //            CurrentFrame++;
-    //            if (CurrentFrame == TotalFrames)
-    //                CurrentFrame = 0;
-    //            _TimeInFrame = 0;
-    //        }
-    //    }
-    //}
-
     public class Frame
     {
         public Rectangle SourceRectangle { get; set; }
@@ -109,8 +22,10 @@ namespace B_Type_2_Dev.Drawing
         public List<Frame> Frames { get; set; }
         public int FrameIndex { get; set; }
         public Texture2D Texture { get; private set; }
-        //public bool Loop { get; set; } Put somewhere else
+        public bool Loop { get; set; }
 
+        private int currentLoopCount;
+        private int loopCount;
         private double currentDuration;
         //private double totalDuration;
         private double timeInFrame;
@@ -121,53 +36,69 @@ namespace B_Type_2_Dev.Drawing
             get { return Frames[FrameIndex]; }
         }
 
-        public Animation(string assetName)
+        public Rectangle SourceRectangle
+        {
+            get { return CurrentFrame.SourceRectangle; }
+        }
+
+        public Animation(string assetName, bool loop = true, int loopCount = -1)
         {
             Texture = G.Content.Load<Texture2D>(assetName);
-            FrameIndex = 0;
-            timeInFrame = 0;
+            Reset();
+            Loop = loop;
+            this.loopCount = loopCount;
         }
 
         public void Update(GameTime gameTime)
         {
-            if (currentDuration == 0)
-                currentDuration = Frames[FrameIndex].Duration;
-            timeInFrame += gameTime.ElapsedGameTime.TotalSeconds;
-            
-            if (timeInFrame >= currentDuration)
+            if (Loop || (!Loop && currentLoopCount < 1))
             {
-                FrameIndex++;
-                if (FrameIndex >= Frames.Count)
+                if (loopCount == -1 || (loopCount > -1 && currentLoopCount < loopCount))
                 {
-                    FrameIndex = 0;
+                    timeInFrame += gameTime.ElapsedGameTime.TotalSeconds;
+                    if (timeInFrame >= currentDuration)
+                    {
+                        FrameIndex++;
+                        if (FrameIndex >= Frames.Count)
+                        {
+                            FrameIndex = 0;
+                            currentLoopCount++;
+                        }
+                        currentDuration += Frames[FrameIndex].Duration;
+                    }
                 }
-                currentDuration += Frames[FrameIndex].Duration;
             }
         }
 
+        public void Reset()
+        {
+            FrameIndex = -1;
+            timeInFrame = 0;
+            currentLoopCount = 0;
+            currentDuration = 0.0f;
+        }
     }
 
     public class AnimationFactory
     {
-        public static Animation GenerateAnimation(string assetName, int frameWidth, int frameHeight, int numFrames,double[] durations)
+        public static Animation GenerateAnimation(string assetName, int frameWidth, int frameHeight, int numFrames,double[] durations, bool loop = true, int loopCount = -1)
         {
-            Animation _Animation = new Animation(assetName);
+            Animation animation = new Animation(assetName,loop,loopCount);
 
-            int cols = _Animation.Texture.Width / frameWidth;
-            int rows = _Animation.Texture.Height / frameHeight;
+            int cols = animation.Texture.Width / frameWidth;
+            int rows = animation.Texture.Height / frameHeight;
 
-            _Animation.Frames = new List<Frame>();
-            _Animation.FrameIndex = 0;
-            _Animation.totalFrames = numFrames;
+            animation.Frames = new List<Frame>();
+            animation.totalFrames = numFrames;
             
             for (int j = 0; j < rows; j++)
                 for (int i = 0; i < cols && j * cols + i < numFrames; i++)
                 {
-                    Frame _Frame = new Frame(new Rectangle(i * frameWidth, j * frameHeight, frameWidth, frameHeight),durations[j * cols + i]);
-                    _Animation.Frames.Add(_Frame);
+                    Frame frame = new Frame(new Rectangle(i * frameWidth, j * frameHeight, frameWidth, frameHeight),durations[j * cols + i]);
+                    animation.Frames.Add(frame);
                 }
 
-            return _Animation;
+            return animation;
         }
     }
 }

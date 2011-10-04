@@ -81,6 +81,21 @@ namespace B_Type_2_Dev.Drawing
             frame.Reset();
         }
 
+        public void Pause()
+        {
+            frame.Paused = true;
+        }
+
+        public void UnPause()
+        {
+            frame.Paused = false;
+        }
+
+        public void ReStart()
+        {
+            frame.Reset();
+        }
+
         public void AddAnimation(string animationName, Animation animation)
         {
             animations.Add(animationName, animation);

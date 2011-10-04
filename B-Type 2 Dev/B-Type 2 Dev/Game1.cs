@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using B_Type_2_Dev.Drawing;
+using B_Type_2_Dev.Input;
 
 namespace B_Type_2_Dev
 {
@@ -22,15 +23,25 @@ namespace B_Type_2_Dev
         SpriteBatch spriteBatch;
 
         Sprite player;
+        private PlayerInput input;
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1280;
+            IsFixedTimeStep = false;
+
+            graphics = new GraphicsDeviceManager(this)
+                           {
+                               IsFullScreen = false,
+                               SynchronizeWithVerticalRetrace = true,
+                               PreferredBackBufferHeight = 720,
+                               PreferredBackBufferWidth = 1280
+                           };
+            graphics.ApplyChanges();
+
+
             Content.RootDirectory = "Content";
             G.Content = Content;
+            G.Game = this;
         }
 
         /// <summary>
@@ -42,11 +53,20 @@ namespace B_Type_2_Dev
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            //player = new Sprite(AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{.5f,1f}),new Vector2(200f,200f));
             player = new Sprite(new Vector2(200f,200f));
-            player.AddAnimation("main", AnimationFactory.GenerateAnimation(@"Sprites/spaceship",64,64,2,new double[]{0.5f,1.0f},true,5));
-            player.AddAnimation("alternate", AnimationFactory.GenerateAnimation(@"Sprites/spaceship2",64,64,2,new double[]{0.1f,0.2f}));
+            player.AddAnimation("main", new Animation(@"Sprites/spaceship",64,64,2,new double[]{0.5f,1.0f},true,5));
+            player.AddAnimation("alternate", new Animation(@"Sprites/spaceship2",64,64,2,new double[]{0.1f,0.2f}));
             //player.Animation.Loop = false;
+
+            input = new PlayerInput(PlayerIndex.One);
+            Components.Add(input);
+
+            input.BindAction("Pause",Keys.P);
+            input.BindAction("UnPause", Keys.U);
+            input.BindAction("Switch-A",Keys.A);
+            input.BindAction("Switch-S",Keys.S);
+            input.BindAction("Restart",Keys.R);
+
             base.Initialize();
         }
 
@@ -88,6 +108,21 @@ namespace B_Type_2_Dev
             //player.Rotation += (float)(2f*gameTime.TotalGameTime.TotalSeconds);
             //player.Scale += (float) (.0001f*gameTime.TotalGameTime.TotalSeconds);
             // TODO: Add your update logic here
+
+            if (input.IsPressed("Pause"))
+                player.Pause();
+            
+            if (input.IsPressed("UnPause"))
+                player.UnPause();
+            
+            if (input.IsPressed("Switch-A"))
+                player.SetAnimation("main");
+
+            if (input.IsPressed("Switch-S"))
+                player.SetAnimation("alternate");
+
+            if (input.IsPressed("Restart"))
+                player.ReStart();
 
             base.Update(gameTime);
         }

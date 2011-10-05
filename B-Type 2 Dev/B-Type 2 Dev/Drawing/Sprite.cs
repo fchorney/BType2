@@ -96,6 +96,11 @@ namespace B_Type_2_Dev.Drawing
             frame.Reset();
         }
 
+        public bool isPaused()
+        {
+            return frame.Paused;
+        }
+
         public void AddAnimation(string animationName, Animation animation)
         {
             animations.Add(animationName, animation);

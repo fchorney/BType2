@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using B_Type_2_Dev.Core;
+using B_Type_2_Dev.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -24,6 +25,7 @@ namespace B_Type_2_Dev
 
         Sprite player;
         private PlayerInput input;
+        private TextWriter textWriter;
 
         public Game1()
         {
@@ -66,6 +68,9 @@ namespace B_Type_2_Dev
             input.BindAction("Switch-A",Keys.A);
             input.BindAction("Switch-S",Keys.S);
             input.BindAction("Restart",Keys.R);
+
+            textWriter = new TextWriter(@"SpriteFonts/Debug");
+            textWriter.Add("Paused");
 
             base.Initialize();
         }
@@ -114,6 +119,8 @@ namespace B_Type_2_Dev
             
             if (input.IsPressed("UnPause"))
                 player.UnPause();
+
+            textWriter.Update("Paused",player.isPaused() ? "True" : "False");
             
             if (input.IsPressed("Switch-A"))
                 player.SetAnimation("main");
@@ -138,6 +145,7 @@ namespace B_Type_2_Dev
             // TODO: Add your drawing code here
             G.SpriteBatch.Begin();
             player.Draw();
+            textWriter.Draw();
             G.SpriteBatch.End();
 
             base.Draw(gameTime);

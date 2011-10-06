@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace B_Type_2_Dev.Utility
+namespace Rollout.Utility
 {
-    class Limiter
+    public class Limiter
     {
         private double elapsedTime;
 

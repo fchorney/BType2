@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using B_Type_2_Dev.Core;
+using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace B_Type_2_Dev.Drawing
+namespace Rollout.Drawing
 {
     public interface ITransformable
     {
@@ -13,7 +13,7 @@ namespace B_Type_2_Dev.Drawing
         float Rotation { get; set; }
     }
 
-    class Sprite : ITransformable
+    public class Sprite : ITransformable
     {
         private Animation frame;
         private Vector2 position;

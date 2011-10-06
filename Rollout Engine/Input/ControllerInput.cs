@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace B_Type_2_Dev.Input
+namespace Rollout.Input
 {
     /// <summary>
     /// The ControllerInput class will take in a PlayerIndex and poll that players controller for input

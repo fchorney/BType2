@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using B_Type_2_Dev.Core;
-using B_Type_2_Dev.Utility;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -10,8 +8,10 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using B_Type_2_Dev.Drawing;
-using B_Type_2_Dev.Input;
+using Rollout.Drawing;
+using Rollout.Input;
+using Rollout.Core;
+using Rollout.Utility;
 
 namespace B_Type_2_Dev
 {
@@ -23,7 +23,7 @@ namespace B_Type_2_Dev
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Sprite player;
+        private Sprite player;
         private PlayerInput input;
         private TextWriter textWriter;
 

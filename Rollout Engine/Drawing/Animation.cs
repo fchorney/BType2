@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using B_Type_2_Dev.Core;
+using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace B_Type_2_Dev.Drawing
+namespace Rollout.Drawing
 {
     public class Frame
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using B_Type_2_Dev.Core;
+using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace B_Type_2_Dev.Utility
+namespace Rollout.Utility
 {
-    class TextWriter
+    public class TextWriter
     {
         private SpriteFont font;
         private int x, y;

@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README = README
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rollout Engine", "Rollout Engine\Rollout Engine.csproj", "{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -22,6 +24,10 @@ Global
 		{C68FE341-DED0-4FBB-B683-A0017DA613F9}.Release|x86.Build.0 = Release|x86
 		{0DFB596E-05F2-45C2-91C4-73A92665C5FB}.Debug|x86.ActiveCfg = Debug|x86
 		{0DFB596E-05F2-45C2-91C4-73A92665C5FB}.Release|x86.ActiveCfg = Release|x86
+		{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}.Debug|x86.ActiveCfg = Debug|x86
+		{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}.Debug|x86.Build.0 = Debug|x86
+		{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}.Release|x86.ActiveCfg = Release|x86
+		{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

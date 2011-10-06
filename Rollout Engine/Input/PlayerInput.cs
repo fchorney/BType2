@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using B_Type_2_Dev.Core;
+using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace B_Type_2_Dev.Input
+namespace Rollout.Input
 {
     public interface IInputDevice
     {

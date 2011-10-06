@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace B_Type_2_Dev.Utility
+namespace Rollout.Utility
 {
-    static class RNG
+    public static class RNG
     {
         private static Random r = new Random();
 

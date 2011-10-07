@@ -47,6 +47,11 @@ namespace Rollout.Drawing
             set { Position = new Vector2(Position.X,value); }
         }
 
+        public Particle(params double[] Parameters)
+        {
+            Init(Parameters);
+        }
+
         public void Init(params double[] Parameters)
         {
             Age = 0;

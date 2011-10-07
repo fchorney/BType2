@@ -71,7 +71,8 @@ namespace Rollout.Drawing
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (Particle p in particles.Where(p => p.Enabled))
+            foreach (Particle p in particles.AsParallel().Where(p => p.Enabled))
+            //foreach (Particle p in particles.Where(p => p.Enabled))
             {
                 p.Update(gameTime);
 
@@ -86,7 +87,7 @@ namespace Rollout.Drawing
         public virtual void Draw()
         {
             // LINQ is the fucking shit!
-            foreach (Particle p in particles.Where(p => p.Enabled))
+            foreach (Particle p in particles.AsParallel().Where(p => p.Enabled))
                 p.Draw();
         }
     }

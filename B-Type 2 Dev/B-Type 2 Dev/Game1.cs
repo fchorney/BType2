@@ -39,7 +39,7 @@ namespace B_Type_2_Dev
             graphics = new GraphicsDeviceManager(this)
                            {
                                IsFullScreen = false,
-                               SynchronizeWithVerticalRetrace = true,
+                               SynchronizeWithVerticalRetrace = false,
                                PreferredBackBufferHeight = 720,
                                PreferredBackBufferWidth = 1280
                            };

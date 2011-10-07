@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,7 +33,7 @@ namespace Rollout.Utility
 
         public void Draw()
         {
-            foreach (KeyValuePair<string, TextObject> pair in text)
+            foreach (KeyValuePair<string, TextObject> pair in text.AsParallel())
             {
                 G.SpriteBatch.DrawString(font, pair.Key + ": " + pair.Value.Data, pair.Value.Position, Color.White);
             }

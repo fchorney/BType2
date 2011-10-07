@@ -104,6 +104,7 @@
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\PlayerInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />
     <Compile Include="Utility\TextWriter.cs" />

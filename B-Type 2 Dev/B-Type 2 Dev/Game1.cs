@@ -29,7 +29,8 @@ namespace B_Type_2_Dev
         private TextWriter textWriter;
         private ParticleEffect_A pEffect;
 
-        private Texture2D whitePixel; 
+        private Texture2D whitePixel;
+        private FPS fps;
 
         public Game1()
         {
@@ -38,7 +39,7 @@ namespace B_Type_2_Dev
             graphics = new GraphicsDeviceManager(this)
                            {
                                IsFullScreen = false,
-                               SynchronizeWithVerticalRetrace = true,
+                               SynchronizeWithVerticalRetrace = false,
                                PreferredBackBufferHeight = 720,
                                PreferredBackBufferWidth = 1280
                            };
@@ -76,10 +77,13 @@ namespace B_Type_2_Dev
             textWriter = new TextWriter(@"SpriteFonts/Debug");
             textWriter.Add("Paused");
             textWriter.Add("Particle Count");
+            textWriter.Add("FPS");
 
             Sprite particleSprite = new Sprite(new Vector2(500f,300f));
             particleSprite.AddAnimation("main",new Animation(@"Sprites/Lensflare",256, 256, 1, new double[]{1}));
             pEffect = new ParticleEffect_A(particleSprite);
+
+            fps = new FPS();
 
             base.Initialize();
         }
@@ -123,11 +127,12 @@ namespace B_Type_2_Dev
                 this.Exit();
 
 
-            player.Update(gameTime);
-            player.Rotation += (float)(2f * gameTime.TotalGameTime.TotalSeconds);
-            player.Scale += (float)(.001f * gameTime.TotalGameTime.TotalSeconds);
+            //player.Update(gameTime);
+            player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
+            player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
             pEffect.Update(gameTime);
+            fps.Update(gameTime);
 
             if (input.IsPressed("Pause"))
                 player.Pause();
@@ -137,6 +142,7 @@ namespace B_Type_2_Dev
 
             textWriter.Update("Paused", player.isPaused() ? "True" : "False");
             textWriter.Update("Particle Count", pEffect.Count.ToString());
+            textWriter.Update("FPS", fps.FrameRate.ToString());
 
             if (input.IsPressed("Switch-A"))
                 player.SetAnimation("main");
@@ -160,10 +166,11 @@ namespace B_Type_2_Dev
 
             G.SpriteBatch.Begin();
 
-            G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
+            //G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
 
-            player.Draw();
+            //player.Draw();
             pEffect.Draw();
+            fps.Draw();
             textWriter.Draw();
 
             G.SpriteBatch.End();

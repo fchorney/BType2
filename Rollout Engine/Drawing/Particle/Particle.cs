@@ -69,10 +69,6 @@ namespace Rollout.Drawing
             Age += gameTime.ElapsedGameTime.TotalSeconds;
             ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Quick and direty bounds check. 
-            if (X < -120 || X > 1150 || Y < -120 || Y > 580)
-                Age = double.MaxValue;
-
             Sprite.Update(gameTime);
             Transform(this);
         }

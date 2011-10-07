@@ -16,6 +16,11 @@ namespace Rollout.Drawing
             get { return particles.Count; }
         }
 
+        public int BufferCount
+        {
+            get { return particleBuffer.Count; }
+        }
+
         public ParticleEffect (int bufferSize = 0)
         {
             particles = new List<Particle>();
@@ -47,8 +52,17 @@ namespace Rollout.Drawing
 
         public virtual void Add(Particle p)
         {
-            p.Enabled = true;
-            particles.Add(p);
+            int index = particles.IndexOf(p);
+            if (index >= 0)
+            {
+                particles[index].Enabled = true;
+
+            }
+            else
+            {
+                p.Enabled = true;
+                particles.Add(p);
+            }
         }
 
         public virtual void Start() {}
@@ -57,7 +71,6 @@ namespace Rollout.Drawing
 
         public virtual void Update(GameTime gameTime)
         {
-            var remove = new List<Particle>();
             foreach (Particle p in particles.Where(p => p.Enabled))
             {
                 p.Update(gameTime);
@@ -65,14 +78,8 @@ namespace Rollout.Drawing
                 if (p.TimeToLive > 0 && p.Age > p.TimeToLive)
                 {
                     p.Enabled = false;
-                    remove.Add(p);
                     particleBuffer.Add(p);
                 }
-            }
-            
-            foreach (Particle p in remove)
-            {
-                particles.Remove(p);
             }
         }
 

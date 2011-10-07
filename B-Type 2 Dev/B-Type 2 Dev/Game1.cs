@@ -39,7 +39,7 @@ namespace B_Type_2_Dev
             graphics = new GraphicsDeviceManager(this)
                            {
                                IsFullScreen = false,
-                               SynchronizeWithVerticalRetrace = false,
+                               SynchronizeWithVerticalRetrace = true,
                                PreferredBackBufferHeight = 720,
                                PreferredBackBufferWidth = 1280
                            };
@@ -77,6 +77,8 @@ namespace B_Type_2_Dev
             textWriter = new TextWriter(@"SpriteFonts/Debug");
             textWriter.Add("Paused");
             textWriter.Add("Particle Count");
+            textWriter.Add("Particle Buffer Count");
+            textWriter.Add("Enabled Particles");
             textWriter.Add("FPS");
 
             Sprite particleSprite = new Sprite(new Vector2(500f,300f));
@@ -127,7 +129,7 @@ namespace B_Type_2_Dev
                 this.Exit();
 
 
-            //player.Update(gameTime);
+            player.Update(gameTime);
             player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
             player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -142,6 +144,8 @@ namespace B_Type_2_Dev
 
             textWriter.Update("Paused", player.isPaused() ? "True" : "False");
             textWriter.Update("Particle Count", pEffect.Count.ToString());
+            textWriter.Update("Particle Buffer Count",pEffect.BufferCount.ToString());
+            textWriter.Update("Enabled Particles", (30000 - pEffect.BufferCount).ToString());
             textWriter.Update("FPS", fps.FrameRate.ToString());
 
             if (input.IsPressed("Switch-A"))
@@ -168,7 +172,7 @@ namespace B_Type_2_Dev
 
             //G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
 
-            //player.Draw();
+            player.Draw();
             pEffect.Draw();
             fps.Draw();
             textWriter.Draw();

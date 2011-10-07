@@ -14,7 +14,7 @@ namespace Rollout.Drawing.Examples
         public int x { get; set; }
         public int y { get; set; }
 
-        public ParticleEffect_A(Sprite sprite) : base(100000)
+        public ParticleEffect_A(Sprite sprite) : base(30000)
         {
             limiter = new Limiter(0);
             x = y = 0;
@@ -32,7 +32,7 @@ namespace Rollout.Drawing.Examples
                     // 1: x-speed
                     // 2: y-speed
                     Particle particle = CreateParticle(RNG.Next(-200,200), RNG.Next(-100,100), RNG.Next(-100, 100));
-                    particle.TimeToLive = 30;
+                    particle.TimeToLive = 8;
                     particle.X = x;
                     particle.Y = y;
                     particle.Scale = 0.1f;

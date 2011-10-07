@@ -36,6 +36,7 @@ namespace Rollout.Drawing.Examples
                     particle.X = x;
                     particle.Y = y;
                     particle.Scale = 0.1f;
+                    particle.Color = Color.Red;
 
                     particle.Transform = null;
                     particle.Transform += (IParticle p) =>

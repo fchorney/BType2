@@ -26,3 +26,4 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 B-Type 2 Dev/B-Type 2 Dev/bin*
+*.cachefile

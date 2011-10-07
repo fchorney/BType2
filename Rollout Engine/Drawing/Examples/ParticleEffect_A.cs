@@ -14,7 +14,7 @@ namespace Rollout.Drawing.Examples
         public int x { get; set; }
         public int y { get; set; }
 
-        public ParticleEffect_A(Sprite sprite) : base(30000)
+        public ParticleEffect_A(Sprite sprite) : base(20000)
         {
             limiter = new Limiter(0);
             x = y = 0;
@@ -26,7 +26,7 @@ namespace Rollout.Drawing.Examples
             limiter.Update(gameTime);
             if (limiter.Ready)
             {
-                for (var i = 0; i < 50; i++)
+                for (var i = 0; i < 5; i++)
                 {
                     // Params:
                     // 1: x-speed
@@ -36,7 +36,7 @@ namespace Rollout.Drawing.Examples
                     particle.X = x;
                     particle.Y = y;
                     particle.Scale = 0.1f;
-                    particle.Color = Color.Red;
+                    particle.Color = new Color(RNG.Next(255),RNG.Next(255),RNG.Next(255));
 
                     particle.Transform = null;
                     particle.Transform += (IParticle p) =>

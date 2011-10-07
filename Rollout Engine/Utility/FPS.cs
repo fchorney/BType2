@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Rollout.Core;
 
 namespace Rollout.Utility
 {
-    public class FPS
+    public class FPS : DrawableGameComponent
     {
         public int FrameRate { get; set; }
         private int frameCounter = 0;
         private TimeSpan elapsedTime = TimeSpan.Zero;
 
-        public FPS()
+        public FPS() : base(G.Game)
         {
             FrameRate = 0;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             elapsedTime += gameTime.ElapsedGameTime;
 
@@ -29,9 +30,10 @@ namespace Rollout.Utility
             }
         }
 
-        public void Draw()
+        public override void Draw(GameTime gameTime)
         {
             frameCounter++;
+            base.Draw(gameTime);
         }
     }
 }

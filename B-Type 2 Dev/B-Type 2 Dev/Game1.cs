@@ -87,6 +87,12 @@ namespace B_Type_2_Dev
 
             fps = new FPS();
 
+            // Add Self Drawing Components
+            Components.Add(new DrawManagerBegin());
+            Components.Add(textWriter);
+            Components.Add(fps);
+            Components.Add(new DrawManagerEnd());
+
             base.Initialize();
         }
 
@@ -134,7 +140,6 @@ namespace B_Type_2_Dev
             player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
             pEffect.Update(gameTime);
-            fps.Update(gameTime);
 
             if (input.IsPressed("Pause"))
                 player.Pause();
@@ -145,7 +150,7 @@ namespace B_Type_2_Dev
             textWriter.Update("Paused", player.isPaused() ? "True" : "False");
             textWriter.Update("Particle Count", pEffect.Count.ToString());
             textWriter.Update("Particle Buffer Count",pEffect.BufferCount.ToString());
-            textWriter.Update("Enabled Particles", (30000 - pEffect.BufferCount).ToString());
+            textWriter.Update("Enabled Particles", (20000 - pEffect.BufferCount).ToString());
             textWriter.Update("FPS", fps.FrameRate.ToString());
 
             if (input.IsPressed("Switch-A"))
@@ -169,14 +174,9 @@ namespace B_Type_2_Dev
             GraphicsDevice.Clear(Color.Black);
 
             G.SpriteBatch.Begin();
-
             //G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
-
-            player.Draw();
+            //player.Draw();
             pEffect.Draw();
-            fps.Draw();
-            textWriter.Draw();
-
             G.SpriteBatch.End();
 
             base.Draw(gameTime);

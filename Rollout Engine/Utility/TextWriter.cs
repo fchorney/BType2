@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rollout.Utility
 {
-    public class TextWriter
+    public class TextWriter : DrawableGameComponent
     {
         private SpriteFont font;
         private int x, y;
         private Dictionary<string, TextObject> text;
 
-        public TextWriter(string assetName)
+        public TextWriter(string assetName) 
+            : base(G.Game)
         {
             font = G.Content.Load<SpriteFont>(assetName);
             text = new Dictionary<string, TextObject>();
@@ -31,12 +32,13 @@ namespace Rollout.Utility
             text[label].Data = data;
         }
 
-        public void Draw()
+        public override void Draw(GameTime gameTime)
         {
             foreach (KeyValuePair<string, TextObject> pair in text.AsParallel())
             {
                 G.SpriteBatch.DrawString(font, pair.Key + ": " + pair.Value.Data, pair.Value.Position, Color.White);
             }
+            base.Draw(gameTime);
         }
     }
 

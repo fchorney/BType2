@@ -81,9 +81,7 @@ namespace B_Type_2_Dev
             textWriter.Add("Enabled Particles");
             textWriter.Add("FPS");
 
-            Sprite particleSprite = new Sprite(new Vector2(500f,300f));
-            particleSprite.AddAnimation("main",new Animation(@"Sprites/Lensflare",256, 256, 1, new double[]{1}));
-            pEffect = new ParticleEffect_A(particleSprite);
+            pEffect = new ParticleEffect_A(new Sprite(new Vector2(100,100),"main",new Animation(@"Sprites/Lensflare",256,256,1,new double[]{1})));
 
             fps = new FPS();
 

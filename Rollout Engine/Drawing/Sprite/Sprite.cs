@@ -50,13 +50,25 @@ namespace Rollout.Drawing
         public float Rotation { get; set; }
         public Color Color { get; set; }
 
-        public Sprite(Vector2 startPosition)
+        /// <summary>
+        /// Create a new Sprite with a position.
+        /// Optionally pass in a default animation name and animation.
+        /// </summary>
+        /// <param name="startPosition">Required: Start position of sprite</param>
+        /// <param name="animationName">Optional: Default animation name (Required with animation parameter)</param>
+        /// <param name="animation">Optional: Default animation (Required with animationName parameter)</param>
+        public Sprite(Vector2 startPosition, string animationName = null, Animation animation = null)
         {
             animations = new Dictionary<string, Animation>();
             position = startPosition;
             Color = Color.White;
             Scale = 1f;
             Rotation = 0f;
+
+            if (animationName != null && animation != null)
+            {
+                AddAnimation(animationName, animation);
+            }
         }
 
         public void Update(GameTime gameTime)

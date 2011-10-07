@@ -26,17 +26,17 @@ namespace Rollout.Drawing.Examples
             limiter.Update(gameTime);
             if (limiter.Ready)
             {
-                for (var i = 0; i < 5; i++)
+                for (var i = 0; i < 20; i++)
                 {
                     // Params:
                     // 1: x-speed
                     // 2: y-speed
                     Particle particle = CreateParticle(RNG.Next(-200,200), RNG.Next(-100,100), RNG.Next(-100, 100));
-                    particle.TimeToLive = 8;
+                    particle.TimeToLive = 10;
                     particle.X = x;
                     particle.Y = y;
-                    particle.Scale = 0.1f;
-                    particle.Color = new Color(RNG.Next(255),RNG.Next(255),RNG.Next(255));
+                    particle.Scale = RNG.Next(0, 20)/60f;
+                    particle.Color = new Color(RNG.Next(10,50),RNG.Next(3,8),RNG.Next(0,255));
 
                     particle.Transform = null;
                     particle.Transform += (IParticle p) =>

@@ -12,6 +12,7 @@ using Rollout.Drawing;
 using Rollout.Input;
 using Rollout.Core;
 using Rollout.Utility;
+using Rollout.Drawing.Examples;
 
 namespace B_Type_2_Dev
 {
@@ -26,6 +27,9 @@ namespace B_Type_2_Dev
         private Sprite player;
         private PlayerInput input;
         private TextWriter textWriter;
+        private ParticleEffect_A pEffect;
+
+        private Texture2D whitePixel; 
 
         public Game1()
         {
@@ -55,7 +59,7 @@ namespace B_Type_2_Dev
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            player = new Sprite(new Vector2(200f,200f));
+            player = new Sprite(new Vector2(600,320f));
             player.AddAnimation("main", new Animation(@"Sprites/spaceship",64,64,2,new double[]{0.5f,1.0f},true,5));
             player.AddAnimation("alternate", new Animation(@"Sprites/spaceship2",64,64,2,new double[]{0.1f,0.2f}));
             //player.Animation.Loop = false;
@@ -71,6 +75,11 @@ namespace B_Type_2_Dev
 
             textWriter = new TextWriter(@"SpriteFonts/Debug");
             textWriter.Add("Paused");
+            textWriter.Add("Particle Count");
+
+            Sprite particleSprite = new Sprite(new Vector2(500f,300f));
+            particleSprite.AddAnimation("main",new Animation(@"Sprites/Lensflare",256, 256, 1, new double[]{1}));
+            pEffect = new ParticleEffect_A(particleSprite);
 
             base.Initialize();
         }
@@ -85,6 +94,10 @@ namespace B_Type_2_Dev
             spriteBatch = new SpriteBatch(GraphicsDevice);
             G.SpriteBatch = spriteBatch;
 
+            //To Draw a Primitive Rectangle or some shit
+            whitePixel = new Texture2D(GraphicsDevice, 1, 1);
+            whitePixel.SetData(new[] { Color.White });
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -95,6 +108,7 @@ namespace B_Type_2_Dev
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            whitePixel.Dispose();
         }
 
         /// <summary>
@@ -110,18 +124,20 @@ namespace B_Type_2_Dev
 
 
             player.Update(gameTime);
-            //player.Rotation += (float)(2f*gameTime.TotalGameTime.TotalSeconds);
-            //player.Scale += (float) (.0001f*gameTime.TotalGameTime.TotalSeconds);
-            // TODO: Add your update logic here
+            player.Rotation += (float)(2f * gameTime.TotalGameTime.TotalSeconds);
+            player.Scale += (float)(.001f * gameTime.TotalGameTime.TotalSeconds);
+
+            pEffect.Update(gameTime);
 
             if (input.IsPressed("Pause"))
                 player.Pause();
-            
+
             if (input.IsPressed("UnPause"))
                 player.UnPause();
 
-            textWriter.Update("Paused",player.isPaused() ? "True" : "False");
-            
+            textWriter.Update("Paused", player.isPaused() ? "True" : "False");
+            textWriter.Update("Particle Count", pEffect.Count.ToString());
+
             if (input.IsPressed("Switch-A"))
                 player.SetAnimation("main");
 
@@ -140,12 +156,16 @@ namespace B_Type_2_Dev
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
             G.SpriteBatch.Begin();
+
+            G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
+
             player.Draw();
+            pEffect.Draw();
             textWriter.Draw();
+
             G.SpriteBatch.End();
 
             base.Draw(gameTime);

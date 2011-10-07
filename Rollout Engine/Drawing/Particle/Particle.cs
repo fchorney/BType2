@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Rollout.Core;
 
 namespace Rollout.Drawing
 {
@@ -23,11 +24,11 @@ namespace Rollout.Drawing
     public class Particle : IParticle
     {
         public double Age { get; private set; }
-        public double TimeToLive { get; private set; }
+        public double TimeToLive { get; set; }
         public double ElapsedTime { get; private set; }
         public double[] Params { get; private set; }
         public bool Enabled { get; set; }
-        public TransformFunction Transform { get; private set; }
+        public TransformFunction Transform { get; set; }
         public Color Color { get; set; }
         public Sprite Sprite { get; set; }
 
@@ -60,12 +61,17 @@ namespace Rollout.Drawing
             Scale = 1f;
             Rotation = 0f;
             Transform = null;
+            Color = Color.White;
         }
 
         public void Update(GameTime gameTime)
         {
             Age += gameTime.ElapsedGameTime.TotalSeconds;
             ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
+
+            // Quick and direty bounds check. 
+            if (X < -120 || X > 1150 || Y < -120 || Y > 580)
+                Age = double.MaxValue;
 
             Sprite.Update(gameTime);
             Transform(this);

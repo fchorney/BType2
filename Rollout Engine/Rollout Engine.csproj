@@ -95,10 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Globals.cs" />
-    <Compile Include="Drawing\Animation.cs" />
+    <Compile Include="Drawing\Sprite\Animation.cs" />
+    <Compile Include="Drawing\Examples\ParticleEffect_A.cs" />
     <Compile Include="Drawing\Particle\Particle.cs" />
-    <Compile Include="Drawing\Player.cs" />
-    <Compile Include="Drawing\Sprite.cs" />
+    <Compile Include="Drawing\Particle\ParticleEffect.cs" />
+    <Compile Include="Drawing\Sprite\Sprite.cs" />
     <Compile Include="Input\ControllerInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\PlayerInput.cs" />

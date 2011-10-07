@@ -6,10 +6,15 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Drawing
 {
-    class ParticleEffect
+    public class ParticleEffect
     {
         private List<Particle> particles;
         private List<Particle> particleBuffer;
+
+        public int Count
+        {
+            get { return particles.Count; }
+        }
 
         public ParticleEffect (int bufferSize = 0)
         {
@@ -50,8 +55,9 @@ namespace Rollout.Drawing
 
         public virtual void Stop() {}
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
+            var remove = new List<Particle>();
             foreach (Particle p in particles.Where(p => p.Enabled))
             {
                 p.Update(gameTime);
@@ -59,12 +65,18 @@ namespace Rollout.Drawing
                 if (p.TimeToLive > 0 && p.Age > p.TimeToLive)
                 {
                     p.Enabled = false;
+                    remove.Add(p);
                     particleBuffer.Add(p);
                 }
             }
+            
+            foreach (Particle p in remove)
+            {
+                particles.Remove(p);
+            }
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
             // LINQ is the fucking shit!
             foreach (Particle p in particles.Where(p => p.Enabled))

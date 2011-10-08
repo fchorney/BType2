@@ -34,10 +34,12 @@ namespace Rollout.Utility
 
         public override void Draw(GameTime gameTime)
         {
+            G.SpriteBatch.Begin();
             foreach (KeyValuePair<string, TextObject> pair in text.AsParallel())
             {
                 G.SpriteBatch.DrawString(font, pair.Key + ": " + pair.Value.Data, pair.Value.Position, Color.White);
             }
+            G.SpriteBatch.End();
             base.Draw(gameTime);
         }
     }

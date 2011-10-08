@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
 using Rollout.Collision;
 using Rollout.Drawing;
@@ -14,12 +15,10 @@ namespace Rollout.Game
     public class Box : ICollidable
     {
         public IShape Shape { get; private set; }
-        public Sprite Sprite { get; set; }
 
-        public Box(Sprite sprite)
+        public Box(int x, int y, int width, int height)
         {
-            Sprite = sprite;
-            Shape = new Rectangle(sprite.X,sprite.Y,sprite.Width,sprite.Height);
+            Shape = new Rectangle(x,y,width,height);
         }
 
         public void Collide (ICollidable obj)
@@ -30,23 +29,39 @@ namespace Rollout.Game
 
     public class QuadTest : DrawableGameComponent
     {
-        public Box Box_A { get; set; }
-        public Box Box_B { get; set; }
         private QuadTree quadTree;
 
         public QuadTest()
             : base(G.Game)
         {
-            Box_A = new Box(new Sprite(new Vector2(200, 200), "main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { .2, .2 })));
-            Box_B = new Box(new Sprite(new Vector2(250, 200), "main", new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { .2, .2 })));
             quadTree = new QuadTree(0,0,G.Game.GraphicsDevice.Viewport.Width,G.Game.GraphicsDevice.Viewport.Height);
 
             quadTree.Split();
             quadTree.Split();
             quadTree.Split();
+            //quadTree.Split();
+            //quadTree.Split();
+            //quadTree.Split();
+            //quadTree.Split();
 
-            quadTree.Add(Box_A);
-            quadTree.Add(Box_B);
+            int rows = 33;
+            int cols = 30;
+
+            List<Box> boxes = new List<Box>();
+
+
+
+            for(int i = 0; i < rows; i+=4)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    Box b = new Box(i*5, j*5, 6, 6);
+                    boxes.Add(b);
+                    quadTree.Add(b);    
+                }
+                
+            }
+
         }
 
         public override void Initialize()
@@ -60,8 +75,6 @@ namespace Rollout.Game
             quadTree.CheckCollisions();
             PairList<ICollidable> collisions = quadTree.GetCollisions();
 
-            Box_A.Sprite.Update(gameTime);
-            Box_B.Sprite.Update(gameTime);
 
             TextWriter.Update("Collision", collisions.Count.ToString());
         }
@@ -69,8 +82,7 @@ namespace Rollout.Game
         public override void Draw(GameTime gameTime)
         {
             G.SpriteBatch.Begin();
-            Box_A.Sprite.Draw();
-            Box_B.Sprite.Draw();
+
             G.SpriteBatch.End();
             base.Draw(gameTime);
         }

@@ -8,8 +8,8 @@ namespace Rollout.Drawing
 {
     public class ParticleEffect
     {
-        private List<Particle> particles;
-        private List<Particle> particleBuffer;
+        protected List<Particle> particles;
+        protected List<Particle> particleBuffer;
 
         public int Count
         {

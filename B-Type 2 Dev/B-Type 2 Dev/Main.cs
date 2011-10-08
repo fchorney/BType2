@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Rollout.Drawing;
+using Rollout.Game;
 using Rollout.Input;
 using Rollout.Core;
 using Rollout.Utility;
@@ -50,10 +51,12 @@ namespace B_Type_2_Dev
         {
             G.SetGame(this);
 
-            Components.Add(new FPS());
-            Components.Add(new ParticlesTest());
-            Components.Add(new PlayerTest());
             Components.Add(new TextWriter(@"SpriteFonts/Debug"));
+            Components.Add(new FPS());
+            //Components.Add(new ParticlesTest());
+            //Components.Add(new PlayerTest());
+            
+            Components.Add(new QuadTest());
 
             base.Initialize();
         }

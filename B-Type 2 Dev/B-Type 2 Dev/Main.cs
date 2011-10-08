@@ -23,12 +23,6 @@ namespace B_Type_2_Dev
     {
         GraphicsDeviceManager graphics;
 
-        //SpriteBatch spriteBatch;
-       
-
-        //private Texture2D whitePixel;
-        //private FPS fps;
-
         public Main()
         {
             IsFixedTimeStep = false;
@@ -44,8 +38,6 @@ namespace B_Type_2_Dev
 
 
             Content.RootDirectory = "Content";
-            //G.Content = Content;
-            //G.Game = this;
         }
 
         /// <summary>
@@ -56,34 +48,12 @@ namespace B_Type_2_Dev
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            //player = new Sprite(new Vector2(600,320f));
-            //player.AddAnimation("main", new Animation(@"Sprites/spaceship",64,64,2,new double[]{0.5f,1.0f},true,5));
-            //player.AddAnimation("alternate", new Animation(@"Sprites/spaceship2",64,64,2,new double[]{0.1f,0.2f}));
-            ////player.Animation.Loop = false;
-
-            //input = new PlayerInput(PlayerIndex.One);
-            //Components.Add(input);
-
-            //input.BindAction("Pause",Keys.P);
-            //input.BindAction("UnPause", Keys.U);
-            //input.BindAction("Switch-A",Keys.A);
-            //input.BindAction("Switch-S",Keys.S);
-            //input.BindAction("Restart",Keys.R);
-
-
-
-
-            //fps = new FPS();
-
-            // Add Self Drawing Components
-            //Components.Add(textWriter);
-            //Components.Add(fps);
 
             G.SetGame(this);
 
             Components.Add(new FPS());
             Components.Add(new ParticlesTest());
+            Components.Add(new PlayerTest());
 
             base.Initialize();
         }
@@ -94,14 +64,6 @@ namespace B_Type_2_Dev
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
-            //G.SpriteBatch = spriteBatch;
-
-            ////To Draw a Primitive Rectangle or some shit
-            //whitePixel = new Texture2D(GraphicsDevice, 1, 1);
-            //whitePixel.SetData(new[] { Color.White });
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -112,7 +74,6 @@ namespace B_Type_2_Dev
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
-           // whitePixel.Dispose();
         }
 
         /// <summary>
@@ -126,31 +87,6 @@ namespace B_Type_2_Dev
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-
-            //player.Update(gameTime);
-            //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
-            //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
-
-            
-
-            //if (input.IsPressed("Pause"))
-            //    player.Pause();
-
-            //if (input.IsPressed("UnPause"))
-            //    player.UnPause();
-
-
-
-
-            //if (input.IsPressed("Switch-A"))
-            //    player.SetAnimation("main");
-
-            //if (input.IsPressed("Switch-S"))
-            //    player.SetAnimation("alternate");
-
-            //if (input.IsPressed("Restart"))
-            //    player.ReStart();
-
             base.Update(gameTime);
         }
 
@@ -161,11 +97,6 @@ namespace B_Type_2_Dev
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            //G.SpriteBatch.Begin();
-            ////G.SpriteBatch.Draw(whitePixel, G.Game.GraphicsDevice.Viewport.Bounds, Color.Blue);
-            ////player.Draw();
-            //G.SpriteBatch.End();
 
             base.Draw(gameTime);
         }

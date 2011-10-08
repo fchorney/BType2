@@ -14,7 +14,6 @@ namespace B_Type_2_Dev
 {
     public class ParticlesTest : DrawableGameComponent
     {
-        private PlayerInput input;
         private TextWriter textWriter;
         private ParticleEffect_A pEffect;
 

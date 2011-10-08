@@ -10,7 +10,7 @@ namespace B_Type_2_Dev
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (Main game = new Main())
             {
                 game.Run();
             }

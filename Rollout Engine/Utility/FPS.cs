@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
 
 namespace Rollout.Utility
@@ -33,6 +34,11 @@ namespace Rollout.Utility
         public override void Draw(GameTime gameTime)
         {
             frameCounter++;
+
+            G.SpriteBatch.Begin();
+            G.SpriteBatch.DrawString(G.Content.Load<SpriteFont>(@"SpriteFonts/Debug"), "FPS: " + FrameRate.ToString(), new Vector2(100, 100), Color.White);
+            G.SpriteBatch.End();
+
             base.Draw(gameTime);
         }
     }

@@ -10,24 +10,25 @@ namespace Rollout.Utility
     public class TextWriter : DrawableGameComponent
     {
         private SpriteFont font;
-        private int x, y;
-        private Dictionary<string, TextObject> text;
+        private static int x, y;
+        private static Dictionary<string, TextObject> text;
 
         public TextWriter(string assetName) 
             : base(G.Game)
         {
             font = G.Content.Load<SpriteFont>(assetName);
-            text = new Dictionary<string, TextObject>();
+            if (text == null)
+                text = new Dictionary<string, TextObject>();
             x = y = 20;
         }
 
-        public void Add(string label)
+        public static void Add(string label)
         {
             text.Add(label, new TextObject(new Vector2(x,y)));
             y += 25;
         }
 
-        public void Update(string label, string data)
+        public static void Update(string label, string data)
         {
             text[label].Data = data;
         }

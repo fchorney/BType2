@@ -14,7 +14,6 @@ namespace B_Type_2_Dev
 {
     public class ParticlesTest : DrawableGameComponent
     {
-        private TextWriter textWriter;
         private ParticleEffect_A pEffect;
 
 
@@ -24,22 +23,20 @@ namespace B_Type_2_Dev
 
         public override void Initialize()
         {
-            textWriter = new TextWriter(@"SpriteFonts/Debug");
-            textWriter.Add("Particle Count");
-            textWriter.Add("Particle Buffer Count");
-            textWriter.Add("Enabled Particles");
+            TextWriter.Add("Particle Count");
+            TextWriter.Add("Particle Buffer Count");
+            TextWriter.Add("Enabled Particles");
 
             pEffect = new ParticleEffect_A(new Sprite(new Vector2(100, 100), "main", new Animation(@"Sprites/Lensflare", 256, 256, 1, new double[] { 1 })));
-            G.Game.Components.Add(textWriter);
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
             pEffect.Update(gameTime);
-            textWriter.Update("Particle Count", pEffect.Count.ToString());
-            textWriter.Update("Particle Buffer Count", pEffect.BufferCount.ToString());
-            textWriter.Update("Enabled Particles", (20000 - pEffect.BufferCount).ToString());
+            TextWriter.Update("Particle Count", pEffect.Count.ToString());
+            TextWriter.Update("Particle Buffer Count", pEffect.BufferCount.ToString());
+            TextWriter.Update("Enabled Particles", (20000 - pEffect.BufferCount).ToString());
         }
 
         public override void Draw(GameTime gameTime)

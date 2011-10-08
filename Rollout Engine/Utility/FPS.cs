@@ -19,6 +19,12 @@ namespace Rollout.Utility
             FrameRate = 0;
         }
 
+        public override void Initialize()
+        {
+            TextWriter.Add("FPS");
+            base.Initialize();
+        }
+
         public override void Update(GameTime gameTime)
         {
             elapsedTime += gameTime.ElapsedGameTime;
@@ -29,16 +35,13 @@ namespace Rollout.Utility
                 FrameRate = frameCounter;
                 frameCounter = 0;
             }
+
+            TextWriter.Update("FPS",FrameRate.ToString());
         }
 
         public override void Draw(GameTime gameTime)
         {
             frameCounter++;
-
-            G.SpriteBatch.Begin();
-            G.SpriteBatch.DrawString(G.Content.Load<SpriteFont>(@"SpriteFonts/Debug"), "FPS: " + FrameRate.ToString(), new Vector2(100, 100), Color.White);
-            G.SpriteBatch.End();
-
             base.Draw(gameTime);
         }
     }

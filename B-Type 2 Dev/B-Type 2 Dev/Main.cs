@@ -48,12 +48,12 @@ namespace B_Type_2_Dev
         /// </summary>
         protected override void Initialize()
         {
-
             G.SetGame(this);
 
             Components.Add(new FPS());
             Components.Add(new ParticlesTest());
             Components.Add(new PlayerTest());
+            Components.Add(new TextWriter(@"SpriteFonts/Debug"));
 
             base.Initialize();
         }

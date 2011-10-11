@@ -64,7 +64,7 @@ namespace B_Type_2_Dev
                 }
                 else
                 {
-                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, 2.82842712474));
+                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, .5));
                 }
 
                 moveloop.Reset();

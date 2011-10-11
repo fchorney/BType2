@@ -7,7 +7,7 @@ namespace Rollout.Core
     public class G
     {
         private static Game game;
-        private static SpriteBatch spriteBatch;
+        private static ManagedSpriteBatch spriteBatch;
 
         public static Game Game
         {
@@ -21,13 +21,13 @@ namespace Rollout.Core
             }
         }
 
-        public static SpriteBatch SpriteBatch
+        public static ManagedSpriteBatch SpriteBatch
         {
             get
             {
                 if (spriteBatch == null)
                 {
-                    spriteBatch = new SpriteBatch(G.Game.GraphicsDevice);
+                    spriteBatch = new ManagedSpriteBatch();
                 }
                 return spriteBatch;
             }

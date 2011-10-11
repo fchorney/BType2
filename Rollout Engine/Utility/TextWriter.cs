@@ -24,8 +24,11 @@ namespace Rollout.Utility
 
         public static void Add(string label)
         {
-            text.Add(label, new TextObject(new Vector2(x,y)));
-            y += 25;
+            if (!text.ContainsKey(label))
+            {
+                text.Add(label, new TextObject(new Vector2(x, y)));
+                y += 25;
+            }
         }
 
         public static void Update(string label, string data)

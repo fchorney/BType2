@@ -108,6 +108,10 @@
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\PlayerInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screen\Transitions\Transition.cs" />
+    <Compile Include="Core\ManagedSpriteBatch.cs" />
+    <Compile Include="Screen\Screen.cs" />
+    <Compile Include="Screen\Loader.cs" />
     <Compile Include="Scripting\Actions\Action.cs" />
     <Compile Include="Scripting\Actions\FollowAction.cs" />
     <Compile Include="Scripting\Actions\RepeatAction.cs" />

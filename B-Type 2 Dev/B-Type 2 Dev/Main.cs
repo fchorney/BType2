@@ -55,7 +55,6 @@ namespace B_Type_2_Dev
             Components.Add(new FPS());
             //Components.Add(new ParticlesTest());
             //Components.Add(new PlayerTest());
-            
             Components.Add(new QuadTest());
 
             base.Initialize();

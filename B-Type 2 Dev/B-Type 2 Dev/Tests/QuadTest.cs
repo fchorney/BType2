@@ -14,38 +14,29 @@ namespace Rollout.Game
 {
     public class Box : ICollidable
     {
+        public String Name { get; set; }
+
         public IShape Shape { get; private set; }
+
+        public CollisionHandler OnCollision { get; set; }
 
         public Box(int x, int y, int width, int height)
         {
             Shape = new Rectangle(x,y,width,height);
         }
-
-        public void Collide (ICollidable obj)
-        {
-            
-        }
     }
 
     public class QuadTest : DrawableGameComponent
     {
-        private QuadTree quadTree;
+        private ICollisionEngine collisionEngine;
 
         public QuadTest()
             : base(G.Game)
         {
-            quadTree = new QuadTree(0,0,G.Game.GraphicsDevice.Viewport.Width,G.Game.GraphicsDevice.Viewport.Height);
+            collisionEngine = new QuadTreeCollisionEngine();
 
-            quadTree.Split();
-            quadTree.Split();
-            quadTree.Split();
-            //quadTree.Split();
-            //quadTree.Split();
-            //quadTree.Split();
-            //quadTree.Split();
-
-            int rows = 33;
-            int cols = 30;
+            int rows = 1;
+            int cols = 2;
 
             List<Box> boxes = new List<Box>();
 
@@ -55,28 +46,33 @@ namespace Rollout.Game
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    Box b = new Box(i*5, j*5, 6, 6);
+                    Box b = new Box(i*5, j*5, 6, 6) {Name = "Box" + (i*rows + j).ToString()};
+                   
                     boxes.Add(b);
-                    quadTree.Add(b);    
+                    collisionEngine.Add(b);
+
+                    b.OnCollision += HandleBoxCollision;
                 }
                 
             }
+        }
 
+        private void HandleBoxCollision(ICollidable source, ICollidable obj)
+        {
+            Box a = (Box) source;
+            Box b = (Box) obj;
+            Console.WriteLine(String.Format("{0} says ow! {1} collided with me! You son of a bitch!", a.Name, b.Name));
         }
 
         public override void Initialize()
         {
-            TextWriter.Add("Collision");
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-            quadTree.CheckCollisions();
-            PairList<ICollidable> collisions = quadTree.GetCollisions();
-
-
-            TextWriter.Update("Collision", collisions.Count.ToString());
+            
+            collisionEngine.ProcessCollisions();
         }
 
         public override void Draw(GameTime gameTime)

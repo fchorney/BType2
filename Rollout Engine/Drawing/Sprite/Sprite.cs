@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Rollout.Collision;
 using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,23 +16,24 @@ namespace Rollout.Drawing
 
     public class Sprite : ITransformable
     {
-        private Animation frame;
+        
         private Vector2 position;
+        private Animation animation;
         private Dictionary<string, Animation> animations;
 
         public Animation Animation
         {
-            get { return frame; }
+            get { return animation; }
         }
 
-        public int Height
+        public int H
         {
-            get { return frame.SourceRectangle.Height; }
+            get { return animation.SourceRectangle.Height; }
         }
 
-        public int Width
+        public int W
         {
-            get { return frame.SourceRectangle.Width; }
+            get { return animation.SourceRectangle.Width; }
         }
 
         public float X
@@ -73,13 +75,13 @@ namespace Rollout.Drawing
 
         public void Update(GameTime gameTime)
         {
-            frame.Update(gameTime);
+            animation.Update(gameTime);
         }
 
         public void Draw(float x, float y, Color color, float scale, float rotation)
         {
-            Vector2 texCenter = new Vector2(Width/2, Height/2);
-            G.SpriteBatch.Draw(frame.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),frame.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
+            Vector2 texCenter = new Vector2(W/2, H/2);
+            G.SpriteBatch.Draw(animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
         }
 
         public void Draw()
@@ -89,28 +91,28 @@ namespace Rollout.Drawing
 
         public void SetAnimation(string animationName)
         {
-            frame = animations[animationName];
-            frame.Reset();
+            animation = animations[animationName];
+            animation.Reset();
         }
 
         public void Pause()
         {
-            frame.Paused = true;
+            animation.Paused = true;
         }
 
         public void UnPause()
         {
-            frame.Paused = false;
+            animation.Paused = false;
         }
 
         public void ReStart()
         {
-            frame.Reset();
+            animation.Reset();
         }
 
         public bool isPaused()
         {
-            return frame.Paused;
+            return animation.Paused;
         }
 
         public void AddAnimation(string animationName, Animation animation)

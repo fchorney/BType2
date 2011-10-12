@@ -5,13 +5,7 @@ using System.Text;
 
 namespace Rollout.Collision
 {
-    public interface ICollidable
-    {
-        IShape Shape { get; }
-        void Collide(ICollidable Obj);
-    }
-
-    public class QuadTree : Rectangle
+    class QuadTree : Rectangle
     {
         QuadTree Root;
         QuadTree[] Children;
@@ -39,11 +33,27 @@ namespace Rollout.Collision
             this.Root = Root;
         }
 
-        private bool QuadIntersects(IShape obj)
+        public void Add(ICollidable obj)
         {
-            if (obj == null) return false;
-            return MathUtil.CheckAxis(Root.Offset.X + X, Root.Offset.X + X + W, obj.X, obj.X + obj.W) &&
-                   MathUtil.CheckAxis(Root.Offset.Y + Y, Root.Offset.Y + Y + H, obj.Y, obj.Y + obj.H);
+
+            if (Children != null)
+            {
+                for (int i = 0; i < Children.Length; i++)
+                    if (Children[i].QuadIntersects(obj.Shape))
+                        Children[i].AddToChildren(obj);
+            }
+            else
+            {
+                Objects.Add(obj);
+            }
+
+        }
+
+        public PairList<ICollidable> GetCollisions()
+        {
+            Collisions.Clear();
+            CheckChildCollisions(Collisions);
+            return Collisions;
         }
 
         public void Split()
@@ -65,37 +75,7 @@ namespace Rollout.Collision
             }
         }
 
-        public void Add(ICollidable Obj)
-        {
-
-            if (Children != null)
-            {
-                for (int i = 0; i < Children.Length; i++)
-                    if (Children[i].QuadIntersects(Obj.Shape))
-                        Children[i].AddToChildren(Obj);
-            }
-            else
-            {
-                Objects.Add(Obj);
-            }
-
-        }
-
-        private void AddToChildren(ICollidable Obj)
-        {
-            if (Children != null)
-            {
-                for (int i = 0; i < Children.Length; i++)
-                    if (Children[i].QuadIntersects(Obj.Shape))
-                        Children[i].AddToChildren(Obj);
-            }
-            else
-            {
-                Objects.Add(Obj);
-            }
-        }
-
-        public void Clear()
+        protected void Clear()
         {
             if (Children != null)
             {
@@ -108,22 +88,32 @@ namespace Rollout.Collision
             }
         }
 
-        public PairList<ICollidable> GetCollisions()
+        private bool QuadIntersects(IShape obj)
         {
-            return Collisions;
+            if (obj == null) return false;
+            return MathUtil.CheckAxis(Root.Offset.X + X, Root.Offset.X + X + W, obj.X, obj.X + obj.W) &&
+                   MathUtil.CheckAxis(Root.Offset.Y + Y, Root.Offset.Y + Y + H, obj.Y, obj.Y + obj.H);
         }
 
-        public void CheckCollisions()
+        private void AddToChildren(ICollidable obj)
         {
-            Collisions.Clear();
-            CheckChildCollisions(Collisions);
+            if (Children != null)
+            {
+                for (int i = 0; i < Children.Length; i++)
+                    if (Children[i].QuadIntersects(obj.Shape))
+                        Children[i].AddToChildren(obj);
+            }
+            else
+            {
+                Objects.Add(obj);
+            }
         }
 
-        private void CheckChildCollisions(PairList<ICollidable> CollisionList)
+        private void CheckChildCollisions(PairList<ICollidable> collisionList)
         {
             if (Children != null)
                 for (int i = 0; i < Children.Length; i++)
-                    Children[i].CheckChildCollisions(CollisionList);
+                    Children[i].CheckChildCollisions(collisionList);
             else
             {
                 Collisions.Clear();
@@ -132,7 +122,7 @@ namespace Rollout.Collision
                         for (int j = i + 1; j < Objects.Count; j++)
                             if (Objects[i].Shape.Intersects(Objects[j].Shape))
                             {
-                                CollisionList.Add(Objects[i], Objects[j]);
+                                collisionList.Add(Objects[i], Objects[j]);
                                 Collisions.Add(Objects[i], Objects[j]);
                             }
             }

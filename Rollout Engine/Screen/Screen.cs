@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
+using Rollout.Drawing;
 using Rollout.Input;
 using Rollout.Utility;
 
@@ -26,7 +27,7 @@ namespace Rollout.Screens
     /// want to quit" message box, and the main game itself are all implemented
     /// as screens.
     /// </summary>
-    public abstract class Screen : DrawableGameComponent
+    public abstract class Screen : DrawableGameObject
     {
         #region Properties
 
@@ -98,7 +99,6 @@ namespace Rollout.Screens
         #region Initialization
 
         public Screen()
-            : base(G.Game)
         {
             Components = new List<Screen>();
             _ComponentsToUpdate = new List<Screen>();
@@ -112,6 +112,8 @@ namespace Rollout.Screens
 
             IsExiting = false;
             IsPopup = false;
+
+            Screen = this;
         }
 
         /// <summary>
@@ -153,7 +155,7 @@ namespace Rollout.Screens
                 _ComponentsToUpdate.Add(screen);
             }
 
-            bool otherScreenHasFocus = !Game.IsActive;
+            bool otherScreenHasFocus = false;
             bool coveredByOtherScreen = false;
 
             // Loop as long as there are screens waiting to be updated.
@@ -264,7 +266,7 @@ namespace Rollout.Screens
 
         #region Public Methods
 
-        public void Add(Screen component)
+        public void AddScreen(Screen component)
         {
 
             if (component.ComponentManager == null)
@@ -330,7 +332,7 @@ namespace Rollout.Screens
             foreach (Screen gc in Components)
             {
                 i += i;
-                G.SpriteBatch.DrawString(Game.Content.Load<SpriteFont>(@"SpriteFonts\Arial"), gc.ID + " " + gc.ScreenState.ToString(), new Vector2(x, y + i), Color.Red);
+                G.SpriteBatch.DrawString(G.Content.Load<SpriteFont>(@"SpriteFonts\Arial"), gc.ID + " " + gc.ScreenState.ToString(), new Vector2(x, y + i), Color.Red);
 
                 gc.DrawDebugInfo(x + 40, y + 10);
             }

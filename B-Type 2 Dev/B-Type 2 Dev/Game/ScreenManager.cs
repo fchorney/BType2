@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
-using Rollout.Drawing.Examples;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Scripting;
@@ -18,7 +17,7 @@ using Action = Rollout.Scripting.Action;
 
 namespace B_Type_2_Dev
 {
-    public class ScreenManager : Screen
+    public class Manager : ScreenManager
     {
 
         private PlayerInput input;
@@ -36,8 +35,8 @@ namespace B_Type_2_Dev
 
             screens = new Dictionary<string, Screen>();
             
-            screens.Add("scripting", new ScriptTest());
-            screens.Add("particles", new ParticlesTest());
+            //screens.Add("scripting", new ScriptTest());
+            screens.Add("particles", new PlayerTest());
 
             foreach (var screen in screens.Values)
             {

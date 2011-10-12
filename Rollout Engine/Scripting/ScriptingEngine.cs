@@ -27,6 +27,7 @@ namespace Rollout.Scripting
 
         public void Add(IScriptable obj)
         {
+            if(!Scriptables.ContainsKey(obj.Name)) //TODO: get rid of this
             Scriptables.Add(obj.Name, obj);
         }
 

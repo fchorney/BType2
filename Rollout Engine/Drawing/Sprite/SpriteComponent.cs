@@ -25,6 +25,7 @@ namespace Rollout.Drawing
             set { parentSprite.Y = value; }
         }
 
+
         public float Scale
         {
             get { return parentSprite.Scale; }

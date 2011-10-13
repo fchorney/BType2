@@ -16,7 +16,6 @@ namespace Rollout.Drawing
 
     public class Sprite : ITransformable
     {
-        
         private Vector2 position;
         private Animation animation;
         private Dictionary<string, Animation> animations;

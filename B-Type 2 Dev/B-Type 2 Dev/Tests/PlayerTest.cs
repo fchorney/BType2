@@ -30,6 +30,10 @@ namespace B_Type_2_Dev
             player.AddAnimation("alternate", new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.1f, 0.2f }));
             //player.Animation.Loop = false;
 
+            player.AddChild(new SubSprite(new Vector2(2,2), "main", new Animation(@"Sprites/spaceship-shadow", 64, 64, 1, new double[] {1.0f})));
+            player.AddChild(new SubSprite(new Vector2(-21, 20), "main", new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { .05f, .08f }), true));
+            player.AddChild(new SubSprite(new Vector2(57, 20), "main", new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { .08f, .05f }), true));
+
             input = new PlayerInput(PlayerIndex.One);
             G.Game.Components.Add(input);
 
@@ -40,6 +44,10 @@ namespace B_Type_2_Dev
             input.BindAction("Restart", Keys.R);
             input.BindAction("Quit", Keys.Q);
 
+            input.BindAction("Left", Keys.Left);
+            input.BindAction("Right",Keys.Right);
+            input.BindAction("Up",Keys.Up);
+            input.BindAction("Down",Keys.Down);
 
             base.Initialize();
         }
@@ -48,8 +56,8 @@ namespace B_Type_2_Dev
         {
 
             player.Update(gameTime);
-            player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
-            player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
+            //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
+            //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
             if (input.IsPressed("Pause"))
                 player.Pause();
@@ -68,17 +76,23 @@ namespace B_Type_2_Dev
 
             if (input.IsPressed("Restart"))
                 player.ReStart();
-        }
+
+
+            if (input.IsHeld("Left"))
+                player.X -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Right"))
+                player.X += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Up"))
+                player.Y -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Down"))
+                player.Y += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
 
         public override void Draw(GameTime gameTime)
         {
-
-
             G.SpriteBatch.Begin();
             player.Draw();
             G.SpriteBatch.End();
-
-
             base.Draw(gameTime);
         }
     }

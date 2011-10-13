@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Rollout.Collision;
 using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 
 namespace Rollout.Drawing
 {
@@ -14,11 +16,36 @@ namespace Rollout.Drawing
         float Rotation { get; set; }
     }
 
+    public class SubSprite : Sprite
+    {
+        internal ITransformable parent;
+        internal bool drawAbove;
+
+        public SubSprite(Vector2 position, string animationName = null, Animation animation = null, bool _drawAbove = false)
+            : base(position,animationName,animation)
+        {
+            drawAbove = _drawAbove;
+        }
+
+        public override void Draw()
+        {
+            Draw(parent.X + position.X, parent.Y + position.Y, Color, Scale, Rotation);
+        }
+    }
+
     public class Sprite : ITransformable
     {
-        private Vector2 position;
+        protected Vector2 position;
         private Animation animation;
         private Dictionary<string, Animation> animations;
+
+        private List<SubSprite> children;
+ 
+        public void AddChild(SubSprite child)
+        {
+            child.parent = this;
+            children.Add(child);
+        }
 
         public Animation Animation
         {
@@ -65,6 +92,7 @@ namespace Rollout.Drawing
             Color = Color.White;
             Scale = 1f;
             Rotation = 0f;
+            children = new List<SubSprite>();
 
             if (animationName != null && animation != null)
             {
@@ -74,6 +102,8 @@ namespace Rollout.Drawing
 
         public void Update(GameTime gameTime)
         {
+            foreach (SubSprite child in children)
+                child.Update(gameTime);
             animation.Update(gameTime);
         }
 
@@ -83,9 +113,13 @@ namespace Rollout.Drawing
             G.SpriteBatch.Draw(animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
+            foreach (SubSprite child in children.Where(child => !child.drawAbove))
+                child.Draw();
             Draw(position.X, position.Y, Color, Scale, Rotation);
+            foreach (SubSprite child in children.Where(child => child.drawAbove))
+                child.Draw();
         }
 
         public void SetAnimation(string animationName)

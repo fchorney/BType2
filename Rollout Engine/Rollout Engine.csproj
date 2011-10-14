@@ -99,9 +99,9 @@
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
     <Compile Include="Drawing\Sprite\Animation.cs" />
-    <Compile Include="Drawing\Examples\ParticleEffect_A.cs" />
     <Compile Include="Drawing\Particle\Particle.cs" />
-    <Compile Include="Drawing\Particle\ParticleEffect.cs" />
+    <Compile Include="Drawing\Particle\ParticleEmitter.cs" />
+    <Compile Include="Drawing\Sprite\ParticleEmittingSprite.cs" />
     <Compile Include="Drawing\Sprite\Sprite.cs" />
     <Compile Include="Drawing\Sprite\SpriteComponent.cs" />
     <Compile Include="Input\ControllerInput.cs" />

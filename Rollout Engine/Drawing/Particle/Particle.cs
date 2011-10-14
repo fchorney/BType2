@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Rollout.Core;
+using Rollout.Scripting;
 
 namespace Rollout.Drawing
 {
@@ -21,7 +22,7 @@ namespace Rollout.Drawing
 
     public delegate void TransformFunction(IParticle p);
 
-    public class Particle : IParticle
+    public class Particle : IParticle, IScriptable
     {
         public double Age { get; private set; }
         public double TimeToLive { get; set; }
@@ -35,6 +36,14 @@ namespace Rollout.Drawing
         public Vector2 Position { get; set; }
         public float Scale { get; set; }
         public float Rotation { get; set; }
+
+        public string Name { get; set; }
+
+        private List<IAction> actions; 
+        public List<IAction> Actions
+        {
+            get { return actions ?? (actions = new List<IAction>()); }
+        }
 
         // C# is dumb in that I can't modify struct values -_-'
         public float X
@@ -70,7 +79,7 @@ namespace Rollout.Drawing
             ElapsedTime = gameTime.ElapsedGameTime.TotalSeconds;
 
             Sprite.Update(gameTime);
-            Transform(this);
+            //Transform(this);
         }
 
         public void Draw()

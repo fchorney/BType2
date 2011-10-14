@@ -22,6 +22,7 @@ namespace Rollout.Drawing
     {
         protected Vector2 position;
         public string Name { get; set; }
+        public bool Enabled { get; set; }
 
         private List<IAction> actions;
         public List<IAction> Actions
@@ -79,6 +80,7 @@ namespace Rollout.Drawing
             Scale = 1f;
             Rotation = 0f;
             drawOrder = 0;
+            Enabled = true;
 
             if (animation != null)
             {
@@ -86,7 +88,7 @@ namespace Rollout.Drawing
             }
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             animation.Update(gameTime);
         }

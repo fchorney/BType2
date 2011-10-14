@@ -6,5 +6,6 @@ namespace Rollout.Scripting
     {
         string Name { get; }
         List<IAction> Actions { get; }
+        bool Enabled { get; set; }
     }
 }

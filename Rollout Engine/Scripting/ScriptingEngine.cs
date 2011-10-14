@@ -42,8 +42,7 @@ namespace Rollout.Scripting
 
         public void Update(GameTime gameTime)
         {
-
-            foreach (var s in Scriptables.Values)
+            foreach (var s in Scriptables.Values.Where(s => s.Enabled))
             {
                 foreach (var action in s.Actions.Where(action => !action.Finished))
                 {

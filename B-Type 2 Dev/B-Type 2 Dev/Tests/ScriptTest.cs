@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
-using Rollout.Drawing.Examples;
 using Rollout.Input;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
@@ -68,7 +67,7 @@ namespace B_Type_2_Dev
                 }
                 else
                 {
-                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, .5));
+                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, 20));
                 }
 
                 moveloop.Reset();

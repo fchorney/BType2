@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
-using Rollout.Drawing.Examples;
 using Rollout.Input;
+using Rollout.Scripting;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev
@@ -32,8 +32,12 @@ namespace B_Type_2_Dev
         {
             player = new SpriteComponent();
             player.AddSprite("main", new Sprite(new Vector2(200, 200), new Animation(@"Sprites/spaceship2", 64 ,64, 2, new double[] {0.1f, 0.2f})), 4, true);
-            player.AddSprite("LeftGun", new Sprite(new Vector2(-21, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)), 5);
-            player.AddSprite("RightGun", new Sprite(new Vector2(57, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { 0.05f, 0.08f }, false)), 5);
+            player.AddSprite("LeftGun", new ParticleEmittingSprite(200, "LeftGun", new Vector2(-21, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)), 5);
+            player.AddSprite("RightGun", new ParticleEmittingSprite(200, "RightGun", new Vector2(57, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { 0.05f, 0.08f }, false)), 5);
+            //Add to scripting Engine
+            ScriptingEngine.Instance.Add(player["LeftGun"]);
+            ScriptingEngine.Instance.Add(player["RightGun"]);
+            
             player.AddSprite("Shadow", new Sprite(new Vector2(2,2), new Animation(@"Sprites/spaceship-shadow", 64, 64)), 3);
 
             input = new PlayerInput(PlayerIndex.One);
@@ -61,6 +65,7 @@ namespace B_Type_2_Dev
 
             player.Update(gameTime);
             fireLimit.Update(gameTime);
+            ScriptingEngine.Instance.Update(gameTime);
             //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
             //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -96,6 +101,10 @@ namespace B_Type_2_Dev
                     FireGun();
                 }
             }
+            ((ParticleEmittingSprite)player["LeftGun"]).Emitter.X = player.X + player["LeftGun"].X - 120;
+            ((ParticleEmittingSprite)player["LeftGun"]).Emitter.Y = player.Y + player["LeftGun"].Y - 150;
+            ((ParticleEmittingSprite)player["RightGun"]).Emitter.X = player.X + player["RightGun"].X - 110;
+            ((ParticleEmittingSprite)player["RightGun"]).Emitter.Y = player.Y + player["RightGun"].Y - 150;
         }
 
         private void FireGun()
@@ -105,10 +114,12 @@ namespace B_Type_2_Dev
                 if (fireRight)
                 {
                     player["RightGun"].ReStart();
+                    ((ParticleEmittingSprite)player["RightGun"]).Fire();
                 }
                 else
                 {
                     player["LeftGun"].ReStart();
+                    ((ParticleEmittingSprite)player["LeftGun"]).Fire();
                 }
                 fireRight = !fireRight;
             }

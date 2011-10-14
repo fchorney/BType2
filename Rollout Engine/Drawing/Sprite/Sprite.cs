@@ -18,7 +18,7 @@ namespace Rollout.Drawing
         float Rotation { get; set; }
     }
 
-    public class Sprite : ITransformable, IScriptable
+    public class Sprite : DrawableGameObject, ITransformable, IScriptable
     {
         protected Vector2 position;
         public string Name { get; set; }
@@ -49,18 +49,6 @@ namespace Rollout.Drawing
             get { return animation.SourceRectangle.Width; }
         }
 
-        public float X
-        {
-            get { return position.X; }
-            set { position.X = value; }
-        }
-
-        public float Y
-        {
-            get { return position.Y; }
-            set { position.Y = value; }
-        }
-
         public float Scale { get; set; }
         public float Rotation { get; set; }
         public Color Color { get; set; }
@@ -75,7 +63,8 @@ namespace Rollout.Drawing
         public Sprite(Vector2 startPosition, Animation animation = null, string animationName = "main")
         {
             animations = new Dictionary<string, Animation>();
-            position = startPosition;
+            OffsetX = startPosition.X;
+            OffsetY = startPosition.Y;
             Color = Color.White;
             Scale = 1f;
             Rotation = 0f;
@@ -88,14 +77,22 @@ namespace Rollout.Drawing
             }
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             animation.Update(gameTime);
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            Draw(X, Y, Color, Scale, Rotation);
+            base.Draw(gameTime);
         }
 
         public void Draw(float x, float y, Color color, float scale, float rotation)
         {
             Vector2 texCenter = new Vector2(W/2, H/2);
+            //Vector2 texCenter = new Vector2(0, 0); //scale from top left
             G.SpriteBatch.Draw(animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
         }
 

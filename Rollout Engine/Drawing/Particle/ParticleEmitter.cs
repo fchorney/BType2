@@ -111,7 +111,7 @@ namespace Rollout.Drawing
         public void fire2()
         {
             Particle particle = CreateParticle(RNG.Next(-200, 200), RNG.Next(-100, 100), RNG.Next(-100, 100));
-            particle.Sprite = new Sprite(new Vector2(100, 100), new Animation(@"Sprites/Lensflare", 256, 256));
+            particle.Sprite = new Sprite(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256));
             particle.TimeToLive = 10;
             particle.X = X;
             particle.Y = Y;

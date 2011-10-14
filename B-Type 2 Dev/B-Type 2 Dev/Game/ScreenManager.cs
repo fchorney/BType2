@@ -17,7 +17,7 @@ using Action = Rollout.Scripting.Action;
 
 namespace B_Type_2_Dev
 {
-    public class ScreenManager : Screen
+    public class Manager : ScreenManager
     {
 
         private PlayerInput input;
@@ -35,9 +35,8 @@ namespace B_Type_2_Dev
 
             screens = new Dictionary<string, Screen>();
             
-            screens.Add("scripting", new ScriptTest());
-            //screens.Add("particles", new ParticlesTest());
-            screens.Add("playertest", new PlayerTest());
+            //screens.Add("scripting", new ScriptTest());
+            screens.Add("particles", new PlayerTest());
 
             foreach (var screen in screens.Values)
             {

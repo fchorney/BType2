@@ -32,10 +32,10 @@ namespace Rollout.Drawing
             base.Update(gameTime);
         }
 
-        public override void Draw(ITransformable wrt = null)
+        public override void Draw(GameTime gameTime)
         {
             Emitter.Draw();
-            base.Draw(wrt);
+            base.Draw(gameTime);
         }
 
     }

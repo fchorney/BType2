@@ -18,24 +18,36 @@ namespace B_Type_2_Dev
     {
         private PlayerInput input;
 
-        private SpriteComponent player;
+        private Sprite player;
         private bool fireRight = true;
         private Limiter fireLimit;
 
         private double elapsedTime;
-
+        private ParticleEmittingSprite leftGun;
+        private ParticleEmittingSprite rightGun;
 
         public override void Initialize()
         {
-            player = new SpriteComponent();
-            player.AddSprite("main", new Sprite(new Vector2(200, 200), new Animation(@"Sprites/spaceship2", 64 ,64, 2, new double[] {0.1f, 0.2f})), 4, true);
-            player.AddSprite("LeftGun", new ParticleEmittingSprite(200, "LeftGun", new Vector2(-21, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)), 5);
-            player.AddSprite("RightGun", new ParticleEmittingSprite(200, "RightGun", new Vector2(57, 20), new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { 0.05f, 0.08f }, false)), 5);
-            //Add to scripting Engine
-            ScriptingEngine.Instance.Add(player["LeftGun"]);
-            ScriptingEngine.Instance.Add(player["RightGun"]);
+            player = new Sprite(new Vector2(200, 200),
+                                new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] {0.1f, 0.2f}));
+
+            leftGun = new ParticleEmittingSprite(200, "LeftGun", new Vector2(-21, 20),
+                                                                        new Animation(@"Sprites/gun1", 32, 32, 2,
+                                                                                      new double[] {0.05f, 0.08f}, false));
+            rightGun = new ParticleEmittingSprite(200, "RightGun", new Vector2(57, 20),
+                                                                        new Animation(@"Sprites/gun1", 32, 32, 2,
+                                                                                      new double[] {0.05f, 0.08f}, false));
+
+
+
+            player.Add(leftGun);
+            player.Add(rightGun);
+
+            //AddScreen to scripting Engine
+            ScriptingEngine.Instance.Add(leftGun);
+            ScriptingEngine.Instance.Add(rightGun);
             
-            player.AddSprite("Shadow", new Sprite(new Vector2(2,2), new Animation(@"Sprites/spaceship-shadow", 64, 64)), 3);
+            //player.AddSprite("Shadow", new Sprite(new Vector2(2,2), new Animation(@"Sprites/spaceship-shadow", 64, 64)), 3);
 
             input = new PlayerInput(PlayerIndex.One);
 
@@ -98,25 +110,25 @@ namespace B_Type_2_Dev
                     FireGun();
                 }
             }
-            ((ParticleEmittingSprite)player["LeftGun"]).Emitter.X = player.X + player["LeftGun"].X - 120;
-            ((ParticleEmittingSprite)player["LeftGun"]).Emitter.Y = player.Y + player["LeftGun"].Y - 150;
-            ((ParticleEmittingSprite)player["RightGun"]).Emitter.X = player.X + player["RightGun"].X - 110;
-            ((ParticleEmittingSprite)player["RightGun"]).Emitter.Y = player.Y + player["RightGun"].Y - 150;
+            (leftGun).Emitter.X = leftGun.X;
+            (leftGun).Emitter.Y = leftGun.Y;
+            (rightGun).Emitter.X = rightGun.X;
+            (rightGun).Emitter.Y = rightGun.Y;
         }
 
         private void FireGun()
         {
             if (fireLimit.Ready)
             {
-                if (fireRight)
+                 if (fireRight)
                 {
-                    player["RightGun"].ReStart();
-                    ((ParticleEmittingSprite)player["RightGun"]).Fire();
+                    rightGun.ReStart();
+                    ((ParticleEmittingSprite)rightGun).Fire();
                 }
                 else
                 {
-                    player["LeftGun"].ReStart();
-                    ((ParticleEmittingSprite)player["LeftGun"]).Fire();
+                    leftGun.ReStart();
+                    ((ParticleEmittingSprite)leftGun).Fire();
                 }
                 fireRight = !fireRight;
             }
@@ -124,10 +136,12 @@ namespace B_Type_2_Dev
 
         public override void Draw(GameTime gameTime)
         {
-            G.SpriteBatch.Begin();
-            player.Draw();
-            G.SpriteBatch.End();
             base.Draw(gameTime);
+            G.SpriteBatch.Begin();
+
+            player.Draw(gameTime);
+            G.SpriteBatch.End();
+            
         }
     }
 }

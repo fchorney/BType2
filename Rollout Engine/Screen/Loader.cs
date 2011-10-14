@@ -63,7 +63,7 @@ namespace Rollout.Screens
             // Create and activate the loading screen.
             Loader _Loader = new Loader(componentManager,loadingScreen,screensToLoad);
 
-            componentManager.Add(_Loader);
+            componentManager.AddScreen(_Loader);
         }
 
 
@@ -89,7 +89,7 @@ namespace Rollout.Screens
                 {
                     if (screen != null)
                     {
-                        ComponentManager.Add(screen);
+                        ComponentManager.AddScreen(screen);
                     }
                 }
 

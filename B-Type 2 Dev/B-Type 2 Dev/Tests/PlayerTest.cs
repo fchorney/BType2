@@ -8,12 +8,13 @@ using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Input;
+using Rollout.Screens;
 using Rollout.Scripting;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev
 {
-    public class PlayerTest : DrawableGameComponent
+    public class PlayerTest : Screen
     {
         private PlayerInput input;
 
@@ -23,10 +24,6 @@ namespace B_Type_2_Dev
 
         private double elapsedTime;
 
-        public PlayerTest()
-            : base(G.Game)
-        {
-        }
 
         public override void Initialize()
         {

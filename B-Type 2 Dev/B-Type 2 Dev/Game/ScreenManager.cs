@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
-using Rollout.Drawing.Examples;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Scripting;
@@ -37,7 +36,8 @@ namespace B_Type_2_Dev
             screens = new Dictionary<string, Screen>();
             
             screens.Add("scripting", new ScriptTest());
-            screens.Add("particles", new ParticlesTest());
+            //screens.Add("particles", new ParticlesTest());
+            screens.Add("playertest", new PlayerTest());
 
             foreach (var screen in screens.Values)
             {
@@ -56,7 +56,7 @@ namespace B_Type_2_Dev
             }
             if (input.IsPressed("Enter"))
             {
-                this.Add(screens["particles"]);
+                this.Add(screens["playertest"]);
             }
 
         }

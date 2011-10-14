@@ -25,7 +25,6 @@ namespace B_Type_2_Dev
         private double elapsedTime;
         private ParticleEmittingSprite leftGun;
         private ParticleEmittingSprite rightGun;
-
         public override void Initialize()
         {
             player = new Sprite(new Vector2(200, 200),

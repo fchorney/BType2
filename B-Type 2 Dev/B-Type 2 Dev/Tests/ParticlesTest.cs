@@ -8,20 +8,17 @@ using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Input;
 using Rollout.Scripting;
+using Rollout.Screens;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev
 {
-    public class ParticlesTest : DrawableGameComponent
+    public class ParticlesTest : Screen
     {
         //private ParticleEffect_A pEffect;
         private ParticleEmitter emitter;
         private IScriptingEngine scriptingEngine { get; set; }
         private Limiter limiter;
-
-        public ParticlesTest() : base(G.Game)
-        {
-        }
 
         public override void Initialize()
         {
@@ -58,8 +55,10 @@ namespace B_Type_2_Dev
         public override void Draw(GameTime gameTime)
         {
 
-            G.SpriteBatch.Begin();
+           
             //pEffect.Draw();
+            
+            G.SpriteBatch.Begin(Transition.Transform());
             emitter.Draw();
 
             G.SpriteBatch.End();

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Input;
+using Rollout.Screens;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
 using Rollout.Scripting.Scripts;
@@ -16,7 +17,7 @@ using Action = Rollout.Scripting.Action;
 
 namespace B_Type_2_Dev
 {
-    public class ScriptTest : DrawableGameComponent
+    public class ScriptTest : Screen
     {
         private IScriptingEngine scriptingEngine { get; set; }
         private PlayerInput input;
@@ -24,11 +25,6 @@ namespace B_Type_2_Dev
 
         private Sprite player { get; set; }
         private List<Sprite> enemies { get; set; }
-
-        public ScriptTest() : base(G.Game)
-        {
-
-        }
 
         public override void Initialize()
         {
@@ -52,7 +48,7 @@ namespace B_Type_2_Dev
 
             for (int i = 0; i < 2; i++)
             {
-                var enemy = new Sprite(new Vector2(300 + 100 * i, 200)) { Name = "BigWilly" + i.ToString() };
+                var enemy = new Sprite(new Vector2(300 + 100 * i, 300)) { Name = "BigWilly" + i.ToString() };
                 enemy.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
                 enemies.Add(enemy);
 
@@ -76,7 +72,7 @@ namespace B_Type_2_Dev
 
             }
 
-            TextWriter.Add("Target position");
+            
 
             base.Initialize();
         }
@@ -93,20 +89,15 @@ namespace B_Type_2_Dev
             if (input.IsHeld("Down"))
                 player.Y += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-
             scriptingEngine.Update(gameTime);
 
             player.Update(gameTime);
-            //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
-            //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
-
-            //TextWriter.Update("Target position", "[" + player.X + ", " + player.Y + "]");
 
         }
 
         public override void Draw(GameTime gameTime)
         {
-            G.SpriteBatch.Begin();
+            G.SpriteBatch.Begin(Transition.Transform());
 
             player.Draw();
 

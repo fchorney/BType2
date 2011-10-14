@@ -53,9 +53,10 @@ namespace B_Type_2_Dev
             Components.Add(new TextWriter(@"SpriteFonts/Debug"));
             Components.Add(new FPS());
             //Components.Add(new ParticlesTest());
-            Components.Add(new PlayerTest());
+            //Components.Add(new PlayerTest());
             //Components.Add(new QuadTest());
             //Components.Add(new ScriptTest());
+            Components.Add(new ScreenManager());
 
             base.Initialize();
         }

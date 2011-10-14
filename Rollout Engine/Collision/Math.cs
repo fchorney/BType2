@@ -29,6 +29,11 @@ namespace Rollout.Collision
                 || (x2 >= y1 && x2 <= y2);
         }
 
+        public static double AngleTo(Point from, Point to)
+        {
+            return from.AngleTo(to);
+        }
+
     }
 
     public class Point

@@ -10,7 +10,7 @@ namespace Rollout.Drawing
         public Rectangle SourceRectangle { get; set; }
         public double Duration { get; set; }   
         
-        public Frame (Rectangle sourceRectangle, double duration)
+        public Frame (Rectangle sourceRectangle, double duration = 1)
         {
             SourceRectangle = sourceRectangle;
             Duration = duration;
@@ -42,7 +42,7 @@ namespace Rollout.Drawing
             get { return CurrentFrame.SourceRectangle; }
         }
 
-        public Animation(string assetName, int frameWidth, int frameHeight, int numFrames,double[] durations, bool loop = true, int loopCount = -1)
+        public Animation(string assetName, int frameWidth, int frameHeight, int numFrames = 1, double[] durations = null, bool loop = true, int loopCount = -1)
         {
             Texture = G.Content.Load<Texture2D>(assetName);
             GenerateFrames(frameWidth,frameHeight,numFrames,durations);
@@ -61,8 +61,15 @@ namespace Rollout.Drawing
             totalFrames = numFrames;
 
             for (int j = 0; j < rows; j++)
-                for (int i = 0; i < cols && j * cols + i < numFrames; i++)
-                    Frames.Add(new Frame(new Rectangle(i * frameWidth, j * frameHeight, frameWidth, frameHeight), durations[j * cols + i]));
+            {
+                for (int i = 0; i < cols && j*cols + i < numFrames; i++)
+                {
+                    Frame newFrame = new Frame(new Rectangle(i*frameWidth, j*frameHeight, frameWidth, frameHeight));
+                    if (durations != null)
+                        newFrame.Duration = durations[j * cols + i];
+                    Frames.Add(newFrame);
+                }
+            }
         }
 
         public void Update(GameTime gameTime)

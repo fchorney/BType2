@@ -105,11 +105,11 @@ namespace B_Type_2_Dev
             {
                 if (fireRight)
                 {
-                    player.Sprites["RightGun"].ReStart();
+                    player["RightGun"].ReStart();
                 }
                 else
                 {
-                    player.Sprites["LeftGun"].ReStart();
+                    player["LeftGun"].ReStart();
                 }
                 fireRight = !fireRight;
             }

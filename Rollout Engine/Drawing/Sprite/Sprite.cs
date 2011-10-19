@@ -57,6 +57,11 @@ namespace Rollout.Drawing
             }
         }
 
+        public Sprite this[string key]
+        {
+            get { return Sprites[key]; }
+        }
+
         public SpriteComponent()
         {
             Sprites = new Dictionary<string, Sprite>();

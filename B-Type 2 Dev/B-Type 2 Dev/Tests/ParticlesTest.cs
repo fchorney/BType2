@@ -27,7 +27,7 @@ namespace B_Type_2_Dev
             TextWriter.Add("Particle Buffer Count");
             TextWriter.Add("Enabled Particles");
 
-            pEffect = new ParticleEffect_A(new Sprite(new Vector2(100, 100), "main", new Animation(@"Sprites/Lensflare", 256, 256, 1, new double[] { 1 })));
+            pEffect = new ParticleEffect_A(new Sprite(new Vector2(100, 100), new Animation(@"Sprites/Lensflare", 256, 256, 1)));
             base.Initialize();
         }
 

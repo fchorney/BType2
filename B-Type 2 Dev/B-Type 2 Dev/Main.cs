@@ -26,7 +26,7 @@ namespace B_Type_2_Dev
 
         public Main()
         {
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
 
             graphics = new GraphicsDeviceManager(this)
                            {
@@ -55,7 +55,8 @@ namespace B_Type_2_Dev
             Components.Add(new FPS());
             //Components.Add(new ParticlesTest());
             //Components.Add(new PlayerTest());
-            Components.Add(new QuadTest());
+            //Components.Add(new QuadTest());
+            Components.Add(new ScriptTest());
 
             base.Initialize();
         }

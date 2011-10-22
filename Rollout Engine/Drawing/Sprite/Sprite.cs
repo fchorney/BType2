@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Rollout.Collision;
 using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Scripting;
 
 namespace Rollout.Drawing
 {
@@ -14,8 +14,10 @@ namespace Rollout.Drawing
         float Rotation { get; set; }
     }
 
-    public class Sprite : ITransformable
+    public class Sprite : ITransformable, IScriptable
     {
+
+        public string Name { get; set; }
         
         private Vector2 position;
         private Animation animation;
@@ -123,5 +125,7 @@ namespace Rollout.Drawing
             if (animations.Count == 1)
                 SetAnimation(animationName);
         }
+
+
     }
 }

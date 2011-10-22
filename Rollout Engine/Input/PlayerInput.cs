@@ -41,6 +41,8 @@ namespace Rollout.Input
             actionsHeld = new Dictionary<string, Function>();
             keyboard = new KeyboardInput(pIndex);
             controller = new ControllerInput(pIndex);
+
+            G.Game.Components.Add(this);
         }
 
         #region Initialize & Update

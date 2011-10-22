@@ -111,6 +111,12 @@
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\PlayerInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripting\IScript.cs" />
+    <Compile Include="Scripting\IScriptable.cs" />
+    <Compile Include="Scripting\IScriptingEngine.cs" />
+    <Compile Include="Scripting\ScriptingEngine.cs" />
+    <Compile Include="Scripting\Scripts\MoveScript.cs" />
+    <Compile Include="Scripting\Scripts\Script.cs" />
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />

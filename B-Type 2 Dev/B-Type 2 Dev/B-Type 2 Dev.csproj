@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\ScriptTest.cs" />
     <Compile Include="Tests\PlayerTest.cs" />
     <Compile Include="Tests\ParticlesTest.cs" />
     <Compile Include="Tests\QuadTest.cs" />

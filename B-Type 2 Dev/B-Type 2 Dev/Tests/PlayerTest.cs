@@ -31,7 +31,6 @@ namespace B_Type_2_Dev
             //player.Animation.Loop = false;
 
             input = new PlayerInput(PlayerIndex.One);
-            G.Game.Components.Add(input);
 
             input.BindAction("Pause", Keys.P);
             input.BindAction("UnPause", Keys.U);

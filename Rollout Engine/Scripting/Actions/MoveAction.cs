@@ -2,9 +2,9 @@ using System;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 
-namespace Rollout.Scripting.Scripts
+namespace Rollout.Scripting.Actions
 {
-    public class MoveScript : Script
+    public class MoveAction : Action, IAction
     {
         private Vector2 TargetDelta;
         private Vector2 TotalDelta;
@@ -15,28 +15,32 @@ namespace Rollout.Scripting.Scripts
 
         private ITransformable Target { get; set; }
         
-        public MoveScript(DateTime startTime,ITransformable targetName, Vector2 delta, TimeSpan duration) : base(startTime)
+        public MoveAction(DateTime startTime,ITransformable targetName, Vector2 delta, TimeSpan duration)
         {
-            
-            ElapsedTime = new TimeSpan();
+         
             Duration = duration;
             TargetDelta = delta;
 
-            TotalDelta = new Vector2(0f, 0f);
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
 
             Target = targetName;
+
+            Reset();
         }
 
-        private Boolean Enabled = true;
+        public void Reset()
+        {
+            base.Reset();
+            ElapsedTime = new TimeSpan();
+            TotalDelta = new Vector2(0f, 0f);
+        }
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             ElapsedTime += gameTime.ElapsedGameTime;
 
             if (ElapsedTime < Duration)
             {
-                var progress = (float)(ElapsedTime.TotalSeconds/Duration.TotalSeconds);
 
                 float dX = DeltaRate.X * (float)(gameTime.ElapsedGameTime.TotalSeconds);
                 float dY = DeltaRate.Y * (float)(gameTime.ElapsedGameTime.TotalSeconds);
@@ -50,12 +54,11 @@ namespace Rollout.Scripting.Scripts
             }
             else
             {
-                if (Enabled)
-                {
-                    Target.X += TargetDelta.X - TotalDelta.X;
-                    Target.Y += TargetDelta.Y - TotalDelta.Y;
-                    Enabled = false;
-                }
+                
+                Target.X += TargetDelta.X - TotalDelta.X;
+                Target.Y += TargetDelta.Y - TotalDelta.Y;
+
+                Finished = true;
             }
 
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -10,8 +9,10 @@ using Rollout.Drawing;
 using Rollout.Drawing.Examples;
 using Rollout.Input;
 using Rollout.Scripting;
+using Rollout.Scripting.Actions;
 using Rollout.Scripting.Scripts;
 using Rollout.Utility;
+using Action = Rollout.Scripting.Action;
 
 namespace B_Type_2_Dev
 {
@@ -28,12 +29,26 @@ namespace B_Type_2_Dev
 
         public override void Initialize()
         {
-            player = new Sprite(new Vector2(200, 200)){ Name = "BigWilly" }; 
+            player = new Sprite(new Vector2(400, 200)){ Name = "BigWilly" }; 
             player.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
 
-            input = new PlayerInput(PlayerIndex.One);
-            input.BindAction("Move", Keys.A);
-            input.BindAction("MoveBack", Keys.S);
+            IAction moveloop = new RepeatAction(-1);
+
+            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200,200), new TimeSpan(0,0,0,0, 50)));
+            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 50)));
+            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(-200,200), new TimeSpan(0,0,0,0,30)));
+            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 30)));
+            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(-200,-200), new TimeSpan(0,0,0,0,20)));
+            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 20)));
+            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200,-200), new TimeSpan(0,0,0,0,50)));
+            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 50)));
+            
+
+
+
+            moveloop.Reset();
+
+            player.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200, 200), new TimeSpan(0, 0, 0, 5, 50)));
 
             scriptingEngine = new ScriptingEngine();
             scriptingEngine.Add(player);
@@ -45,17 +60,6 @@ namespace B_Type_2_Dev
 
         public override void Update(GameTime gameTime)
         {
-            if (input.IsPressed("Move"))
-            {
-                IScript move = new MoveScript(DateTime.Now, player, new Vector2(500, 300), new TimeSpan(0, 0, 1));
-                scriptingEngine.AddScript(move);
-            }
-
-            if (input.IsPressed("MoveBack"))
-            {
-                IScript move = new MoveScript(DateTime.Now, player, new Vector2(-500, -300), new TimeSpan(0,0,0,0,100));
-                scriptingEngine.AddScript(move);
-            }
 
             scriptingEngine.Update(gameTime);
 

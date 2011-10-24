@@ -22,6 +22,13 @@ namespace Rollout.Drawing
     {
         protected Vector2 position;
         public string Name { get; set; }
+
+        private List<IAction> actions;
+        public List<IAction> Actions
+        {
+            get { return actions ?? (actions = new List<IAction>()); }
+        }
+
         private Animation animation;
         private Dictionary<string, Animation> animations;
         internal int drawOrder;

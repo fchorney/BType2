@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting
@@ -8,10 +9,14 @@ namespace Rollout.Scripting
         private List<IScript> Scripts { get; set; }
         private List<IScriptable> Scriptables { get; set; }
 
+        private List<IAction> Actions { get; set; } 
+
         public ScriptingEngine()
         {
             Scripts = new List<IScript>();
             Scriptables = new List<IScriptable>();
+
+            Actions = new List<IAction>();
         }
 
         public void Add(IScriptable obj)     
@@ -26,6 +31,15 @@ namespace Rollout.Scripting
 
         public void Update(GameTime gameTime)
         {
+
+            foreach (var s in Scriptables)
+            {
+                foreach (var action in s.Actions.Where(action => !action.Finished))
+                {
+                    action.Update(gameTime);
+                }
+            }
+
             foreach (var script in Scripts)
             {
                 script.Update(gameTime);

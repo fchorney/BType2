@@ -9,7 +9,7 @@ namespace Rollout.Scripting.Actions
         private TimeSpan waitTime;
         private TimeSpan currentTime;
 
-        public WaitAction(TimeSpan timeSpan)
+        public WaitAction(TimeSpan timeSpan) : base (true)
         {
             waitTime = timeSpan;
 

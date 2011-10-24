@@ -10,16 +10,28 @@ namespace Rollout.Scripting
         protected List<IAction> actions; 
         protected List<IAction> actionQueue;
 
+        public bool Wait { get; set; }
+
         protected IScriptingEngine engine;
         public IScriptingEngine Engine
         {
             get { return engine; }
         }
 
-        public Action()
+        public Action(bool wait = false)
         {
             engine = ScriptingEngine.Instance;
+            Wait = wait;
             Reset();
+        }
+
+        public void AddAction(IAction action, bool autoWait = false)
+        {
+            if (!action.Wait)
+            {
+                action.Wait = autoWait;
+            }
+            actions.Add(action);
         }
 
         public virtual void Update(GameTime gameTime)

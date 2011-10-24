@@ -25,7 +25,7 @@ namespace Rollout.Scripting
             Actions = new List<IAction>();
         }
 
-        public void Add(IScriptable obj)     
+        public void Add(IScriptable obj)
         {
             Scriptables.Add(obj.Name, obj);
         }

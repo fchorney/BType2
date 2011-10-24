@@ -27,7 +27,7 @@ namespace Rollout.Scripting.Actions
                 {
                     finishedActions.Add(action);
                 }
-                if (action is WaitAction)
+                if (action.Wait)
                 {
                     break;
                 }

@@ -44,17 +44,14 @@ namespace B_Type_2_Dev
 
                 if (i % 2 == 0)
                 {
-                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(200, 200), new TimeSpan(0, 0, 0, 0, 100)));
-                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
-                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(-200, -200), new TimeSpan(0, 0, 0, 0, 100)));
-                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100))); 
+                    moveloop.AddAction(new MoveAction(enemy, new Vector2(200, 200), Time.ms(100)), true);
+                    moveloop.AddAction(new MoveAction(enemy, new Vector2(-200, -200), Time.ms(100)), true);
                 }
                 else
                 {
-                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(200, 200), 28.2842712474));
-                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
-                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(-200, -200), 28.2842712474));
-                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
+                    moveloop.AddAction(new MoveAction(enemy, new Vector2(200, 200), 28.2842712474), true);
+                    moveloop.AddAction(new WaitAction(Time.ms(500)));
+                    moveloop.AddAction(new MoveAction(enemy, new Vector2(-200, -200), 28.2842712474), true);
                 }
 
 
@@ -67,12 +64,6 @@ namespace B_Type_2_Dev
                 scriptingEngine.Add(enemy);
 
             }
-
-
-
-            
-
-
 
             TextWriter.Add("Target position");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -18,9 +19,9 @@ namespace B_Type_2_Dev
 {
     public class ScriptTest : DrawableGameComponent
     {
-        private Sprite player { get; set; }
         private IScriptingEngine scriptingEngine { get; set; }
-        private PlayerInput input { get; set; }
+
+        private List<Sprite> enemies { get; set; }
 
         public ScriptTest() : base(G.Game)
         {
@@ -29,29 +30,49 @@ namespace B_Type_2_Dev
 
         public override void Initialize()
         {
-            player = new Sprite(new Vector2(400, 200)){ Name = "BigWilly" }; 
-            player.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
+            scriptingEngine = ScriptingEngine.Instance;
 
-            IAction moveloop = new RepeatAction(-1);
+            enemies = new List<Sprite>();
 
-            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200,200), new TimeSpan(0,0,0,0, 50)));
-            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 50)));
-            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(-200,200), new TimeSpan(0,0,0,0,30)));
-            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 30)));
-            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(-200,-200), new TimeSpan(0,0,0,0,20)));
-            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 20)));
-            moveloop.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200,-200), new TimeSpan(0,0,0,0,50)));
-            moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 50)));
+            for (int i = 0; i < 2; i++)
+            {
+                var enemy = new Sprite(new Vector2(300 + 100 * i, 200)) { Name = "BigWilly" + i.ToString() };
+                enemy.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
+                enemies.Add(enemy);
+
+                IAction moveloop = new RepeatAction(-1);
+
+                if (i % 2 == 0)
+                {
+                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(200, 200), new TimeSpan(0, 0, 0, 0, 100)));
+                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
+                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(-200, -200), new TimeSpan(0, 0, 0, 0, 100)));
+                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100))); 
+                }
+                else
+                {
+                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(200, 200), 28.2842712474));
+                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
+                    moveloop.Actions.Add(new MoveAction(enemy, new Vector2(-200, -200), 28.2842712474));
+                    moveloop.Actions.Add(new WaitAction(new TimeSpan(0, 0, 0, 0, 100)));
+                }
+
+
+
+                moveloop.Reset();
+
+                enemy.Actions.Add(moveloop);
+
+
+                scriptingEngine.Add(enemy);
+
+            }
+
+
+
             
 
 
-
-            moveloop.Reset();
-
-            player.Actions.Add(new MoveAction(DateTime.Now, player, new Vector2(200, 200), new TimeSpan(0, 0, 0, 5, 50)));
-
-            scriptingEngine = new ScriptingEngine();
-            scriptingEngine.Add(player);
 
             TextWriter.Add("Target position");
 
@@ -63,18 +84,23 @@ namespace B_Type_2_Dev
 
             scriptingEngine.Update(gameTime);
 
-            player.Update(gameTime);
-            player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
+            //player.Update(gameTime);
+            //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
             //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
-            TextWriter.Update("Target position", "[" + player.X + ", " + player.Y + "]");
+            //TextWriter.Update("Target position", "[" + player.X + ", " + player.Y + "]");
 
         }
 
         public override void Draw(GameTime gameTime)
         {
             G.SpriteBatch.Begin();
-            player.Draw();
+
+            foreach (var enemy in enemies)
+            {
+                enemy.Draw();
+            }
+            
             G.SpriteBatch.End();
 
             base.Draw(gameTime);

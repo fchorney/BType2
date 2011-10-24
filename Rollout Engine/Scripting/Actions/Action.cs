@@ -6,12 +6,19 @@ namespace Rollout.Scripting
 {
     public abstract class Action : IAction
     {
-
+        
         protected List<IAction> actions; 
         protected List<IAction> actionQueue;
 
+        protected IScriptingEngine engine;
+        public IScriptingEngine Engine
+        {
+            get { return engine; }
+        }
+
         public Action()
         {
+            engine = ScriptingEngine.Instance;
             Reset();
         }
 
@@ -47,5 +54,7 @@ namespace Rollout.Scripting
         {
             get { return actionQueue ?? (actionQueue = new List<IAction>()); }
         }
+
+
     }
 }

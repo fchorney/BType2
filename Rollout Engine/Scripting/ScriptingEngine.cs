@@ -7,21 +7,32 @@ namespace Rollout.Scripting
     public class ScriptingEngine: IScriptingEngine
     {
         private List<IScript> Scripts { get; set; }
-        private List<IScriptable> Scriptables { get; set; }
+        protected Dictionary<string, IScriptable> Scriptables { get; set; }
 
-        private List<IAction> Actions { get; set; } 
+        private List<IAction> Actions { get; set; }
 
-        public ScriptingEngine()
+        private static IScriptingEngine instance;
+        public static IScriptingEngine Instance
+        {
+            get { return instance ?? (instance = new ScriptingEngine()); }
+        }
+
+        private ScriptingEngine()
         {
             Scripts = new List<IScript>();
-            Scriptables = new List<IScriptable>();
+            Scriptables = new Dictionary<string, IScriptable>();
 
             Actions = new List<IAction>();
         }
 
         public void Add(IScriptable obj)     
         {
-            Scriptables.Add(obj);
+            Scriptables.Add(obj.Name, obj);
+        }
+
+        public IScriptable this[string name]
+        {
+            get { return Scriptables[name]; }
         }
 
         public void AddScript(IScript script)
@@ -32,7 +43,7 @@ namespace Rollout.Scripting
         public void Update(GameTime gameTime)
         {
 
-            foreach (var s in Scriptables)
+            foreach (var s in Scriptables.Values)
             {
                 foreach (var action in s.Actions.Where(action => !action.Finished))
                 {

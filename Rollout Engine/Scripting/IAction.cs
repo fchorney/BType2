@@ -12,7 +12,9 @@ namespace Rollout.Scripting
         bool Finished { get; set; }
 
         List<IAction> Actions { get; }
-        List<IAction> ActionQueue { get; } 
+        List<IAction> ActionQueue { get; }
+
+        IScriptingEngine Engine { get; }
 
     }
 }

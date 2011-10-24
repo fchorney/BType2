@@ -6,6 +6,8 @@ namespace Rollout.Scripting.Actions
 {
     public class MoveAction : Action, IAction
     {
+        const double PixelsInAMeter = 100;
+
         private Vector2 TargetDelta;
         private Vector2 TotalDelta;
         private Vector2 DeltaRate;
@@ -14,8 +16,19 @@ namespace Rollout.Scripting.Actions
         private TimeSpan Duration { get; set; }
 
         private ITransformable Target { get; set; }
+
+        public MoveAction(ITransformable targetName, Vector2 delta, double speed)
+        {
+            double distance = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
+            Duration = new TimeSpan(0, 0, 0, 0, (int)(distance / speed * 1000 / PixelsInAMeter));
+            TargetDelta = delta;
+
+            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+
+            Target = targetName;
+        }
         
-        public MoveAction(DateTime startTime,ITransformable targetName, Vector2 delta, TimeSpan duration)
+        public MoveAction(ITransformable targetName, Vector2 delta, TimeSpan duration)
         {
          
             Duration = duration;

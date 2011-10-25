@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
+using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
@@ -17,18 +18,18 @@ namespace Rollout.Scripting.Actions
 
         private ITransformable Target { get; set; }
 
-        public MoveAction(ITransformable targetName, Vector2 delta, double speed)
+        public MoveAction(String targetName, Vector2 delta, double speed)
         {
             double distance = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
-            Duration = new TimeSpan(0, 0, 0, 0, (int)(distance / speed * 1000 / PixelsInAMeter));
+            Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
             TargetDelta = delta;
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
 
-            Target = targetName;
+            Target = Engine[targetName] as ITransformable;
         }
-        
-        public MoveAction(ITransformable targetName, Vector2 delta, TimeSpan duration)
+
+        public MoveAction(String targetName, Vector2 delta, TimeSpan duration)
         {
          
             Duration = duration;
@@ -36,7 +37,7 @@ namespace Rollout.Scripting.Actions
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
 
-            Target = targetName;
+            Target = Engine[targetName] as ITransformable;
 
             Reset();
         }

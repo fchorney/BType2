@@ -20,7 +20,10 @@ namespace B_Type_2_Dev
     public class ScriptTest : DrawableGameComponent
     {
         private IScriptingEngine scriptingEngine { get; set; }
+        private PlayerInput input;
 
+
+        private Sprite player { get; set; }
         private List<Sprite> enemies { get; set; }
 
         public ScriptTest() : base(G.Game)
@@ -30,7 +33,21 @@ namespace B_Type_2_Dev
 
         public override void Initialize()
         {
+            input = new PlayerInput(PlayerIndex.One);
+
+            input.BindAction("Left", Keys.Left);
+            input.BindAction("Right", Keys.Right);
+            input.BindAction("Up", Keys.Up);
+            input.BindAction("Down", Keys.Down);
+
+
             scriptingEngine = ScriptingEngine.Instance;
+
+
+            player = new Sprite(new Vector2(500, 200)) { Name = "TheBiggest"};
+            player.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
+            scriptingEngine.Add(player);
+
 
             enemies = new List<Sprite>();
 
@@ -40,28 +57,23 @@ namespace B_Type_2_Dev
                 enemy.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
                 enemies.Add(enemy);
 
+                scriptingEngine.Add(enemy);
+
                 IAction moveloop = new RepeatAction(-1);
 
                 if (i % 2 == 0)
                 {
-                    moveloop.AddAction(new MoveAction(enemy, new Vector2(200, 200), Time.ms(100)), true);
-                    moveloop.AddAction(new MoveAction(enemy, new Vector2(-200, -200), Time.ms(100)), true);
+                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
+                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);
                 }
                 else
                 {
-                    moveloop.AddAction(new MoveAction(enemy, new Vector2(200, 200), 28.2842712474), true);
-                    moveloop.AddAction(new WaitAction(Time.ms(500)));
-                    moveloop.AddAction(new MoveAction(enemy, new Vector2(-200, -200), 28.2842712474), true);
+                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, 2.82842712474));
                 }
-
-
 
                 moveloop.Reset();
 
                 enemy.Actions.Add(moveloop);
-
-
-                scriptingEngine.Add(enemy);
 
             }
 
@@ -73,9 +85,19 @@ namespace B_Type_2_Dev
         public override void Update(GameTime gameTime)
         {
 
+            if (input.IsHeld("Left"))
+                player.X -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Right"))
+                player.X += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Up"))
+                player.Y -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (input.IsHeld("Down"))
+                player.Y += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
             scriptingEngine.Update(gameTime);
 
-            //player.Update(gameTime);
+            player.Update(gameTime);
             //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
             //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
@@ -86,6 +108,8 @@ namespace B_Type_2_Dev
         public override void Draw(GameTime gameTime)
         {
             G.SpriteBatch.Begin();
+
+            player.Draw();
 
             foreach (var enemy in enemies)
             {

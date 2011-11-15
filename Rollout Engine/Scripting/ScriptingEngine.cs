@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,13 +12,15 @@ namespace Rollout.Scripting
 
         private List<IAction> Actions { get; set; }
 
+        [Obsolete("Each screen gets it's own instance. No more static instances")]
         private static IScriptingEngine instance;
+        [Obsolete("Each screen gets it's own instance. No more static instances")]
         public static IScriptingEngine Instance
         {
             get { return instance ?? (instance = new ScriptingEngine()); }
         }
 
-        private ScriptingEngine()
+        public ScriptingEngine()
         {
             Scripts = new List<IScript>();
             Scriptables = new Dictionary<string, IScriptable>();
@@ -57,7 +60,5 @@ namespace Rollout.Scripting
             }
 
         }
-
-
     }
 }

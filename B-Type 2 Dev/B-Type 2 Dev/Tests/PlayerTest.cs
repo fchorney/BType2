@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Input;
 using Rollout.Screens;
-using Rollout.Scripting;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev
@@ -23,40 +17,46 @@ namespace B_Type_2_Dev
         private Limiter fireLimit;
 
         private double elapsedTime;
-        private ParticleEmittingSprite leftGun;
-        private ParticleEmittingSprite rightGun;
+        private Sprite leftGun;
+        private ParticleEmitter leftEmitter;
+        private Sprite rightGun;
+        private ParticleEmitter rightEmitter;
+
         public override void Initialize()
         {
+            // Must happen at the start
+            base.Initialize();
+
             player = new Sprite(new Vector2(200, 200),
-                                new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] {0.1f, 0.2f}));
+                                new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] {0.3f, 0.3f})){Name = "player"};
+            leftGun = new Sprite(new Vector2(-21, 20),
+                                 new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "leftgun"};
+            rightGun = new Sprite(new Vector2(57, 20),
+                                  new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "rightgun"};
+            leftEmitter = new ParticleEmitter(200)
+            {
+                Name = "left-emitter",
+                OffsetX = -114,
+                OffsetY = -128
+            };
+            rightEmitter = new ParticleEmitter(200)
+            {
+                Name = "right-emitter",
+                OffsetX = -114,
+                OffsetY = -128
+            };
 
-            leftGun = new ParticleEmittingSprite(200, "LeftGun", new Vector2(-21, 20),
-                                                                        new Animation(@"Sprites/gun1", 32, 32, 2,
-                                                                                      new double[] {0.05f, 0.08f}, false));
-            rightGun = new ParticleEmittingSprite(200, "RightGun", new Vector2(57, 20),
-                                                                        new Animation(@"Sprites/gun1", 32, 32, 2,
-                                                                                      new double[] {0.05f, 0.08f}, false));
-
-
-
+            // Add in top to bottom graph form
+            Add(player);
             player.Add(leftGun);
             player.Add(rightGun);
-
-            //AddScreen to scripting Engine
-            ScriptingEngine.Instance.Add(leftGun);
-            ScriptingEngine.Instance.Add(rightGun);
-            
+            leftGun.Add(leftEmitter);
+            rightGun.Add(rightEmitter);
+          
             //player.AddSprite("Shadow", new Sprite(new Vector2(2,2), new Animation(@"Sprites/spaceship-shadow", 64, 64)), 3);
 
             input = new PlayerInput(PlayerIndex.One);
-
-            input.BindAction("Pause", Keys.P);
-            input.BindAction("UnPause", Keys.U);
-            input.BindAction("Switch-A", Keys.A);
-            input.BindAction("Switch-S", Keys.S);
-            input.BindAction("Restart", Keys.R);
             input.BindAction("Quit", Keys.Q);
-
             input.BindAction("Left", Keys.Left);
             input.BindAction("Right",Keys.Right);
             input.BindAction("Up",Keys.Up);
@@ -64,30 +64,24 @@ namespace B_Type_2_Dev
             input.BindAction("Fire",Keys.Space);
 
             fireLimit = new Limiter(.05f);
-
-            base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-
-            player.Update(gameTime);
+            int speed = 500;
             fireLimit.Update(gameTime);
-            ScriptingEngine.Instance.Update(gameTime);
-            //player.Rotation += (float)(20f * gameTime.ElapsedGameTime.TotalSeconds);
-            //player.Scale += (float)(.3f * gameTime.ElapsedGameTime.TotalSeconds);
 
             if (input.IsPressed("Quit"))
                 G.Game.Exit();
 
             if (input.IsHeld("Left"))
-                player.X -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Right"))
-                player.X += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Up"))
-                player.Y -= 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Down"))
-                player.Y += 200 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (input.IsPressed("Fire"))
             {
@@ -109,10 +103,8 @@ namespace B_Type_2_Dev
                     FireGun();
                 }
             }
-            (leftGun).Emitter.X = leftGun.X;
-            (leftGun).Emitter.Y = leftGun.Y;
-            (rightGun).Emitter.X = rightGun.X;
-            (rightGun).Emitter.Y = rightGun.Y;
+
+            base.Update(gameTime);
         }
 
         private void FireGun()
@@ -122,12 +114,12 @@ namespace B_Type_2_Dev
                  if (fireRight)
                 {
                     rightGun.ReStart();
-                    ((ParticleEmittingSprite)rightGun).Fire();
+                    rightEmitter.Fire2();
                 }
                 else
                 {
                     leftGun.ReStart();
-                    ((ParticleEmittingSprite)leftGun).Fire();
+                    leftEmitter.Fire2();
                 }
                 fireRight = !fireRight;
             }
@@ -135,12 +127,9 @@ namespace B_Type_2_Dev
 
         public override void Draw(GameTime gameTime)
         {
+            G.SpriteBatch.Begin(Transition.Transform());
             base.Draw(gameTime);
-            G.SpriteBatch.Begin();
-
-            player.Draw(gameTime);
-            G.SpriteBatch.End();
-            
+            G.SpriteBatch.End();            
         }
     }
 }

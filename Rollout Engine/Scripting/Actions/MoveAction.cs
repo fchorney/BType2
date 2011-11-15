@@ -18,8 +18,11 @@ namespace Rollout.Scripting.Actions
 
         private ITransformable Target { get; set; }
 
-        public MoveAction(String targetName, Vector2 delta, double speed)
+        public MoveAction(String targetName, Vector2 delta, double speed, ScriptingEngine scriptingEngine = null)
         {
+            if (scriptingEngine != null)
+                engine = scriptingEngine;
+
             double distance = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
             Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
             TargetDelta = delta;
@@ -29,9 +32,11 @@ namespace Rollout.Scripting.Actions
             Target = Engine[targetName] as ITransformable;
         }
 
-        public MoveAction(String targetName, Vector2 delta, TimeSpan duration)
+        public MoveAction(String targetName, Vector2 delta, TimeSpan duration, ScriptingEngine scriptingEngine = null)
         {
-         
+            if (scriptingEngine != null)
+                engine = scriptingEngine;
+
             Duration = duration;
             TargetDelta = delta;
 
@@ -42,14 +47,14 @@ namespace Rollout.Scripting.Actions
             Reset();
         }
 
-        public void Reset()
+        public override void Reset()
         {
             base.Reset();
             ElapsedTime = new TimeSpan();
             TotalDelta = new Vector2(0f, 0f);
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             ElapsedTime += gameTime.ElapsedGameTime;
 

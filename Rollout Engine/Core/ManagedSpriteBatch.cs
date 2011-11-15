@@ -12,7 +12,7 @@ namespace Rollout.Core
         public ManagedSpriteBatch()
             : base(G.Game.GraphicsDevice)
         {
-            HasBegun = false;
+            HasBegun = false;         
         }
 
         public new void Begin(Matrix? transform = null)
@@ -23,7 +23,7 @@ namespace Rollout.Core
             if (!transform.HasValue)
                 transform = Matrix.Identity;
 
-            base.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
+            Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
         }
 
         public new void End()

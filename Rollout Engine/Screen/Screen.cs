@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
-using Rollout.Drawing;
 using Rollout.Input;
+using Rollout.Scripting;
 using Rollout.Utility;
 
 namespace Rollout.Screens
@@ -32,7 +33,6 @@ namespace Rollout.Screens
         #region Properties
 
         public Transition Transition { get; set; }
-
         public string ID { get; set; }
 
         /// <summary>
@@ -44,7 +44,12 @@ namespace Rollout.Screens
         //}
 
         public List<Screen> Components { get; internal set; }
-        List<Screen> _ComponentsToUpdate;
+        private List<Screen> componentsToUpdate;
+
+        /// <summary>
+        /// Gets the scripting engine that belongs to the screen
+        /// </summary>
+        public ScriptingEngine scriptingEngine { get; private set; }
 
         /// <summary>
         /// Gets the manager that this screen belongs to.
@@ -59,10 +64,7 @@ namespace Rollout.Screens
         /// transitioning off.
         /// </summary>
         public bool IsPopup { get; set; }
-
-
         public bool IsPersistant { get; set; }
-
 
         /// <summary>
         /// Gets the current screen transition state.
@@ -101,19 +103,22 @@ namespace Rollout.Screens
         public Screen()
         {
             Components = new List<Screen>();
-            _ComponentsToUpdate = new List<Screen>();
+            componentsToUpdate = new List<Screen>();
 
-
-            Transition = new Transition();
-            Transition.OnTime = Time.s(1);
-            Transition.OffTime = Time.s(1);
-            Transition.Position = 1;
+            Transition = new Transition
+                             {
+                                 OnTime = Time.s(1), 
+                                 OffTime = Time.s(1), 
+                                 Position = 1
+                             };
             ScreenState = ScreenState.TransitionOn;
 
             IsExiting = false;
             IsPopup = false;
 
             Screen = this;
+
+            scriptingEngine = new ScriptingEngine();
         }
 
         /// <summary>
@@ -121,17 +126,14 @@ namespace Rollout.Screens
         /// </summary>
         public new virtual void LoadContent() { }
 
-
         /// <summary>
         /// Unload content for the screen.
         /// </summary>
         public new virtual void UnloadContent() { }
 
-
         #endregion
 
         #region Update and Draw
-
 
         /// <summary>
         /// Allows the screen to run logic, such as updating the transition position.
@@ -142,29 +144,28 @@ namespace Rollout.Screens
 
         public override void Update(GameTime gameTime)
         {
-
             // Read the keyboard and gamepad.
             //input.Update();
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
-            _ComponentsToUpdate.Clear();
+            componentsToUpdate.Clear();
 
             foreach (Screen screen in Components)
             {
-                _ComponentsToUpdate.Add(screen);
+                componentsToUpdate.Add(screen);
             }
 
             bool otherScreenHasFocus = false;
             bool coveredByOtherScreen = false;
 
             // Loop as long as there are screens waiting to be updated.
-            while (_ComponentsToUpdate.Count > 0)
+            while (componentsToUpdate.Count > 0)
             {
                 // Pop the topmost screen off the waiting list.
-                Screen screen = _ComponentsToUpdate[_ComponentsToUpdate.Count - 1];
+                Screen screen = componentsToUpdate[componentsToUpdate.Count - 1];
 
-                _ComponentsToUpdate.RemoveAt(_ComponentsToUpdate.Count - 1);
+                componentsToUpdate.RemoveAt(componentsToUpdate.Count - 1);
 
                 // Update the screen.
                 screen.Update(gameTime);
@@ -178,7 +179,6 @@ namespace Rollout.Screens
                     if (!otherScreenHasFocus)
                     {
                         //screen.HandleInput(input);
-
                         otherScreenHasFocus = true;
                     }
 
@@ -189,12 +189,13 @@ namespace Rollout.Screens
                 }
             }
 
+            scriptingEngine.Update(gameTime);
+            base.Update(gameTime);
         }
 
-        public virtual void Update(GameTime gameTime, bool otherScreenHasFocus,
-                                                      bool coveredByOtherScreen)
+        public virtual void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            this.HasFocus = otherScreenHasFocus;
+            HasFocus = otherScreenHasFocus;
 
             if (IsExiting)
             {
@@ -236,6 +237,8 @@ namespace Rollout.Screens
                     ScreenState = ScreenState.Active;
                 }
             }
+            scriptingEngine.Update(gameTime);
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -245,21 +248,16 @@ namespace Rollout.Screens
         /// </summary>
         public virtual void HandleInput(PlayerInput input) { }
 
-
         /// <summary>
         /// This is called when the screen should draw itself.
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            foreach (Screen screen in Components)
+            foreach (var screen in Components.Where(screen => screen.ScreenState != ScreenState.Hidden))
             {
-                if (screen.ScreenState == ScreenState.Hidden)
-                    continue;
-
                 screen.Draw(gameTime);
-
             }
-
+            base.Draw(gameTime);
         }
 
         #endregion
@@ -268,7 +266,6 @@ namespace Rollout.Screens
 
         public void AddScreen(Screen component)
         {
-
             if (component.ComponentManager == null)
             {
                 component.ComponentManager = this;
@@ -287,8 +284,7 @@ namespace Rollout.Screens
         public void Remove(Screen component)
         {
             Components.Remove(component);
-            _ComponentsToUpdate.Remove(component);
-
+            componentsToUpdate.Remove(component);
             component.ComponentManager = null;
         }
 
@@ -309,8 +305,6 @@ namespace Rollout.Screens
                 // Otherwise flag that it should transition off and then exit.
                 IsExiting = true;
             }
-
-
         }
 
         public static void FadeBackBufferToBlack(int alpha)

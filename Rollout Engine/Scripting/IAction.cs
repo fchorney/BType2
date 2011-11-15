@@ -15,7 +15,7 @@ namespace Rollout.Scripting
         List<IAction> Actions { get; }
         List<IAction> ActionQueue { get; }
 
-        IScriptingEngine Engine { get; }
+        IScriptingEngine Engine { get; set; }
 
         bool Wait { get; set; }
     }

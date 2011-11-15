@@ -49,7 +49,6 @@ namespace B_Type_2_Dev
         protected override void Initialize()
         {
             G.SetGame(this);
-
             Components.Add(new TextWriter(@"SpriteFonts/Debug"));
             Components.Add(new FPS());
             //Components.AddScreen(new ParticlesTest());

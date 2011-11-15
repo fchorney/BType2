@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
-using Rollout.Input;
 
 namespace Rollout.Screens
 {
-
     public class Transition
     {
-
         public TimeSpan OnTime { get; set; }
-
         public TimeSpan OffTime { get; set; }
-
         public float Position { get; set; }
 
         public byte Alpha
@@ -37,10 +30,10 @@ namespace Rollout.Screens
             this.Position += delta * direction;
 
             // Did we reach the end of the transition?
-            if (((direction < 0) && (this.Position <= 0)) ||
-                ((direction > 0) && (this.Position >= 1)))
+            if (((direction < 0) && (Position <= 0)) ||
+                ((direction > 0) && (Position >= 1)))
             {
-                this.Position = MathHelper.Clamp(this.Position, 0, 1);
+                Position = MathHelper.Clamp(Position, 0, 1);
                 return false;
             }
 
@@ -54,7 +47,5 @@ namespace Rollout.Screens
             transform.Translation = new Vector3(G.SpriteBatch.GraphicsDevice.Viewport.Width * Position, 0, 0);
             return transform;
         }
-
-
     }
 }

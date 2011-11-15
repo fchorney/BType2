@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Rollout.Collision;
+﻿using System.Collections.Generic;
 using Rollout.Core;
 using Rollout.Scripting;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
 
 namespace Rollout.Drawing
 {
@@ -18,21 +14,23 @@ namespace Rollout.Drawing
         float Rotation { get; set; }
     }
 
-    public class Sprite : DrawableGameObject, ITransformable, IScriptable
+    public class Sprite : DrawableGameObject, IScriptable
     {
+        #region variables
+
         protected Vector2 position;
-        public string Name { get; set; }
-        public bool Enabled { get; set; }
 
         private List<IAction> actions;
+        private Animation animation;
+        private Dictionary<string, Animation> animations;
+
+        public Color Color { get; set; }
+        public string Name { get; set; }
+
         public List<IAction> Actions
         {
             get { return actions ?? (actions = new List<IAction>()); }
         }
-
-        private Animation animation;
-        private Dictionary<string, Animation> animations;
-        internal int drawOrder;
 
         public Animation Animation
         {
@@ -49,9 +47,7 @@ namespace Rollout.Drawing
             get { return animation.SourceRectangle.Width; }
         }
 
-        public float Scale { get; set; }
-        public float Rotation { get; set; }
-        public Color Color { get; set; }
+        #endregion
 
         /// <summary>
         /// Create a new Sprite with a position.
@@ -68,7 +64,6 @@ namespace Rollout.Drawing
             Color = Color.White;
             Scale = 1f;
             Rotation = 0f;
-            drawOrder = 0;
             Enabled = true;
 
             if (animation != null)
@@ -94,16 +89,6 @@ namespace Rollout.Drawing
             Vector2 texCenter = new Vector2(W/2, H/2);
             //Vector2 texCenter = new Vector2(0, 0); //scale from top left
             G.SpriteBatch.Draw(animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
-        }
-
-        public virtual void Draw(ITransformable wrt = null)
-        {
-            // wrt = With Respect To
-            // If an ITransformable object is passed in, this sprite is drawn wrt parent object
-            if (wrt != null)
-                Draw(wrt.X + X, wrt.Y + Y, Color, Scale, Rotation);
-            else
-                Draw(position.X, position.Y, Color, Scale, Rotation);
         }
 
         public void SetAnimation(string animationName)
@@ -140,7 +125,5 @@ namespace Rollout.Drawing
             if (animations.Count == 1)
                 SetAnimation(animationName);
         }
-
-
     }
 }

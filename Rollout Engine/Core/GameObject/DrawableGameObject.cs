@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 
 namespace Rollout.Core
@@ -5,13 +6,9 @@ namespace Rollout.Core
     public class DrawableGameObject : GameObject, ITransformable
     {
         public float OffsetX { get; set; }
-
         public float OffsetY { get; set; }
-
         public float Scale { get; set; }
-
         public float Rotation { get; set; }
-
 
         public float X
         {
@@ -35,6 +32,20 @@ namespace Rollout.Core
             }
 
             set { OffsetY = value; }
+        }
+
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(X,Y);
+            }
+
+            set 
+            { 
+                X = value.X;
+                Y = value.Y;
+            }
         }
     }
 }

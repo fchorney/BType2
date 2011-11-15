@@ -11,7 +11,6 @@ namespace Rollout.Scripting.Actions
     {
         const double PixelsInAMeter = 100;
 
-
         private Vector2 Delta;
         private double TurningRadius { get; set; }
         private double AngleToTarget { get; set; }
@@ -25,8 +24,10 @@ namespace Rollout.Scripting.Actions
         private ITransformable Target { get; set; }
         private ITransformable FollowTarget { get; set; }
 
-        public FollowAction(String targetName,String followName, double speed)
+        public FollowAction(String targetName,String followName, double speed, ScriptingEngine scriptingEngine = null)
         {
+            if (scriptingEngine != null)
+                engine = scriptingEngine;
 
             Target = Engine[targetName] as ITransformable;
             FollowTarget = Engine[followName] as ITransformable;
@@ -41,12 +42,7 @@ namespace Rollout.Scripting.Actions
             TextWriter.Add("Target position");
         }
 
-        public void Reset()
-        {
-            base.Reset();
-        }
-
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             ElapsedTime += gameTime.ElapsedGameTime;
 
@@ -54,7 +50,6 @@ namespace Rollout.Scripting.Actions
 
             Target.X += Delta.X;
             Target.Y += Delta.Y;
-
         }
 
         private void Calculate(GameTime gameTime)

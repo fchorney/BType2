@@ -9,6 +9,5 @@ namespace Rollout.Scripting
         void AddScript(IScript script);
         void Update(GameTime gameTime);
         IScriptable this[string name] { get; }
-
     }
 }

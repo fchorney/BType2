@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
@@ -24,59 +25,48 @@ namespace Rollout.Screens
     {
         #region Fields
 
-        Screen _LoadingScreen;
-        Screen[] _ScreensToLoad;
+        private Screen loadingScreen;
+        private Screen[] screensToLoad;
 
-        bool otherScreensAreGone;
+        private bool otherScreensAreGone;
 
         #endregion
 
         #region Initialization
 
-
         /// <summary>
         /// The constructor is private: loading screens should
         /// be activated via the static Load method instead.
         /// </summary>
-        private Loader(Screen screenManager, 
-                          Screen loadingScreen,
-                          Screen[] screensToLoad)
+        private Loader(Screen screenManager, Screen loadingScreen, Screen[] screensToLoad)
         {
-            this._LoadingScreen = loadingScreen;
-            this._ScreensToLoad = screensToLoad;
-
+            this.loadingScreen = loadingScreen;
+            this.screensToLoad = screensToLoad;
             Transition.OnTime = TimeSpan.FromSeconds(0.5);
         }
-
 
         /// <summary>
         /// Activates the loading screen.
         /// </summary>
-        public static void Load(Screen componentManager, 
-                                Screen loadingScreen,
-                                params Screen[] screensToLoad)
+        public static void Load(Screen componentManager, Screen loadingScreen, params Screen[] screensToLoad)
         {
             // Tell all the current screens to transition off.
-            foreach (Screen screen in componentManager.Components)
+            foreach (var screen in componentManager.Components)
                 screen.ExitScreen();
 
             // Create and activate the loading screen.
-            Loader _Loader = new Loader(componentManager,loadingScreen,screensToLoad);
-
-            componentManager.AddScreen(_Loader);
+            Loader loader = new Loader(componentManager,loadingScreen,screensToLoad);
+            componentManager.AddScreen(loader);
         }
-
 
         #endregion
 
         #region Update and Draw
 
-
         /// <summary>
         /// Updates the loading screen.
         /// </summary>
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus,
-                                                       bool coveredByOtherScreen)
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
@@ -84,24 +74,17 @@ namespace Rollout.Screens
             // off, it is time to actually perform the load.
             if (otherScreensAreGone)
             {
-
-                foreach (Screen screen in _ScreensToLoad)
-                {
-                    if (screen != null)
-                    {
-                        ComponentManager.AddScreen(screen);
-                    }
-                }
+                foreach (var screen in screensToLoad.Where(screen => screen != null))
+                    ComponentManager.AddScreen(screen);
 
                 ComponentManager.Remove(this);
 
                 // Once the load has finished, we use ResetElapsedTime to tell
-                // the  game timing mechanism that we have just finished a very
+                // the game timing mechanism that we have just finished a very
                 // long frame, and that it should not try to catch up.
                 G.Game.ResetElapsedTime();
             }
         }
-
 
         /// <summary>
         /// Draws the loading screen.
@@ -113,8 +96,7 @@ namespace Rollout.Screens
             // method, rather than in Update, because it isn't enough just for the
             // screens to be gone: in order for the transition to look good we must
             // have actually drawn a frame without them before we perform the load.
-            if ((ScreenState == ScreenState.Active) &&
-                (ComponentManager.Components.Count == 1))
+            if ((ScreenState == ScreenState.Active) && (ComponentManager.Components.Count == 1))
             {
                 otherScreensAreGone = true;
             }
@@ -125,7 +107,7 @@ namespace Rollout.Screens
             // second while returning from the game to the menus. This parameter
             // tells us how long the loading is going to take, so we know whether
             // to bother drawing the message.
-            if (_LoadingScreen != null)
+            if (loadingScreen != null)
             {
                 //TODO: draw our loading screen here
 
@@ -148,7 +130,6 @@ namespace Rollout.Screens
                 spriteBatch.End();
             }
         }
-
 
         #endregion
     }

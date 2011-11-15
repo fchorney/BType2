@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting.Actions
 {
-    public class WaitAction : Action, IAction
+    public class WaitAction : Action
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;
@@ -16,13 +16,13 @@ namespace Rollout.Scripting.Actions
             Reset();
         }
 
-        public void Reset()
+        public override void Reset()
         {
             base.Reset();
             currentTime = new TimeSpan();
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             currentTime += gameTime.ElapsedGameTime;
             if(currentTime > waitTime)

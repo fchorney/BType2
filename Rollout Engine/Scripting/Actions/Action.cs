@@ -5,8 +5,7 @@ using Rollout.Scripting.Actions;
 namespace Rollout.Scripting
 {
     public abstract class Action : IAction
-    {
-        
+    {        
         protected List<IAction> actions; 
         protected List<IAction> actionQueue;
 
@@ -16,11 +15,11 @@ namespace Rollout.Scripting
         public IScriptingEngine Engine
         {
             get { return engine; }
+            set { engine = value; }
         }
 
         public Action(bool wait = false)
         {
-            engine = ScriptingEngine.Instance;
             Wait = wait;
             Reset();
         }
@@ -66,7 +65,5 @@ namespace Rollout.Scripting
         {
             get { return actionQueue ?? (actionQueue = new List<IAction>()); }
         }
-
-
     }
 }

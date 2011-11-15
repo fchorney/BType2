@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting.Actions
 {
-    public class RepeatAction : Action, IAction
+    public class RepeatAction : Action
     {
         private int Iterations { get; set; }
         private int CurrentIterations { get; set; }
@@ -16,7 +16,7 @@ namespace Rollout.Scripting.Actions
             CurrentIterations = n;
         }
 
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             List<IAction> finishedActions = new List<IAction>();
 
@@ -50,8 +50,6 @@ namespace Rollout.Scripting.Actions
                     Reset();
                 }
             }
-
         }
-
     }
 }

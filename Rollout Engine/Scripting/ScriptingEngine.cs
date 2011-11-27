@@ -34,6 +34,12 @@ namespace Rollout.Scripting
         public void AddAction(string name, IAction action)
         {
             action.Engine = this;
+
+            foreach(IAction child in action.Actions)
+            {
+                child.Engine = this;
+            }
+
             Scriptables[name].Actions.Add(action);
         }
 

@@ -77,25 +77,25 @@ namespace Rollout.Drawing
                 switch (pos%4)
                 {
                     case 0:
-                        moveloop.AddAction(
+                        moveloop.AddAction2(
                             new MoveAction(name, new Vector2(200, 200), time),
                             true);
-                        moveloop.AddAction(
+                        moveloop.AddAction2(
                             new MoveAction(name, new Vector2(200, -200), time),
                             true);
                         break;
                     case 1:
-                        moveloop.AddAction(
+                        moveloop.AddAction2(
                             new MoveAction(name, new Vector2(-200, -200), time),
                             true);
                         break;
                     case 2:
-                        moveloop.AddAction(
+                        moveloop.AddAction2(
                             new MoveAction(name, new Vector2(-200, 200), time),
                             true);
                         break;
                     case 3:
-                        moveloop.AddAction(
+                        moveloop.AddAction2(
                             new MoveAction(name, new Vector2(200, -200), time),
                             true);
                         break;

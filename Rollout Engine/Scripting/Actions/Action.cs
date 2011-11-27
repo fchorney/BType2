@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Scripting.Actions;
@@ -24,7 +25,13 @@ namespace Rollout.Scripting
             Reset();
         }
 
-        public void AddAction(IAction action, bool autoWait = false)
+        public void AddAction(IAction action)
+        {
+            actions.Add(action);
+        }
+
+        [Obsolete("Dont need bool autowait anymore")]
+        public void AddAction2(IAction action, bool autoWait = false)
         {
             if (!action.Wait)
             {

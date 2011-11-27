@@ -123,6 +123,7 @@
     <Compile Include="Scripting\IScriptingEngine.cs" />
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Scripting\Actions\MoveAction.cs" />
+    <Compile Include="Scripting\ScriptProvider.cs" />
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Input;
 using Rollout.Screens;
+using Rollout.Tests;
 
 namespace B_Type_2_Dev
 {
@@ -23,8 +24,9 @@ namespace B_Type_2_Dev
             screens = new Dictionary<string, Screen>
             {
                 //{"scripting", new ScriptTest()}
-                {"player", new PlayerTest()}
+                //{"player", new PlayerTest()}
                 //{"particles", new ParticlesTest()}
+                {"xmltest", new XMLTest()}
             };
 
             foreach (var screen in screens.Values)

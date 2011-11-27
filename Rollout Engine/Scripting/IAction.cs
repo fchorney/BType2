@@ -10,7 +10,8 @@ namespace Rollout.Scripting
 
         bool Finished { get; set; }
 
-        void AddAction(IAction action, bool autoWait = false);
+        void AddAction(IAction action);
+        void AddAction2(IAction action, bool autoWait = false);
         
         List<IAction> Actions { get; }
         List<IAction> ActionQueue { get; }

@@ -86,10 +86,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\XMLFile1.xml">
-      <Name>XMLFile1</Name>
+    <Content Include="Scripts\MoveTest1.xml">
+      <Name>MoveTest1</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

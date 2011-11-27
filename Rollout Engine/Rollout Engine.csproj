@@ -121,6 +121,7 @@
     <Compile Include="Scripting\IAction.cs" />
     <Compile Include="Scripting\IScriptable.cs" />
     <Compile Include="Scripting\IScriptingEngine.cs" />
+    <Compile Include="Scripting\ActionQueue.cs" />
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Scripting\Actions\MoveAction.cs" />
     <Compile Include="Scripting\ScriptProvider.cs" />

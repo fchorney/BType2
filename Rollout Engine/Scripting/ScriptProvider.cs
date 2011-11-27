@@ -51,7 +51,10 @@ namespace Rollout.Scripting
                 action = CreateWaitAction(node, forName);
 
             if (action != null) action.Wait = Waits(node);
-            return action;
+
+            IAction whatthefuck = ObjectCloner.Clone(action);
+
+            return whatthefuck;
         }
 
         private IAction CreateWaitAction(XElement node, string forName)

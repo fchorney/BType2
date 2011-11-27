@@ -5,6 +5,7 @@ using Rollout.Scripting.Actions;
 
 namespace Rollout.Scripting
 {
+    [Serializable]
     public abstract class Action : IAction
     {        
         protected ActionQueue actions;
@@ -34,6 +35,8 @@ namespace Rollout.Scripting
             Reset();
         }
 
+
+
         public void AddAction(IAction action)
         {
             actions.Add(action);
@@ -61,7 +64,5 @@ namespace Rollout.Scripting
         }
 
         public bool Finished { get; set; }
-
-
     }
 }

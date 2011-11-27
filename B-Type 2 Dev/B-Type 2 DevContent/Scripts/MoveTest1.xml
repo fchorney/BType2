@@ -14,5 +14,5 @@
     <object id="enemy1">
         <move x="600" y="300" duration="5000" />
     </object>
-    -->
+ -->
 </scripts>

@@ -5,6 +5,7 @@ using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
+    [Serializable]
     public class MoveAction : Action, IAction
     {
         const double PixelsInAMeter = 100;

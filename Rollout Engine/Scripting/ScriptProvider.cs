@@ -98,7 +98,7 @@ namespace Rollout.Scripting
 
         private static bool Waits(XElement node)
         {
-            if (node.Attribute("wait") != null)
+            if (node.Attribute("wait") != null || node.Name == "wait")
                 return true;
             return false;
         }

@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <scripts>
     <script for="TheBiggest">
-        <repeat count="2">
-            <move x="100" y="100" duration="500" wait="True" />
-            <move x="-100" y="-100" duration="500" wait="True" />
-        </repeat>
-        <wait count="10000" />
+        <move x="100" y="100" duration="500" wait="True" />
+        <move x="-100" y="-100" duration="500" wait="True" />
         <move x="600" duration="15000" />
     </script>
     

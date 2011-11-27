@@ -19,35 +19,38 @@ namespace Rollout.Scripting
 
     public class ScriptingEngine: IScriptingEngine
     {
+        private bool IsUpdating { get; set; }
+
+        private List<Scriptable> AddQueue { get; set; } 
         private Dictionary<string, Scriptable> Scriptables { get; set; }
 
         public ScriptingEngine()
         {
             Scriptables = new Dictionary<string, Scriptable>();
-
+            AddQueue = new List<Scriptable>();
+            IsUpdating = false;
         }
 
-        public void Add(string name, IScriptable obj)
+        public void Add(string name, IScriptable obj, List<IAction> actions = null)
         {
-            //name = name.ToLower();
             if(!Scriptables.ContainsKey(name))
             {
                 var s = new Scriptable() {Name = name, Object = obj};
-                Scriptables.Add(name, s);
-            }
-        }
 
-        private List<Scriptable> deferred = new List<Scriptable>(); 
-        public void DeferredAdd(string name, IScriptable obj, List<IAction> actions )
-        {
-            var s = new Scriptable() {Name = name, Object = obj};
-            foreach (var action in actions)
-            {
-                action.Engine = this;
-                s.Actions.Add(action);
-            }
+                if (actions != null)
+                    foreach (var action in actions)
+                    {
+                        action.Engine = this;
+                        s.Actions.Add(action);
+                    }
 
-            deferred.Add(s); 
+                //dont allow the Scriptable dictionary to be modified during iteration
+                //add the object to a queue so we can defer adding until Update() is complete
+                if (IsUpdating)
+                    AddQueue.Add(s); 
+                else
+                    Scriptables.Add(name, s);
+            }
         }
 
         public void AddAction(string name, IAction action)
@@ -63,16 +66,21 @@ namespace Rollout.Scripting
 
         public void Update(GameTime gameTime)
         {
+            IsUpdating = true;
+
             foreach (var s in Scriptables.Values.Where(s => s.Object.Enabled))
             {
                 s.Actions.Update(gameTime);
             }
 
-            foreach (var d in deferred)
+            //if we generated any Scriptable objects during the update, add them after we're done iterating
+            foreach (var s in AddQueue)
             {
-                Scriptables.Add(d.Name, d);
+                Scriptables.Add(s.Name, s);
             }
-            deferred.Clear();
+            AddQueue.Clear();
+
+            IsUpdating = false;
         }
     }
 }

@@ -24,13 +24,9 @@ namespace Rollout.Tests
             Add(sprite);
             scriptingEngine.Add(sprite.Name, sprite);
 
-
-
-
             enemies = new DrawableGameObject();
             Add(enemies);
             scriptingEngine.Add("enemies", enemies);
-
 
             scriptProvider = new ScriptProvider(scriptingEngine);
             scriptProvider.Load("MoveTest1");

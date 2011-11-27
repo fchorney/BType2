@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Rollout.Core;
 using Rollout.Scripting.Actions;
 using Rollout.Utility;
-using Rollout.Utility.Cloning;
 
 namespace Rollout.Scripting
 {
@@ -74,9 +73,9 @@ namespace Rollout.Scripting
         private IAction CreateCreateAction(XElement node, string forName)
         {
             IAction action;
-            string id = node.Attribute("id").Value;
-            int x = Convert.ToInt32(GetAttribute(node, "x", 0));
-            int y = Convert.ToInt32(GetAttribute(node, "y", 0));
+            string id = node.Attribute<string>("id");
+            int x = node.Attribute<int>("x");
+            int y = node.Attribute<int>("y");
 
 
             List<IAction> actions = new List<IAction>();
@@ -96,15 +95,17 @@ namespace Rollout.Scripting
         private IAction CreateWaitAction(XElement node, string forName)
         {
             IAction action;
-            int count = Convert.ToInt32(GetAttribute(node, "duration", 0));
-            action = new WaitAction(Time.ms(count));
+            int duration = node.Attribute<int>("duration");
+            action = new WaitAction(Time.ms(duration));
             return action;
         }
 
         private IAction CreateRepeatAction(XElement node, string forName)
         {
             IAction action;
-            int count = Convert.ToInt32(GetAttribute(node, "count", -1));
+            
+            int count = node.Attribute<int>("count", -1);
+
             action = new RepeatAction(count);
 
             foreach (var child in node.Elements())
@@ -118,10 +119,10 @@ namespace Rollout.Scripting
         private IAction CreateMoveAction(XElement node, string forName)
         {
             IAction action;
-            int x = Convert.ToInt32(GetAttribute(node, "x", 0));
-            int y = Convert.ToInt32(GetAttribute(node, "y", 0));
-            int speed = Convert.ToInt32(GetAttribute(node, "speed", 0));
-            int duration = Convert.ToInt32(GetAttribute(node, "duration", 0));
+            int x = node.Attribute<int>("x");
+            int y = node.Attribute<int>("y");
+            int speed = node.Attribute<int>("speed");
+            int duration = node.Attribute<int>("duration");
 
             if (speed != 0)
             {
@@ -142,9 +143,14 @@ namespace Rollout.Scripting
             return false;
         }
 
-        private static Object GetAttribute(XElement node, string name, Object defaultValue = null)
+    }
+
+    static class XElementExtensions
+    {
+        public static T Attribute<T>(this XElement node, string attributeName, T defaultValue = default(T))
         {
-            return node.Attribute(name) != null ? node.Attribute(name).Value : defaultValue;
+            return node.Attribute(attributeName) != null ? (T)Convert.ChangeType(node.Attribute(attributeName).Value, typeof(T)) : defaultValue;
         }
     }
+
 }

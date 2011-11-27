@@ -7,7 +7,19 @@ using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
+    //gonna find a way to make this work.
+    //gonna find a way to make this work.
+    //gonna find a way to make this work.
+    //gonna find a way to make this work.
+    public class ScriptAttribute : Attribute
+    {
+        public ScriptAttribute(string Name)
+        {
+            
+        }
+    }
     
+    [Script("create")]
     public class CreateAction : Action, IAction
     {
         private string target;
@@ -27,10 +39,9 @@ namespace Rollout.Scripting.Actions
         {
             var enemy = CreateEnemy(name);
             (Engine[target] as DrawableGameObject).Add(enemy);
-            Engine.DeferredAdd(name, enemy, actions);
+            Engine.Add(name, enemy, actions);
 
             Finished = true;
-
         }
 
 

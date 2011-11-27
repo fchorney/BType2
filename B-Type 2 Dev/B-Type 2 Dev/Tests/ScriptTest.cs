@@ -36,15 +36,8 @@ namespace B_Type_2_Dev
 
                 IAction moveloop = new RepeatAction(-1);
 
-                if (i % 2 == 0)
-                {
-                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
-                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);
-                }
-                else
-                {
-                    moveloop.AddAction(new FollowAction(enemy.Name, player.Name, .5f, scriptingEngine));
-                }
+                moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
+                moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);
 
                 Screen.scriptingEngine.AddAction(enemy.Name, moveloop);
                 Add(enemy);

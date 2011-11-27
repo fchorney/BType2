@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<scripts>
+    <script target="TheBiggest">
+        <move x="100" y="100" speed="500" wait="True"/>
+        <move x="-100" y="-100" speed="250" wait="True" />
+    </script>
+</scripts>

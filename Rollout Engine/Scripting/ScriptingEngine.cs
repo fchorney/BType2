@@ -14,12 +14,10 @@ namespace Rollout.Scripting
 
     public class ScriptingEngine: IScriptingEngine
     {
-        private List<IScript> Scripts { get; set; }
         private Dictionary<string, Scriptable> Scriptables { get; set; }
 
         public ScriptingEngine()
         {
-            Scripts = new List<IScript>();
             Scriptables = new Dictionary<string, Scriptable>();
         }
 
@@ -44,23 +42,12 @@ namespace Rollout.Scripting
             get { return Scriptables[name].Object; }
         }
 
-        public void AddScript(IScript script)
-        {
-            Scripts.Add(script);
-        }
-
         public void Update(GameTime gameTime)
         {
             foreach (var s in Scriptables.Values.Where(s => s.Object.Enabled))
             {
                 s.Actions.Update(gameTime);
             }
-
-            foreach (var script in Scripts)
-            {
-                script.Update(gameTime);
-            }
-
         }
     }
 }

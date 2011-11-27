@@ -6,7 +6,7 @@ using Rollout.Scripting.Actions;
 namespace Rollout.Scripting
 {
     
-    public abstract class Action : IAction
+    public class Action : IAction
     {        
         protected ActionQueue actions;
         public ActionQueue Actions
@@ -34,8 +34,6 @@ namespace Rollout.Scripting
             Wait = wait;
             Reset();
         }
-
-
 
         public void AddAction(IAction action)
         {

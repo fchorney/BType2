@@ -64,9 +64,23 @@ namespace Rollout.Scripting
                 action = CreateWaitAction(node, forName);
             else if (node.Name == "create")
                 action = CreateCreateAction(node, forName);
+            else if (node.Name == "action")
+                action = CreateActionAction(node, forName);
 
             if (action != null) action.Wait = Waits(node);
 
+            return action;
+        }
+
+        private IAction CreateActionAction(XElement node, string forName)
+        {
+            IAction action = new Action();
+
+            foreach (var child in node.Elements())
+            {
+                var childAction = ProcessElement(child, forName);
+                action.AddAction(childAction);
+            }
             return action;
         }
 
@@ -76,7 +90,6 @@ namespace Rollout.Scripting
             string id = node.Attribute<string>("id");
             int x = node.Attribute<int>("x");
             int y = node.Attribute<int>("y");
-
 
             List<IAction> actions = new List<IAction>();
 
@@ -102,11 +115,10 @@ namespace Rollout.Scripting
 
         private IAction CreateRepeatAction(XElement node, string forName)
         {
-            IAction action;
             
             int count = node.Attribute<int>("count", -1);
 
-            action = new RepeatAction(count);
+            IAction action = new RepeatAction(count);
 
             foreach (var child in node.Elements())
             {

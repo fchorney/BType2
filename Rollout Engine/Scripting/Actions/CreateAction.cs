@@ -10,7 +10,7 @@ namespace Rollout.Scripting.Actions
     //gonna find a way to make this work.
     //gonna find a way to make this work.
     //gonna find a way to make this work.
-    //gonna find a way to make this work.
+    //gonna find a way to make this work.e
     public class ScriptAttribute : Attribute
     {
         public ScriptAttribute(string Name)

@@ -21,7 +21,7 @@ namespace B_Type_2_Dev
             limiter = new Limiter(-1);
 
             emitter = new ParticleEmitter(particleCount) {Name = "Effector", X = 500, Y = 200};
-            scriptingEngine.Add(emitter);
+            scriptingEngine.Add(emitter.Name, emitter);
             Add(emitter);
 
             base.Initialize();

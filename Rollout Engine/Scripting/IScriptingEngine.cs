@@ -5,7 +5,7 @@ namespace Rollout.Scripting
 {
     public interface IScriptingEngine
     {
-        void Add(IScriptable scriptable);
+        void Add(string name, IScriptable scriptable);
         void AddScript(IScript script);
         void Update(GameTime gameTime);
         IScriptable this[string name] { get; }

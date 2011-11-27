@@ -6,31 +6,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rollout.Drawing
 {
-    public interface ITransformable
-    {
-        float X { get; set; }
-        float Y { get; set; }
-        float Scale { get; set; }
-        float Rotation { get; set; }
-    }
-
     public class Sprite : DrawableGameObject, IScriptable
     {
         #region variables
 
         protected Vector2 position;
 
-        private List<IAction> actions;
         private Animation animation;
         private Dictionary<string, Animation> animations;
 
         public Color Color { get; set; }
         public string Name { get; set; }
-
-        public List<IAction> Actions
-        {
-            get { return actions ?? (actions = new List<IAction>()); }
-        }
 
         public Animation Animation
         {

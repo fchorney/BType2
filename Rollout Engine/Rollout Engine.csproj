@@ -104,6 +104,7 @@
     <Compile Include="Drawing\Particle\ParticleEmitter.cs" />
     <Compile Include="Core\GameObject\DrawableGameObject.cs" />
     <Compile Include="Core\GameObject\GameObject.cs" />
+    <Compile Include="Drawing\Sprite\ITransformable.cs" />
     <Compile Include="Drawing\Sprite\Sprite.cs" />
     <Compile Include="Input\ControllerInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />

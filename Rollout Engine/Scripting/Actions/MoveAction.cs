@@ -16,33 +16,33 @@ namespace Rollout.Scripting.Actions
         private TimeSpan ElapsedTime { get; set; }
         private TimeSpan Duration { get; set; }
 
-        private ITransformable Target { get; set; }
+        private string targetName;
+        private ITransformable target;
 
-        public MoveAction(String targetName, Vector2 delta, double speed, ScriptingEngine scriptingEngine = null)
+        private ITransformable Target
         {
-            if (scriptingEngine != null)
-                engine = scriptingEngine;
+            get { return target ?? (target = Engine[targetName] as ITransformable); }
+        }
+
+        public MoveAction(String targetName, Vector2 delta, double speed)
+        {
+            this.targetName = targetName;
 
             double distance = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
             Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
             TargetDelta = delta;
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
-
-            Target = Engine[targetName] as ITransformable;
         }
 
-        public MoveAction(String targetName, Vector2 delta, TimeSpan duration, ScriptingEngine scriptingEngine = null)
+        public MoveAction(String targetName, Vector2 delta, TimeSpan duration)
         {
-            if (scriptingEngine != null)
-                engine = scriptingEngine;
+            this.targetName = targetName;
 
             Duration = duration;
             TargetDelta = delta;
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
-
-            Target = Engine[targetName] as ITransformable;
 
             Reset();
         }

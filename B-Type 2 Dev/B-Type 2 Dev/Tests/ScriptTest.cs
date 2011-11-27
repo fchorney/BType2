@@ -26,27 +26,27 @@ namespace B_Type_2_Dev
 
             player = new Sprite(new Vector2(500, 200)) { Name = "TheBiggest"};
             player.AddAnimation("main", new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5));
-            scriptingEngine.Add(player);
+            scriptingEngine.Add(player.Name, player);
             Add(player);
 
             for (var i = 0; i < 2; i++)
             {
                 var enemy = new Sprite(new Vector2(300 + 100 * i, 300), new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5)) { Name = "BigWilly" + i };
-                scriptingEngine.Add(enemy);
+                scriptingEngine.Add(enemy.Name, enemy);
 
                 IAction moveloop = new RepeatAction(-1);
 
                 if (i % 2 == 0)
                 {
-                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100), scriptingEngine), true);
-                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100), scriptingEngine), true);
+                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
+                    moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);
                 }
                 else
                 {
                     moveloop.AddAction(new FollowAction(enemy.Name, player.Name, .5f, scriptingEngine));
                 }
 
-                enemy.Actions.Add(moveloop);
+                Screen.scriptingEngine.AddAction(enemy.Name, moveloop);
                 Add(enemy);
             }            
 

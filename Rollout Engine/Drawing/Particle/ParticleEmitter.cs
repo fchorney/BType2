@@ -65,17 +65,12 @@ namespace Rollout.Drawing
         public void Fire()
         {
             Particle particle = CreateParticle();
-            if (particle.Actions.Count > 0)
-            {
-                particle.Actions[0].Reset();
-            }
-            else
-            {
+
                 AddParticle(particle);
 
                 int pos = particles.IndexOf(particle);
-                particle.Name = "ParticleWillie" + pos.ToString();
-                Screen.scriptingEngine.Add(particle);
+                var name = "ParticleWillie" + pos.ToString();
+                Screen.scriptingEngine.Add(Name, particle);
 
                 IAction moveloop = new RepeatAction(-1);
                 TimeSpan time = Time.ms(400);
@@ -83,32 +78,31 @@ namespace Rollout.Drawing
                 {
                     case 0:
                         moveloop.AddAction(
-                            new MoveAction(particle.Name, new Vector2(200, 200), time, Screen.scriptingEngine),
+                            new MoveAction(name, new Vector2(200, 200), time),
                             true);
                         moveloop.AddAction(
-                            new MoveAction(particle.Name, new Vector2(200, -200), time, Screen.scriptingEngine),
+                            new MoveAction(name, new Vector2(200, -200), time),
                             true);
                         break;
                     case 1:
                         moveloop.AddAction(
-                            new MoveAction(particle.Name, new Vector2(-200, -200), time, Screen.scriptingEngine),
+                            new MoveAction(name, new Vector2(-200, -200), time),
                             true);
                         break;
                     case 2:
                         moveloop.AddAction(
-                            new MoveAction(particle.Name, new Vector2(-200, 200), time, Screen.scriptingEngine),
+                            new MoveAction(name, new Vector2(-200, 200), time),
                             true);
                         break;
                     case 3:
                         moveloop.AddAction(
-                            new MoveAction(particle.Name, new Vector2(200, -200), time, Screen.scriptingEngine),
+                            new MoveAction(name, new Vector2(200, -200), time),
                             true);
                         break;
                 }
 
                 moveloop.Reset();
-                particle.Actions.Add(moveloop);
-            }
+                Screen.scriptingEngine.AddAction(name, moveloop);
 
             particle.TimeToLive = 5;
             particle.X = X;
@@ -120,22 +114,16 @@ namespace Rollout.Drawing
         public void Fire2()
         {
             Particle particle = CreateParticle();
-            if (particle.Actions.Count > 0)
-            {
-                particle.Actions[0].Reset();
-            }
-            else
-            {
-                particle.Scale = .1f;
-                AddParticle(particle);
-          
-                int pos = particles.IndexOf(particle);
-                particle.Name = Name + "-Particle-" + pos;
-                Screen.scriptingEngine.Add(particle);
 
-                IAction action = new MoveAction(particle.Name, new Vector2(0, -1000), 5f, Screen.scriptingEngine);
-                particle.Actions.Add(action);
-            }
+            particle.Scale = .1f;
+            AddParticle(particle);
+          
+            int pos = particles.IndexOf(particle);
+            var name = Name + "-Particle-" + pos;
+            Screen.scriptingEngine.Add(name, particle);
+
+            IAction action = new MoveAction(name, new Vector2(0, -1000), 5f);
+            Screen.scriptingEngine.AddAction(name, action);
 
             particle.TimeToLive = 10;
             particle.X = X;

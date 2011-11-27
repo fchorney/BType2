@@ -8,7 +8,7 @@ namespace Rollout.Core
 {
     public static class ObjectCloner
     {
-        public static T Clone<T>(T obj)
+        public static T Clone<T>(this T obj)
         {
             using (MemoryStream buffer = new MemoryStream())
             {

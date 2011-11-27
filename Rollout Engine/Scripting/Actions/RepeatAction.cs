@@ -18,27 +18,9 @@ namespace Rollout.Scripting.Actions
 
         public override void Update(GameTime gameTime)
         {
-            List<IAction> finishedActions = new List<IAction>();
+            base.Update(gameTime);
 
-            foreach (var action in actionQueue)
-            {
-                action.Update(gameTime);
-                if (action.Finished)
-                {
-                    finishedActions.Add(action);
-                }
-                if (action.Wait)
-                {
-                    break;
-                }
-            }
-
-            foreach (var action in finishedActions)
-            {
-                actionQueue.Remove(action);
-            }
-
-            if (actionQueue.Count == 0)
+            if (Actions.Queue.Count == 0)
             {
                 if (CurrentIterations == 0)
                 {

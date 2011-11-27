@@ -9,7 +9,7 @@ namespace Rollout.Scripting
     {
         public string Name { get; set; }
         public IScriptable Object { get; set; }
-        public List<IAction> Actions { get; set; } 
+        public ActionQueue Actions { get; set; } 
     }
 
     public class ScriptingEngine: IScriptingEngine
@@ -28,7 +28,7 @@ namespace Rollout.Scripting
             //name = name.ToLower();
             if(!Scriptables.ContainsKey(name))
             {
-                var s = new Scriptable() {Name = name, Object = obj, Actions = new List<IAction>()};
+                var s = new Scriptable() {Name = name, Object = obj, Actions = new ActionQueue()};
                 Scriptables.Add(name, s);
             }
         }
@@ -53,10 +53,7 @@ namespace Rollout.Scripting
         {
             foreach (var s in Scriptables.Values.Where(s => s.Object.Enabled))
             {
-                foreach (var action in s.Actions.Where(action => !action.Finished))
-                {
-                    action.Update(gameTime);
-                }
+                s.Actions.Update(gameTime);
             }
 
             foreach (var script in Scripts)

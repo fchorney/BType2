@@ -12,8 +12,7 @@ namespace Rollout.Scripting
 
         void AddAction(IAction action, bool autoWait = false);
         
-        List<IAction> Actions { get; }
-        List<IAction> ActionQueue { get; }
+        ActionQueue Actions { get; }
 
         IScriptingEngine Engine { get; set; }
 

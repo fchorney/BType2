@@ -104,7 +104,7 @@
     <Compile Include="Drawing\Particle\ParticleEmitter.cs" />
     <Compile Include="Core\GameObject\DrawableGameObject.cs" />
     <Compile Include="Core\GameObject\GameObject.cs" />
-    <Compile Include="Drawing\Sprite\ITransformable.cs" />
+    <Compile Include="Drawing\ITransformable.cs" />
     <Compile Include="Drawing\Sprite\Sprite.cs" />
     <Compile Include="Input\ControllerInput.cs" />
     <Compile Include="Input\KeyboardInput.cs" />
@@ -123,6 +123,7 @@
     <Compile Include="Scripting\IScript.cs" />
     <Compile Include="Scripting\IScriptable.cs" />
     <Compile Include="Scripting\IScriptingEngine.cs" />
+    <Compile Include="Scripting\ActionQueue.cs" />
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Scripting\Actions\MoveAction.cs" />
     <Compile Include="Scripting\Scripts\Script.cs" />

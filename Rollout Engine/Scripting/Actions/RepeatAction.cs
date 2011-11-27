@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting.Actions
 {
-    [Serializable]
+    
     public class RepeatAction : Action
     {
         private int Iterations { get; set; }

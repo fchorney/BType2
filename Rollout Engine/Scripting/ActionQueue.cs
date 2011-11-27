@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting
 {
-    [Serializable]
+    
     public class ActionQueue : List<IAction>
     {
         private List<IAction> queue; 

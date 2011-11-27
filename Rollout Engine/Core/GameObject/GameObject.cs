@@ -33,6 +33,7 @@ namespace Rollout.Core
         public GameObject()
         {
             Children = new List<IGameObject>();
+            Enabled = true;
         }
 
 

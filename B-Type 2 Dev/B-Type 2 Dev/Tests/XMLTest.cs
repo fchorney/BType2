@@ -14,6 +14,7 @@ namespace Rollout.Tests
     {
         private ScriptProvider scriptProvider;
         private Sprite sprite;
+        private DrawableGameObject enemies;
 
 
         public override void Initialize()
@@ -22,6 +23,14 @@ namespace Rollout.Tests
                                 new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.3f, 0.3f })) { Name = "TheBiggest" };
             Add(sprite);
             scriptingEngine.Add(sprite.Name, sprite);
+
+
+
+
+            enemies = new DrawableGameObject();
+            Add(enemies);
+            scriptingEngine.Add("enemies", enemies);
+
 
             scriptProvider = new ScriptProvider(scriptingEngine);
             scriptProvider.Load("MoveTest1");

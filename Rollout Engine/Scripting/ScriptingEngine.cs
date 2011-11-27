@@ -10,6 +10,11 @@ namespace Rollout.Scripting
         public string Name { get; set; }
         public IScriptable Object { get; set; }
         public ActionQueue Actions { get; set; } 
+
+        public Scriptable()
+        {
+            Actions = new ActionQueue();
+        }
     }
 
     public class ScriptingEngine: IScriptingEngine
@@ -19,6 +24,7 @@ namespace Rollout.Scripting
         public ScriptingEngine()
         {
             Scriptables = new Dictionary<string, Scriptable>();
+
         }
 
         public void Add(string name, IScriptable obj)
@@ -26,9 +32,22 @@ namespace Rollout.Scripting
             //name = name.ToLower();
             if(!Scriptables.ContainsKey(name))
             {
-                var s = new Scriptable() {Name = name, Object = obj, Actions = new ActionQueue()};
+                var s = new Scriptable() {Name = name, Object = obj};
                 Scriptables.Add(name, s);
             }
+        }
+
+        private List<Scriptable> deferred = new List<Scriptable>(); 
+        public void DeferredAdd(string name, IScriptable obj, List<IAction> actions )
+        {
+            var s = new Scriptable() {Name = name, Object = obj};
+            foreach (var action in actions)
+            {
+                action.Engine = this;
+                s.Actions.Add(action);
+            }
+
+            deferred.Add(s); 
         }
 
         public void AddAction(string name, IAction action)
@@ -48,6 +67,12 @@ namespace Rollout.Scripting
             {
                 s.Actions.Update(gameTime);
             }
+
+            foreach (var d in deferred)
+            {
+                Scriptables.Add(d.Name, d);
+            }
+            deferred.Clear();
         }
     }
 }

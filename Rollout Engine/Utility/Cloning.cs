@@ -4,9 +4,9 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
-namespace Rollout.Core
+namespace Rollout.Utility.Cloning
 {
-    public static class ObjectCloner
+    public static class Cloner
     {
         public static T Clone<T>(this T obj)
         {

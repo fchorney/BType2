@@ -1,9 +1,10 @@
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
+using Rollout.Scripting;
 
 namespace Rollout.Core
 {
-    public class DrawableGameObject : GameObject, ITransformable
+    public class DrawableGameObject : GameObject, ITransformable, IScriptable
     {
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }

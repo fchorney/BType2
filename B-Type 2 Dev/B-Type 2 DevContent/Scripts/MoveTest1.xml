@@ -6,13 +6,42 @@
             <move x="-100" y="-100" duration="500" />
         </repeat>
     </script>
-  <!--
-    <script>
-        <create type="enemy1" />
+  
+    <script for="enemies">
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
+        
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
     </script>
 
-    <object id="enemy1">
-        <move x="600" y="300" duration="5000" />
-    </object>
- -->
+
+    <template id="enemy1">
+        <repeat>
+            <move x="1200" y="100" duration="5000" />
+            <move x="-1200" y="100" duration="5000" />      
+        </repeat>
+    </template>
+    
+    <template id="enemy2">
+        <repeat>
+            <move x="-1200" y="100" duration="1000" />
+            <move x="1200" y="100" duration="1000" />      
+        </repeat>
+    </template>
+ 
 </scripts>

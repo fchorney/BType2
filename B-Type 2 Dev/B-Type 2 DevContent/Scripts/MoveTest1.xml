@@ -1,17 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <scripts>
     <script for="TheBiggest">
-        <move x="100" y="100" duration="500" wait="True" />
-        <move x="-100" y="-100" duration="500" wait="True" />
-        <move x="600" duration="15000" />
+        <repeat>
+            <move x="100" y="100" duration="500" />
+            <move x="-100" y="-100" duration="500" />
+        </repeat>
     </script>
-    
-    <!--
-    <script for="TheBiggest">
-        <move x="100" y="100" duration="8000" wait="True"/>
-        <move x="-100" y="-100" duration="3000" wait="True" />
-    </script>
-  
+  <!--
     <script>
         <create type="enemy1" />
     </script>

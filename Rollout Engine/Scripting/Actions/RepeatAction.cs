@@ -25,6 +25,7 @@ namespace Rollout.Scripting.Actions
                 if (CurrentIterations == 0)
                 {
                     Finished = true;
+                    CurrentIterations = Iterations;
                 }
                 else
                 {

@@ -8,39 +8,60 @@
     </script>
   
     <script for="enemies">
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        <create id="enemy1" x="-100" y="-100"/><wait duration="500"/>
-        
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
-        <create id="enemy2" x="1200" y="-100"/><wait duration="100"/>
+        <action wait="false">
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="500"/>
+        </action>
+        <action wait="false">
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+            <create id="enemy2" x="1000" y="0"/>
+            <wait duration="500"/>
+        </action>
     </script>
 
 
     <template id="enemy1">
         <repeat>
-            <move x="1200" y="100" duration="5000" />
-            <move x="-1200" y="100" duration="5000" />      
+            <move x="1000" y="100" duration="5000" />
+            <move x="-1000" y="100" duration="5000" />      
         </repeat>
     </template>
     
     <template id="enemy2">
         <repeat>
-            <move x="-1200" y="100" duration="1000" />
-            <move x="1200" y="100" duration="1000" />      
+            <move x="-1000" y="100" duration="5000" />
+            <move x="1000" y="100" duration="5000" />      
         </repeat>
     </template>
  

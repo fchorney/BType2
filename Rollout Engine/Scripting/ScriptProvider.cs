@@ -65,9 +65,23 @@ namespace Rollout.Scripting
                 action = CreateWaitAction(node, forName);
             else if (node.Name == "create")
                 action = CreateCreateAction(node, forName);
+            else if (node.Name == "action")
+                action = CreateActionAction(node, forName);
 
             if (action != null) action.Wait = Waits(node);
 
+            return action;
+        }
+
+        private IAction CreateActionAction(XElement node, string forName)
+        {
+            IAction action = new Action();
+
+            foreach (var child in node.Elements())
+            {
+                var childAction = ProcessElement(child, forName);
+                action.AddAction(childAction);
+            }
             return action;
         }
 
@@ -77,7 +91,6 @@ namespace Rollout.Scripting
             string id = node.Attribute("id").Value;
             int x = Convert.ToInt32(GetAttribute(node, "x", 0));
             int y = Convert.ToInt32(GetAttribute(node, "y", 0));
-
 
             List<IAction> actions = new List<IAction>();
 
@@ -96,16 +109,15 @@ namespace Rollout.Scripting
         private IAction CreateWaitAction(XElement node, string forName)
         {
             IAction action;
-            int count = Convert.ToInt32(GetAttribute(node, "duration", 0));
-            action = new WaitAction(Time.ms(count));
+            int duration = Convert.ToInt32(GetAttribute(node, "duration", 0));
+            action = new WaitAction(Time.ms(duration));
             return action;
         }
 
         private IAction CreateRepeatAction(XElement node, string forName)
         {
-            IAction action;
             int count = Convert.ToInt32(GetAttribute(node, "count", -1));
-            action = new RepeatAction(count);
+            IAction action = new RepeatAction(count);
 
             foreach (var child in node.Elements())
             {

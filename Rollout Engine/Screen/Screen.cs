@@ -189,7 +189,6 @@ namespace Rollout.Screens
                 }
             }
 
-            scriptingEngine.Update(gameTime);
             base.Update(gameTime);
         }
 

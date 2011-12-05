@@ -29,6 +29,10 @@ namespace Rollout.Scripting
             }
         }
 
+        public Action(string target)
+        {
+        }
+
         public Action(bool wait = false)
         {
             Wait = wait;
@@ -37,7 +41,7 @@ namespace Rollout.Scripting
 
         public void AddAction(IAction action)
         {
-            actions.Add(action);
+            Actions.Add(action);
         }
 
         [Obsolete("Dont need bool autowait anymore")]

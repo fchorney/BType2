@@ -1,26 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using Microsoft.Xna.Framework;
 using Rollout.Core;
 using Rollout.Scripting.Actions;
-using Rollout.Utility;
 
 namespace Rollout.Scripting
 {
     public class ScriptProvider
     {
-        private static int Counter;
         public ScriptingEngine Engine { get; private set; }
 
-        private Dictionary<string, XElement> Templates; 
+        public static Dictionary<string, XElement> Templates;
+        private static Dictionary<string, ActionInfo> ActionTypes { get; set; } 
 
         public ScriptProvider(ScriptingEngine engine)
         {
             Engine = engine;
             Templates = new Dictionary<string, XElement>();
+            ActionTypes = new Dictionary<string, ActionInfo>();
+
+            RegisterActions();
         }
 
         public void Load(string assetName)
@@ -43,126 +42,106 @@ namespace Rollout.Scripting
 
         }
 
+        private void RegisterActions()
+        {
+            //move
+            ActionInfo actionInfo = new ActionInfo() {Name = "move", Type = typeof (MoveAction)};
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="x", Type=typeof(int) });
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="y", Type=typeof(int) });
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="speed", Type=typeof(double) });
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="duration", Type=typeof(int) });
+
+            ActionTypes.Add(actionInfo.Name, actionInfo);
+
+
+            //repeat
+            actionInfo = new ActionInfo() { Name = "repeat", Type = typeof(RepeatAction) };
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "count", Type = typeof(int), DefaultValue = -1 });
+
+            ActionTypes.Add(actionInfo.Name, actionInfo);
+
+            //wait
+            actionInfo = new ActionInfo() { Name = "wait", Type = typeof(WaitAction) };
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "duration", Type = typeof(int)});
+
+            ActionTypes.Add(actionInfo.Name, actionInfo);
+
+            //action
+            actionInfo = new ActionInfo() { Name = "action", Type = typeof(Action) };
+
+            ActionTypes.Add(actionInfo.Name, actionInfo);
+
+
+            //create
+            actionInfo = new ActionInfo() { Name = "create", Type = typeof(CreateAction) };
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "id", Type = typeof(string) });
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "x", Type = typeof(int) });
+            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "y", Type = typeof(int) });
+            
+            ActionTypes.Add(actionInfo.Name, actionInfo);
+
+        }
+
         private void ProcessScript(XElement script)
         {
             string forName = script.Attribute("for") != null ? script.Attribute("for").Value : "_screen";
 
             foreach (var child in script.Elements())
             {
-                Engine.AddAction(forName, ProcessElement(child,forName));
+                //Engine.AddAction(forName, ProcessElement(child,forName));
+                IAction action = ProcessAction(child, forName);
+                if (action != null)
+                    Engine.AddAction(forName, action);
             }
         }
 
-        private IAction ProcessElement(XElement node, string forName)
+        public static IAction ProcessAction(XElement node, string forName)
         {
             IAction action = null;
-            if (node.Name == "move")
-                action = CreateMoveAction(node, forName);
-            else if (node.Name == "repeat")
-                action = CreateRepeatAction(node, forName);
-            else if (node.Name == "wait")
-                action = CreateWaitAction(node, forName);
-            else if (node.Name == "create")
-                action = CreateCreateAction(node, forName);
-            else if (node.Name == "action")
-                action = CreateActionAction(node, forName);
+            string actionName = node.Name.ToString();
 
-            if (action != null) action.Wait = Waits(node);
-
-            return action;
-        }
-
-        private IAction CreateActionAction(XElement node, string forName)
-        {
-            IAction action = new Action();
-
-            foreach (var child in node.Elements())
+            if (ActionTypes.ContainsKey(actionName))
             {
-                var childAction = ProcessElement(child, forName);
-                action.AddAction(childAction);
-            }
-            return action;
-        }
+                ActionInfo actionInfo = ActionTypes[actionName];
 
-        private IAction CreateCreateAction(XElement node, string forName)
-        {
-            IAction action;
-            string id = node.Attribute<string>("id");
-            int x = node.Attribute<int>("x");
-            int y = node.Attribute<int>("y");
+                List<object> args = new List<object>();
 
-            List<IAction> actions = new List<IAction>();
+                args.Add(forName);
 
-            var targetname = id + "|" + Counter++;
+                foreach (var paramInfo in actionInfo.Params)
+                {
+                    object param = node.Attribute(paramInfo.Name) != null
+                                       ? Convert.ChangeType(node.Attribute(paramInfo.Name).Value, paramInfo.Type)
+                                       : (paramInfo.DefaultValue ?? Activator.CreateInstance(paramInfo.Type));
 
-            foreach (var child in Templates[id].Elements())
-            {
-                actions.Add(ProcessElement(child, targetname));
-            }
+                    args.Add(param);
+                }
 
-            action = new CreateAction(forName, targetname, new Vector2(x, y), actions);
+                action = Activator.CreateInstance(actionInfo.Type, args.ToArray()) as IAction;
 
-            return action;
-        }
+                if (action != null)
+                {
+                    action.Wait = IsWaitingAction(node);
 
-        private IAction CreateWaitAction(XElement node, string forName)
-        {
-            IAction action;
-            int duration = node.Attribute<int>("duration");
-            action = new WaitAction(Time.ms(duration));
-            return action;
-        }
-
-        private IAction CreateRepeatAction(XElement node, string forName)
-        {
-            
-            int count = node.Attribute<int>("count", -1);
-
-            IAction action = new RepeatAction(count);
-
-            foreach (var child in node.Elements())
-            {
-                var childAction = ProcessElement(child, forName);
-                action.AddAction(childAction);
-            }
-            return action;
-        }
-
-        private IAction CreateMoveAction(XElement node, string forName)
-        {
-            IAction action;
-            int x = node.Attribute<int>("x");
-            int y = node.Attribute<int>("y");
-            int speed = node.Attribute<int>("speed");
-            int duration = node.Attribute<int>("duration");
-
-            if (speed != 0)
-            {
-                action = new MoveAction(forName, new Vector2(x, y), speed);
-            }
-            else
-            {
-                action = new MoveAction(forName, new Vector2(x, y), Time.ms(duration));
+                    foreach (var child in node.Elements())
+                    {
+                        var childAction = ProcessAction(child, forName);
+                        if (childAction != null)
+                        action.AddAction(childAction);
+                    }
+                }
             }
 
             return action;
         }
 
-        private static bool Waits(XElement node)
+        private static bool IsWaitingAction(XElement node)
         {
             if (node.Attribute("wait") == null || node.Name == "wait")
                 return true;
             return false;
         }
 
-    }
-
-    static class XElementExtensions
-    {
-        public static T Attribute<T>(this XElement node, string attributeName, T defaultValue = default(T))
-        {
-            return node.Attribute(attributeName) != null ? (T)Convert.ChangeType(node.Attribute(attributeName).Value, typeof(T)) : defaultValue;
-        }
     }
 
 }

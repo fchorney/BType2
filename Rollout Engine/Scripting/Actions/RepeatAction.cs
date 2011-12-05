@@ -17,6 +17,12 @@ namespace Rollout.Scripting.Actions
             CurrentIterations = n;
         }
 
+        public RepeatAction(string target, int n)
+        {
+            Iterations = n;
+            CurrentIterations = n;
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);

@@ -99,6 +99,7 @@
     <Compile Include="Collision\QuadTreeCollisionEngine.cs" />
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
+    <Compile Include="Scripting\ActionInfo.cs" />
     <Compile Include="Scripting\Actions\CreateAction.cs" />
     <Compile Include="Utility\Cloning.cs" />
     <Compile Include="Drawing\ITransformable.cs" />

@@ -25,6 +25,27 @@ namespace Rollout.Scripting.Actions
             get { return target ?? (target = Engine[targetName] as ITransformable); }
         }
 
+        public MoveAction(String targetName, int x, int y, double speed, int duration)
+        {
+            this.targetName = targetName;
+
+            if (speed != 0)
+            {    
+                double distance = Math.Sqrt(x * x + y * y);
+                Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
+            }
+            else
+            {
+                Duration = Time.ms(duration);   
+            }
+            
+            TargetDelta = new Vector2(x,y);
+
+            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+
+            Reset();
+        }
+
         public MoveAction(String targetName, Vector2 delta, double speed)
         {
             this.targetName = targetName;

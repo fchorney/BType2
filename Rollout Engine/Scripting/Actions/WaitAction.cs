@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
@@ -8,6 +9,13 @@ namespace Rollout.Scripting.Actions
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;
+
+        public WaitAction(string target, int duration) : base (true)
+        {
+            waitTime = Time.ms(duration);
+
+            Reset();
+        }
 
         public WaitAction(TimeSpan timeSpan) : base (true)
         {
@@ -25,6 +33,7 @@ namespace Rollout.Scripting.Actions
         public override void Update(GameTime gameTime)
         {
             currentTime += gameTime.ElapsedGameTime;
+
             if(currentTime > waitTime)
             {
                 Finished = true;

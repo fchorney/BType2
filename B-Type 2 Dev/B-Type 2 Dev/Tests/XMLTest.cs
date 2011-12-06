@@ -19,10 +19,10 @@ namespace Rollout.Tests
 
         public override void Initialize()
         {
-            sprite = new Sprite(new Vector2(200, 200),
-                                new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.3f, 0.3f })) { Name = "TheBiggest" };
-            Add(sprite);
-            scriptingEngine.Add(sprite.Name, sprite);
+            //sprite = new Sprite(new Vector2(200, 200),
+            //                    new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.3f, 0.3f })) { Name = "TheBiggest" };
+            //Add(sprite);
+            //scriptingEngine.Add(sprite.Name, sprite);
 
             enemies = new DrawableGameObject();
             Add(enemies);

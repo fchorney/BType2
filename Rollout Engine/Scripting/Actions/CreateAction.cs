@@ -62,6 +62,8 @@ namespace Rollout.Scripting.Actions
         {
             var enemy = new Sprite(position,
                     new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.3f, 0.3f })) { Name = name };
+            enemy.Scale = RNG.Next(50, 100)/100.0f;
+            enemy.Rotation = RNG.Next(0, 500)/100.0f;
 
             return enemy;
 

@@ -5,8 +5,12 @@ using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
-    
-    public class MoveAction : Action, IAction
+    [Action("move")]
+    [ActionParam(0, "x", typeof(int))]
+    [ActionParam(1, "y", typeof(int))]
+    [ActionParam(2, "speed", typeof(double))]
+    [ActionParam(3, "duration", typeof(int))]
+    public class MoveAction : Action
     {
         const double PixelsInAMeter = 100;
 

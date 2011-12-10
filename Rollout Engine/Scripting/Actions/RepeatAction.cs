@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting.Actions
 {
-    
+
+    [Action("repeat")]
+    [ActionParam(0, "count", typeof(int))]
     public class RepeatAction : Action
     {
         private int Iterations { get; set; }

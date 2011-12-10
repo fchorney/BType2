@@ -5,6 +5,9 @@ using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
+
+    [Action("wait")]
+    [ActionParam(0, "duration", typeof(int))]
     public class WaitAction : Action
     {
         private TimeSpan waitTime;

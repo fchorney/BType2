@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Rollout.Core;
 using Rollout.Scripting.Actions;
+using Rollout.Utility;
 
 namespace Rollout.Scripting
 {
@@ -44,42 +46,26 @@ namespace Rollout.Scripting
 
         private void RegisterActions()
         {
-            //move
-            ActionInfo actionInfo = new ActionInfo() {Name = "move", Type = typeof (MoveAction)};
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="x", Type=typeof(int) });
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="y", Type=typeof(int) });
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="speed", Type=typeof(double) });
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name="duration", Type=typeof(int) });
 
-            ActionTypes.Add(actionInfo.Name, actionInfo);
+            //find all Types with the ActionAttribute
+            var actionTypes = AttributeHelper.GetTypesWith<ActionAttribute>();
+            foreach (var actionType in actionTypes)
+            {
+                var actionAttribute = (ActionAttribute)actionType.GetCustomAttributes(typeof (ActionAttribute), false)[0];
+                var actionInfo2 = new ActionInfo() {Name = actionAttribute.Name, Type = actionType};
 
+                //get all ActionParam attributes on the Type
+                foreach(ActionParamAttribute actionParam in actionType.GetCustomAttributes(typeof(ActionParamAttribute), false))
+                {
+                    var paramInfo = new ActionInfo.ParamInfo() {Name = actionParam.Name, Type= actionParam.Type, Order = actionParam.Order};
+                    actionInfo2.Params.Add(paramInfo);
+                }
 
-            //repeat
-            actionInfo = new ActionInfo() { Name = "repeat", Type = typeof(RepeatAction) };
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "count", Type = typeof(int), DefaultValue = -1 });
+                //sort the ActionParams since we can't guarantee order
+                actionInfo2.Params = actionInfo2.Params.OrderBy(p => p.Order).ToList();
 
-            ActionTypes.Add(actionInfo.Name, actionInfo);
-
-            //wait
-            actionInfo = new ActionInfo() { Name = "wait", Type = typeof(WaitAction) };
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "duration", Type = typeof(int)});
-
-            ActionTypes.Add(actionInfo.Name, actionInfo);
-
-            //action
-            actionInfo = new ActionInfo() { Name = "action", Type = typeof(Action) };
-
-            ActionTypes.Add(actionInfo.Name, actionInfo);
-
-
-            //create
-            actionInfo = new ActionInfo() { Name = "create", Type = typeof(CreateAction) };
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "id", Type = typeof(string) });
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "x", Type = typeof(int) });
-            actionInfo.Params.Add(new ActionInfo.ParamInfo() { Name = "y", Type = typeof(int) });
-            
-            ActionTypes.Add(actionInfo.Name, actionInfo);
-
+                ActionTypes.Add(actionInfo2.Name, actionInfo2);
+            }
         }
 
         private void ProcessScript(XElement script)

@@ -7,19 +7,11 @@ using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
-    //gonna find a way to make this work.
-    //gonna find a way to make this work.
-    //gonna find a way to make this work.
-    //gonna find a way to make this work.e
-    public class ScriptAttribute : Attribute
-    {
-        public ScriptAttribute(string Name)
-        {
-            
-        }
-    }
-    
-    [Script("create")]
+
+    [Action("create")]
+    [ActionParam(0, "id", typeof(string))]
+    [ActionParam(1, "x", typeof(int))]
+    [ActionParam(2, "y", typeof(int))]
     public class CreateAction : Action, IAction
     {
         private string target;

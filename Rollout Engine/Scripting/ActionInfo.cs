@@ -19,6 +19,7 @@ namespace Rollout.Scripting
             public Type Type { get; set; }
             public string Name { get; set; }
             public object DefaultValue { get; set; }
+            public int Order { get; set; }
         }
     }
 }

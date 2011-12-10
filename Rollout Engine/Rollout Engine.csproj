@@ -100,6 +100,7 @@
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
     <Compile Include="Scripting\ActionInfo.cs" />
+    <Compile Include="Scripting\ActionAttribute.cs" />
     <Compile Include="Scripting\Actions\CreateAction.cs" />
     <Compile Include="Utility\Cloning.cs" />
     <Compile Include="Drawing\ITransformable.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Scripting\Actions\MoveAction.cs" />
     <Compile Include="Scripting\ScriptProvider.cs" />
+    <Compile Include="Utility\AttributeHelper.cs" />
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />

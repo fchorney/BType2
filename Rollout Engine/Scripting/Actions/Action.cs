@@ -5,7 +5,7 @@ using Rollout.Scripting.Actions;
 
 namespace Rollout.Scripting
 {
-    
+    [Action("action")]    
     public class Action : IAction
     {        
         protected ActionQueue actions;

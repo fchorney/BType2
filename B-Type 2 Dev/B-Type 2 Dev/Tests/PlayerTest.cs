@@ -27,8 +27,9 @@ namespace B_Type_2_Dev
             // Must happen at the start
             base.Initialize();
 
-            player = new Sprite(new Vector2(200, 200),
-                                new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] {0.3f, 0.3f})){Name = "player"};
+            AnimationLoader.Test();
+
+            player = new Sprite(new Vector2(200, 200), Animation.Load("player")){Name = "player"};
             leftGun = new Sprite(new Vector2(-21, 20),
                                  new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "leftgun"};
             rightGun = new Sprite(new Vector2(57, 20),

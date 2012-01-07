@@ -34,7 +34,7 @@ namespace B_Type_2_Dev
                 var enemy = new Sprite(new Vector2(300 + 100 * i, 300), new Animation(@"Sprites/spaceship", 64, 64, 2, new double[] { 0.5f, 1.0f }, true, 5)) { Name = "BigWilly" + i };
                 scriptingEngine.Add(enemy.Name, enemy);
 
-                IAction moveloop = new RepeatAction(-1);
+                IAction moveloop = new RepeatAction("",-1);
 
                 moveloop.AddAction2(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
                 moveloop.AddAction2(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);

@@ -72,7 +72,7 @@ namespace Rollout.Drawing
                 var name = "ParticleWillie" + pos.ToString();
                 Screen.scriptingEngine.Add(Name, particle);
 
-                IAction moveloop = new RepeatAction(-1);
+                IAction moveloop = new RepeatAction("",-1);
                 TimeSpan time = Time.ms(400);
                 switch (pos%4)
                 {
@@ -122,7 +122,7 @@ namespace Rollout.Drawing
             var name = Name + "-Particle-" + pos;
             Screen.scriptingEngine.Add(name, particle);
 
-            IAction action = new MoveAction(name, new Vector2(0, -1000), 5f);
+            IAction action = new MoveAction(name, new Vector2(0, -1000), 10f);
             Screen.scriptingEngine.AddAction(name, action);
 
             particle.TimeToLive = 10;

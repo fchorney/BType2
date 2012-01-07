@@ -98,7 +98,7 @@ namespace Rollout.Drawing
             animation.Reset();
         }
 
-        public bool isPaused()
+        public bool Paused()
         {
             return animation.Paused;
         }
@@ -111,5 +111,6 @@ namespace Rollout.Drawing
             if (animations.Count == 1)
                 SetAnimation(animationName);
         }
+
     }
 }

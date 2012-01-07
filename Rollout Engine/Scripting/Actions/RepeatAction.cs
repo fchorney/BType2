@@ -12,15 +12,9 @@ namespace Rollout.Scripting.Actions
         private int Iterations { get; set; }
         private int CurrentIterations { get; set; }
 
-
-        public RepeatAction(int n)
-        {
-            Iterations = n;
-            CurrentIterations = n;
-        }
-
         public RepeatAction(string target, int n)
         {
+            if(n==0) n=-1;
             Iterations = n;
             CurrentIterations = n;
         }

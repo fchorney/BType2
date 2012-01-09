@@ -1,86 +1,41 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
+using Rollout.Screens;
+using Rollout.Scripting;
 
 namespace Rollout.Scripting
 {
-    class Scriptable
+    public static class ScriptingEngine
     {
-        public string Name { get; set; }
-        public IScriptable Object { get; set; }
-        public ActionQueue Actions { get; set; } 
-
-        public Scriptable()
+        private static Dictionary<string, IScriptingEngine> Engines = new Dictionary<string, IScriptingEngine>();
+        public static IScriptingEngine Engine
         {
-            Actions = new ActionQueue();
-        }
-    }
-
-    public class ScriptingEngine: IScriptingEngine
-    {
-        private bool IsUpdating { get; set; }
-
-        private List<Scriptable> AddQueue { get; set; } 
-        private Dictionary<string, Scriptable> Scriptables { get; set; }
-
-        public ScriptingEngine()
-        {
-            Scriptables = new Dictionary<string, Scriptable>();
-            AddQueue = new List<Scriptable>();
-            IsUpdating = false;
-        }
-
-        public void Add(string name, IScriptable obj, List<IAction> actions = null)
-        {
-            if(!Scriptables.ContainsKey(name))
+            get
             {
-                var s = new Scriptable() {Name = name, Object = obj};
-
-                if (actions != null)
-                    foreach (var action in actions)
-                    {
-                        action.Engine = this;
-                        s.Actions.Add(action);
-                    }
-
-                //dont allow the Scriptable dictionary to be modified during iteration
-                //add the object to a queue so we can defer adding until Update() is complete
-                if (IsUpdating)
-                    AddQueue.Add(s); 
-                else
-                    Scriptables.Add(name, s);
+                if (!Engines.ContainsKey(ScreenContext.ContextKey))
+                    Engines.Add(ScreenContext.ContextKey, new XmlScriptingEngine());
+                return Engines[ScreenContext.ContextKey];
             }
         }
 
-        public void AddAction(string name, IAction action)
+        public static void Add(string name, IScriptable scriptable, List<IAction> actions = null)
         {
-            action.Engine = this;
-            Scriptables[name].Actions.Add(action);
+            Engine.Add(name, scriptable, actions);
         }
 
-        public IScriptable this[string name]
+        public static void AddAction(string name, IAction action)
         {
-            get { return Scriptables[name].Object; }
+            Engine.AddAction(name, action);
         }
 
-        public void Update(GameTime gameTime)
+        public static void Update(GameTime gameTime)
         {
-            IsUpdating = true;
+            Engine.Update(gameTime);
+        }
 
-            foreach (var s in Scriptables.Values.Where(s => s.Object.Enabled))
-            {
-                s.Actions.Update(gameTime);
-            }
-
-            //if we generated any Scriptable objects during the update, add them after we're done iterating
-            foreach (var s in AddQueue)
-            {
-                Scriptables.Add(s.Name, s);
-            }
-            AddQueue.Clear();
-
-            IsUpdating = false;
+        public static IScriptable Item(string name)
+        {
+            return Engine[name];
         }
     }
 }

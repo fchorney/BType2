@@ -49,12 +49,6 @@ namespace Rollout.Screens
         private List<Screen> componentsToUpdate;
 
         /// <summary>
-        /// Gets the scripting engine that belongs to the screen
-        /// </summary>
-        public ScriptingEngine scriptingEngine { get; private set; }
-        public ICollisionEngine collisionEngine { get; private set; }
-
-        /// <summary>
         /// Gets the manager that this screen belongs to.
         /// </summary>
         public Screen ComponentManager { get; internal set; }
@@ -105,6 +99,7 @@ namespace Rollout.Screens
 
         public Screen()
         {
+            ScreenContext.SetContext(this);
             Components = new List<Screen>();
             componentsToUpdate = new List<Screen>();
 
@@ -120,9 +115,6 @@ namespace Rollout.Screens
             IsPopup = false;
 
             Screen = this;
-
-            scriptingEngine = new ScriptingEngine();
-            collisionEngine = new QuadTreeCollisionEngine();
         }
 
         /// <summary>
@@ -240,8 +232,8 @@ namespace Rollout.Screens
                     ScreenState = ScreenState.Active;
                 }
             }
-            scriptingEngine.Update(gameTime);
-            collisionEngine.Update(gameTime);
+            ScriptingEngine.Update(gameTime);
+            CollisionEngine.Update(gameTime);
             base.Update(gameTime);
         }
 

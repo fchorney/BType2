@@ -56,7 +56,7 @@ namespace Rollout.Drawing
         {
             var p = new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256));
                 p.Shape = new Rectangle(0, 0, 25, 25);
-                Screen.collisionEngine.Add(p);
+                CollisionEngine.Add(p);
                 p.OnCollision = (src, obj) => src.Enabled = false;
                 p.Enabled = false;
 
@@ -90,7 +90,7 @@ namespace Rollout.Drawing
 
                 int pos = particles.IndexOf(particle);
                 var name = "ParticleWillie" + pos.ToString();
-                Screen.scriptingEngine.Add(Name, particle);
+                ScriptingEngine.Add(Name, particle);
 
                 IAction moveloop = new RepeatAction("",-1);
                 TimeSpan time = Time.ms(400);
@@ -122,7 +122,7 @@ namespace Rollout.Drawing
                 }
 
                 moveloop.Reset();
-                Screen.scriptingEngine.AddAction(name, moveloop);
+                ScriptingEngine.AddAction(name, moveloop);
 
             particle.TimeToLive = 5;
             particle.X = X;
@@ -140,10 +140,10 @@ namespace Rollout.Drawing
           
             int pos = particles.IndexOf(particle);
             var name = Name + "-Particle-" + pos;
-            Screen.scriptingEngine.Add(name, particle);
+            ScriptingEngine.Add(name, particle);
 
             IAction action = new MoveAction(name, new Vector2(0, -10000), 10f);
-            Screen.scriptingEngine.AddAction(name, action);
+            ScriptingEngine.AddAction(name, action);
 
             particle.TimeToLive = 2;
             particle.X = X;

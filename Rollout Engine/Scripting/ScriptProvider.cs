@@ -10,12 +10,12 @@ namespace Rollout.Scripting
 {
     public class ScriptProvider
     {
-        public ScriptingEngine Engine { get; private set; }
+        public XmlScriptingEngine Engine { get; private set; }
 
         public static Dictionary<string, XElement> Templates;
         private static Dictionary<string, ActionInfo> ActionTypes { get; set; } 
 
-        public ScriptProvider(ScriptingEngine engine)
+        public ScriptProvider(XmlScriptingEngine engine)
         {
             Engine = engine;
             Templates = new Dictionary<string, XElement>();

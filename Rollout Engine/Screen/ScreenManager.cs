@@ -146,6 +146,7 @@ namespace Rollout.Screens
                 _ComponentsToUpdate.RemoveAt(_ComponentsToUpdate.Count - 1);
 
                 // Update the screen.
+                ScreenContext.SetContext(screen);
                 screen.Update(gameTime);
                 screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 

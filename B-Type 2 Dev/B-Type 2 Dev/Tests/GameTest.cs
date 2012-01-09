@@ -85,8 +85,6 @@ namespace B_Type_2_Dev
 
     public class GameTest : Screen
     {
-        private ICollisionEngine collisionEngine;
-
         private PlayerInput input;
 
         private Player player;
@@ -118,9 +116,8 @@ namespace B_Type_2_Dev
 
             fireLimit = new Limiter(.05f);
 
-            collisionEngine = Screen.collisionEngine;
-            collisionEngine.Add(player.Sprite);
-            collisionEngine.Add(enemy.Sprite);
+            CollisionEngine.Add(player.Sprite);
+            CollisionEngine.Add(enemy.Sprite);
         }
 
         public override void Update(GameTime gameTime)

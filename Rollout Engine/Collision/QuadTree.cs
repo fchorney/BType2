@@ -135,19 +135,5 @@ namespace Rollout.Collision
                             }
             }
         }
-
-        public List<Rectangle> GetRectangles()
-        {
-            var w2 = W/2;
-            var h2 = H/2;
-
-            var r = new List<Rectangle>();
-            r.Add(new Rectangle(X, Y, w2, h2));
-            r.Add(new Rectangle(X + w2, Y, w2, h2));
-            r.Add(new Rectangle(X, Y + h2, w2, h2));
-            r.Add(new Rectangle(X + w2, Y + h2, w2, h2));
-
-            return r;
-        } 
     }
 }

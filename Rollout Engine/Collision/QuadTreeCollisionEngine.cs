@@ -70,19 +70,14 @@ namespace Rollout.Collision
 
         private void CreateQuadSprites(QuadTree tree)
         {
-            if (tree.Children != null)
-            {
-                foreach (var t in tree.Children)
-                {
-                    CreateQuadSprites(t);
-                }
-            }
+            var p = new PrimitiveLine() { Colour = Color.Red };
+            p.CreateRectangle(new Rectangle(tree.X, tree.Y, tree.W, tree.H));
+            quadSprites.Add(p);
 
-            foreach (var r in tree.GetRectangles())
+            if (tree.Children == null) return;
+            foreach (var t in tree.Children)
             {
-                var p = new PrimitiveLine() {Colour = Color.Red};
-                p.CreateRectangle(r);
-                quadSprites.Add(p);
+                CreateQuadSprites(t);
             }
         } 
     }

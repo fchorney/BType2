@@ -39,21 +39,20 @@ namespace Rollout.Collision
                 b.OnCollision(b, a);
             }
 
-#if DEBUG
-            foreach (var primitive in quadTree.shapeSprites)
+            if (CollisionEngine.Debug)
             {
-                primitive.Update(gameTime);
+                foreach (var primitive in quadTree.shapeSprites)
+                {
+                    primitive.Update(gameTime);
+                }
             }
-#endif
         }
         public void Draw(GameTime gameTime)
         {
-#if DEBUG
             foreach (var primitive in quadTree.shapeSprites)
             {
                 primitive.Draw(gameTime);
             }
-#endif
         }
     }
 }

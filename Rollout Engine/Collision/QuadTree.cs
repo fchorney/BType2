@@ -14,9 +14,7 @@ namespace Rollout.Collision
         List<ICollidable> Objects;
         PairList<ICollidable> Collisions;
 
-#if DEBUG
         public List<PrimitiveLine> shapeSprites = new List<PrimitiveLine>(); 
-#endif
 
         public Vector2D Offset;
 
@@ -39,14 +37,13 @@ namespace Rollout.Collision
         }
 
         public void Add(ICollidable obj)
-        {
-#if DEBUG
-            if (obj.Shape != null)
+        {            
+            if (CollisionEngine.Debug && obj.Shape != null)
             {
                 var pl = new PrimitiveLine(obj);
                 shapeSprites.Add(pl);
             }
-#endif
+
             if (Children != null)
             {
                 for (int i = 0; i < Children.Length; i++)

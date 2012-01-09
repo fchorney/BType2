@@ -17,6 +17,8 @@ namespace Rollout.Collision
             }
         }
 
+        public static bool Debug { get; set; }
+
         public static void Add(ICollidable obj)
         {
             Engine.Add(obj);
@@ -25,6 +27,11 @@ namespace Rollout.Collision
         public static void Update(GameTime gameTime)
         {
             Engine.Update(gameTime);
+        }
+
+        public static void Draw(GameTime gameTime)
+        {
+            Engine.Draw(gameTime);
         }
     }
 }

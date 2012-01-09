@@ -15,18 +15,6 @@ namespace Rollout.Core
     {
         public bool Enabled { get; set; }
 
-        private Screen screen;
-        public Screen Screen {
-            get { return screen; }
-            set
-            {
-                if (screen == null)
-                {
-                    screen = value;
-                }
-            }
-        }
-
         protected IGameObject Parent { get; set; }
         protected List<IGameObject> Children { get; set; }
 
@@ -40,7 +28,6 @@ namespace Rollout.Core
         public void Add(GameObject obj)
         {
             obj.Parent = this;
-            obj.Screen = screen;
             Children.Add(obj);
         }
 

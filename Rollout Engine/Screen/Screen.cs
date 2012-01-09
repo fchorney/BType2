@@ -105,16 +105,14 @@ namespace Rollout.Screens
 
             Transition = new Transition
                              {
-                                 OnTime = Time.s(1), 
-                                 OffTime = Time.s(1), 
+                                 OnTime = Time.s(1),
+                                 OffTime = Time.s(1),
                                  Position = 1
                              };
             ScreenState = ScreenState.TransitionOn;
 
             IsExiting = false;
             IsPopup = false;
-
-            Screen = this;
         }
 
         /// <summary>

@@ -63,8 +63,6 @@ namespace B_Type_2_Dev
         {
             Sprite = new Sprite(gunOffset, new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { 0.05f, 0.08f }, false)) { Name = name };
 
-            Sprite.Screen = screen;
-
             Emitter = new ParticleEmitter(200, screen)
             {
                 Name = name + "-emitter",

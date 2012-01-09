@@ -36,10 +36,6 @@ namespace Rollout.Drawing
 
         public ParticleEmitter (int bufferSize = 0, Screen screen = null)
         {
-            if (screen != null)
-            {
-                Screen = screen;
-            }
 
             particles = new List<Particle>();
             particleBuffer = new List<Particle>();

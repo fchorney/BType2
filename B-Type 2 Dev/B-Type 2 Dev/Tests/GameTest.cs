@@ -24,7 +24,7 @@ namespace B_Type_2_Dev
             Sprite.Rotation = MathHelper.Pi;
 
             Sprite.Shape = new Rectangle(0,0,64,64);
-            Sprite.OnCollision += (src, obj) => ((Sprite)src).Rotation += 0.1f;
+            Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation += 0.1f;
 
             numberOne.Add(Sprite);
         }
@@ -41,6 +41,8 @@ namespace B_Type_2_Dev
             Sprite = new Sprite(new Vector2(200, 400), Animation.Load("player")) { Name = "player" };
             screen.Add(Sprite);            
             
+            //Sprite.Shape = new Circle(5,5,5);
+            //Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation -= 0.1f;
             
             Guns = new Dictionary<string, Gun>();
             Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(6, -18)));
@@ -180,7 +182,6 @@ namespace B_Type_2_Dev
         {
             G.SpriteBatch.Begin(Transition.Transform());
             base.Draw(gameTime);
-            CollisionEngine.Engine.Draw(gameTime);
             G.SpriteBatch.End();            
         }
     }

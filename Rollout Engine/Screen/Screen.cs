@@ -251,6 +251,7 @@ namespace Rollout.Screens
             {
                 screen.Draw(gameTime);
             }
+
             if (CollisionEngine.Debug)
             {
                 CollisionEngine.Draw(gameTime);

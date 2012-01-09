@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Rollout.Core;
+using Rollout.Primitives;
 
 namespace Rollout.Collision
 {
     public class QuadTreeCollisionEngine : ICollisionEngine
     {
         private QuadTree quadTree;
+        private List<PrimitiveLine> quadSprites;
 
         public QuadTreeCollisionEngine()
         {
@@ -18,6 +20,13 @@ namespace Rollout.Collision
             quadTree.Split();
             quadTree.Split();
             quadTree.Split();
+            quadTree.Split();
+
+            if (CollisionEngine.Debug)
+            {
+                quadSprites = new List<PrimitiveLine>();
+                CreateQuadSprites(quadTree);
+            }
         }
 
         public void Add(ICollidable obj)
@@ -49,10 +58,32 @@ namespace Rollout.Collision
         }
         public void Draw(GameTime gameTime)
         {
+            foreach (var primitive in quadSprites)
+            {
+                primitive.Draw(gameTime);
+            }
             foreach (var primitive in quadTree.shapeSprites)
             {
                 primitive.Draw(gameTime);
             }
         }
+
+        private void CreateQuadSprites(QuadTree tree)
+        {
+            if (tree.Children != null)
+            {
+                foreach (var t in tree.Children)
+                {
+                    CreateQuadSprites(t);
+                }
+            }
+
+            foreach (var r in tree.GetRectangles())
+            {
+                var p = new PrimitiveLine() {Colour = Color.Red};
+                p.CreateRectangle(r);
+                quadSprites.Add(p);
+            }
+        } 
     }
 }

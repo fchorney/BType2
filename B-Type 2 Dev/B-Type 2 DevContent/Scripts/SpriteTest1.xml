@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sprites>
+
+    <sprite name="player">
+        <animations>
+            <animation name="default" id="ship"/>
+            <animation name="flashing" id="ship_flashing"/>
+        </animations>
+    </sprite>
+
+    <animation id="ship" assetName="spaceship2" width="64" height="64" >
+        <frame index="0" duration="300"/>
+        <frame index="1" duration="300"/>
+    </animation>    
+    
+    <animation id="ship_flashing" assetName="spaceship2" width="64" height="64" >
+        <frame index="2" duration="300"/>
+        <frame index="3" duration="300"/>
+    </animation>
+    
+</sprites>

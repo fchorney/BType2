@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Rollout.Collision;
 using Rollout.Core;
+using Rollout.Screens;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
 using Rollout.Utility;
+using Rectangle = Rollout.Collision.Rectangle;
 
 namespace Rollout.Drawing
 {
@@ -31,19 +34,36 @@ namespace Rollout.Drawing
             get { return particleBuffer.Count; }
         }
 
-        public ParticleEmitter (int bufferSize = 0)
+        public ParticleEmitter (int bufferSize = 0, Screen screen = null)
         {
+            if (screen != null)
+            {
+                Screen = screen;
+            }
+
             particles = new List<Particle>();
             particleBuffer = new List<Particle>();
             Enabled = true;
 
             for (var i = 0; i < bufferSize; i++)
             {
-                particleBuffer.Add(new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256)));
+                particleBuffer.Add(CreateParticle());
+                //particleBuffer.Add(new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256)));
             }
         }
 
         public Particle CreateParticle()
+        {
+            var p = new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256));
+                p.Shape = new Rectangle(0, 0, 25, 25);
+                Screen.collisionEngine.Add(p);
+                p.OnCollision = (src, obj) => src.Enabled = false;
+                p.Enabled = false;
+
+            return p;
+        }
+
+        public Particle GetParticle()
         {
             Particle p;
 
@@ -56,7 +76,7 @@ namespace Rollout.Drawing
             }
             else
             {
-                p = new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256));
+                p = CreateParticle();
             }
 
             return p;
@@ -64,7 +84,7 @@ namespace Rollout.Drawing
 
         public void Fire()
         {
-            Particle particle = CreateParticle();
+            Particle particle = GetParticle();
 
                 AddParticle(particle);
 
@@ -113,19 +133,19 @@ namespace Rollout.Drawing
 
         public void Fire2()
         {
-            Particle particle = CreateParticle();
+            Particle particle = GetParticle();
 
-            particle.Scale = .1f;
+            //particle.Scale = .1f;
             AddParticle(particle);
           
             int pos = particles.IndexOf(particle);
             var name = Name + "-Particle-" + pos;
             Screen.scriptingEngine.Add(name, particle);
 
-            IAction action = new MoveAction(name, new Vector2(0, -1000), 10f);
+            IAction action = new MoveAction(name, new Vector2(0, -10000), 10f);
             Screen.scriptingEngine.AddAction(name, action);
 
-            particle.TimeToLive = 10;
+            particle.TimeToLive = 2;
             particle.X = X;
             particle.Y = Y;
         }

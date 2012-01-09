@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 using Rollout.Core;
 
 namespace Rollout.Collision
@@ -24,7 +25,7 @@ namespace Rollout.Collision
             quadTree.Add(obj);
         }
 
-        public void ProcessCollisions()
+        public void Update(GameTime gameTime)
         {
             PairList<ICollidable> collisions = quadTree.GetCollisions();
 

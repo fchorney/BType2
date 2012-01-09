@@ -24,9 +24,10 @@ namespace B_Type_2_Dev
             screens = new Dictionary<string, Screen>
             {
                 //{"scripting", new ScriptTest()}
-                {"player", new PlayerTest()},
+                //{"player", new PlayerTest()},
                 //{"particles", new ParticlesTest()}
-                {"xmltest", new XMLTest()}
+                //{"xmltest", new XMLTest()}
+                {"gametest", new GameTest()}
             };
 
             foreach (var screen in screens.Values)

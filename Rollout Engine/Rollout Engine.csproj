@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\CollisionEngine.cs" />
     <Compile Include="Collision\ICollidable.cs" />
     <Compile Include="Collision\ICollisionEngine.cs" />
     <Compile Include="Collision\Intersect.cs" />

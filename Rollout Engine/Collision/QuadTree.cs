@@ -120,7 +120,7 @@ namespace Rollout.Collision
                 if (Objects.Count >= 2)
                     for (int i = 0; i < Objects.Count - 1; i++)
                         for (int j = i + 1; j < Objects.Count; j++)
-                            if (Objects[i].Shape.Intersects(Objects[j].Shape))
+                            if (Objects[i].Enabled && Objects[j].Enabled && Objects[i].Shape.Intersects(Objects[j].Shape))
                             {
                                 collisionList.Add(Objects[i], Objects[j]);
                                 Collisions.Add(Objects[i], Objects[j]);

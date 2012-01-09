@@ -20,6 +20,8 @@ namespace Rollout.Game
 
         public CollisionHandler OnCollision { get; set; }
 
+        public bool Enabled { get; set; }
+
         public Box(int x, int y, int width, int height)
         {
             Shape = new Rectangle(x,y,width,height);
@@ -72,7 +74,7 @@ namespace Rollout.Game
         public override void Update(GameTime gameTime)
         {
             
-            collisionEngine.ProcessCollisions();
+            collisionEngine.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)

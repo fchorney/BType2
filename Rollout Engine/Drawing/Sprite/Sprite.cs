@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Rollout.Collision;
 using Rollout.Core;
 using Rollout.Scripting;
 using Microsoft.Xna.Framework;
@@ -6,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Rollout.Drawing
 {
-    public class Sprite : DrawableGameObject, IScriptable
+    public class Sprite : DrawableGameObject, IScriptable, ICollidable
     {
         #region variables
 
@@ -60,6 +61,13 @@ namespace Rollout.Drawing
 
         public override void Update(GameTime gameTime)
         {
+
+            if (Shape != null)
+            {
+                Shape.X = this.X;
+                Shape.Y = this.Y;
+            }
+
             animation.Update(gameTime);
             base.Update(gameTime);
         }
@@ -112,5 +120,9 @@ namespace Rollout.Drawing
                 SetAnimation(animationName);
         }
 
+
+        public IShape Shape { get; set; }
+
+        public CollisionHandler OnCollision { get; set; }
     }
 }

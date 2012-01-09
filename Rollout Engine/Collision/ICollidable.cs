@@ -6,5 +6,6 @@ namespace Rollout.Collision
     {
         IShape Shape { get; }
         CollisionHandler OnCollision { get; }
+        bool Enabled { get; set; }
     }
 }

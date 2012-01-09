@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Collision;
 using Rollout.Core;
 using Rollout.Input;
 using Rollout.Scripting;
 using Rollout.Utility;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Rollout.Screens
 {
@@ -50,6 +52,7 @@ namespace Rollout.Screens
         /// Gets the scripting engine that belongs to the screen
         /// </summary>
         public ScriptingEngine scriptingEngine { get; private set; }
+        public ICollisionEngine collisionEngine { get; private set; }
 
         /// <summary>
         /// Gets the manager that this screen belongs to.
@@ -119,6 +122,7 @@ namespace Rollout.Screens
             Screen = this;
 
             scriptingEngine = new ScriptingEngine();
+            collisionEngine = new QuadTreeCollisionEngine();
         }
 
         /// <summary>
@@ -237,6 +241,7 @@ namespace Rollout.Screens
                 }
             }
             scriptingEngine.Update(gameTime);
+            collisionEngine.Update(gameTime);
             base.Update(gameTime);
         }
 

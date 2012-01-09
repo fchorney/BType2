@@ -109,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\Manager.cs" />
+    <Compile Include="Tests\GameTest.cs" />
     <Compile Include="Tests\ScriptTest.cs" />
     <Compile Include="Tests\PlayerTest.cs" />
     <Compile Include="Tests\ParticlesTest.cs" />

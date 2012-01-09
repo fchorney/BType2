@@ -37,8 +37,23 @@ namespace Rollout.Collision
 
                 a.OnCollision(a, b);
                 b.OnCollision(b, a);
-
             }
+
+#if DEBUG
+            foreach (var primitive in quadTree.shapeSprites)
+            {
+                primitive.Update(gameTime);
+            }
+#endif
+        }
+        public void Draw(GameTime gameTime)
+        {
+#if DEBUG
+            foreach (var primitive in quadTree.shapeSprites)
+            {
+                primitive.Draw(gameTime);
+            }
+#endif
         }
     }
 }

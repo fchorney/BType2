@@ -20,7 +20,7 @@ namespace B_Type_2_Dev
         {
 
 
-            Sprite = new Sprite(new Vector2(0, 0), Animation.Load("player")) { Name = "enemy" };
+            Sprite = new Sprite(new Vector2(100, 300), Animation.Load("player")) { Name = "enemy" };
             Sprite.Rotation = MathHelper.Pi;
 
             Sprite.Shape = new Rectangle(0,0,64,64);
@@ -112,7 +112,7 @@ namespace B_Type_2_Dev
             input.BindAction("Down",Keys.Down);
             input.BindAction("Fire",Keys.Space);
 
-            fireLimit = new Limiter(.05f);
+            fireLimit = new Limiter(.5f);
 
             CollisionEngine.Add(player.Sprite);
             CollisionEngine.Add(enemy.Sprite);
@@ -179,6 +179,7 @@ namespace B_Type_2_Dev
         {
             G.SpriteBatch.Begin(Transition.Transform());
             base.Draw(gameTime);
+            CollisionEngine.Engine.Draw(gameTime);
             G.SpriteBatch.End();            
         }
     }

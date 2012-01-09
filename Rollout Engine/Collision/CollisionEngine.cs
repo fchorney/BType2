@@ -7,7 +7,7 @@ namespace Rollout.Collision
     public static class CollisionEngine
     {
         private static Dictionary<string, ICollisionEngine> Engines = new Dictionary<string, ICollisionEngine>();
-        private static ICollisionEngine Engine
+        public static ICollisionEngine Engine
         {
             get
             {

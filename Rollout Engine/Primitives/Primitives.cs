@@ -14,6 +14,8 @@ namespace Rollout.Primitives
     {
         readonly Texture2D pixel;
         readonly ArrayList vectors;
+        public IShape shape;
+        private ICollidable obj;
 
         /// <summary>
         /// Gets/sets the colour of the primitive line object.
@@ -44,7 +46,7 @@ namespace Rollout.Primitives
         /// <summary>
         /// Creates a new primitive line object.
         /// </summary>
-        public PrimitiveLine()
+        public PrimitiveLine(ICollidable obj = null)
         {
             // create pixels
             pixel = new Texture2D(G.Game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -57,6 +59,19 @@ namespace Rollout.Primitives
             Depth = 0;
 
             vectors = new ArrayList();
+
+            if (obj == null) return;
+            switch (obj.Shape.Type)
+            {
+                case ShapeType.Circle:
+                    CreateCircle((Circle)obj.Shape);
+                    break;
+                case ShapeType.Rectangle:
+                    CreateRectangle((Collision.Rectangle)obj.Shape);
+                    break;
+            }
+            shape = obj.Shape;
+            this.obj = obj;
         }
 
         /// <summary>
@@ -104,12 +119,20 @@ namespace Rollout.Primitives
             vectors.Clear();
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            Position = new Vector2((float)shape.X, (float)shape.Y);
+        }
+
         /// <summary>
         /// Renders the primtive line object.
         /// </summary>
         public override void Draw(GameTime gametime)
         {
             base.Draw(gametime);
+            if (!obj.Enabled) return;
+
             if (vectors.Count < 2)
                 return;
 
@@ -146,16 +169,17 @@ namespace Rollout.Primitives
             vectors.Clear();
 
             const float max = 2 * (float)Math.PI;
-            const float step = max / 200;
+            const float step = max / 10;
 
             for (float theta = 0; theta < max; theta += step)
             {
-                vectors.Add(new Vector2((float)circle.R * (float)Math.Cos(theta), (float)circle.R * (float)Math.Sin(theta)));
+                vectors.Add(new Vector2((float)circle.R * (float)Math.Cos(theta) + (float)circle.R, (float)circle.R * (float)Math.Sin(theta) + (float)circle.R));
             }
 
             // then add the first vector again so it's a complete loop
-            vectors.Add(new Vector2((float)circle.R * (float)Math.Cos(0), (float)circle.R * (float)Math.Sin(0)));
+            vectors.Add(new Vector2((float)circle.R * (float)Math.Cos(0) + (float)circle.R, (float)circle.R * (float)Math.Sin(0) + (float)circle.R));
             Position = new Vector2((float)circle.X, (float)circle.Y);
+            shape = circle;
         }
 
         /// <summary>
@@ -172,6 +196,7 @@ namespace Rollout.Primitives
             vectors.Add(new Vector2(0, (float)rectangle.H));
             vectors.Add(new Vector2(0, 0));
             Position = new Vector2((float)rectangle.X, (float)rectangle.Y);
+            shape = rectangle;
         }
     }
 }

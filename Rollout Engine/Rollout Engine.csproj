@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{7CD27580-53AA-4D37-BE8D-B26A0C76E7DD}</ProjectGuid>
@@ -101,6 +101,7 @@
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
+    <Compile Include="Primitives\Primitives.cs" />
     <Compile Include="Screen\ScreenContext.cs" />
     <Compile Include="Scripting\ActionInfo.cs" />
     <Compile Include="Scripting\ActionAttribute.cs" />

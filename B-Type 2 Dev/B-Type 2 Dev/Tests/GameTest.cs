@@ -85,8 +85,6 @@ namespace B_Type_2_Dev
 
     public class GameTest : Screen
     {
-        private ICollisionEngine collisionEngine;
-
         private PlayerInput input;
 
         private Player player;
@@ -116,11 +114,10 @@ namespace B_Type_2_Dev
             input.BindAction("Down",Keys.Down);
             input.BindAction("Fire",Keys.Space);
 
-            fireLimit = new Limiter(.05f);
+            fireLimit = new Limiter(.5f);
 
-            collisionEngine = Screen.collisionEngine;
-            collisionEngine.Add(player.Sprite);
-            collisionEngine.Add(enemy.Sprite);
+            CollisionEngine.Add(player.Sprite);
+            CollisionEngine.Add(enemy.Sprite);
         }
 
         public override void Update(GameTime gameTime)
@@ -184,7 +181,7 @@ namespace B_Type_2_Dev
         {
             G.SpriteBatch.Begin(Transition.Transform());
             base.Draw(gameTime);
-            collisionEngine.Draw(gameTime);
+            CollisionEngine.Engine.Draw(gameTime);
             G.SpriteBatch.End();            
         }
     }

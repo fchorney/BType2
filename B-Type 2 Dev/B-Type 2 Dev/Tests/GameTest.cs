@@ -43,8 +43,8 @@ namespace B_Type_2_Dev
             
             
             Guns = new Dictionary<string, Gun>();
-            Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(-114, -128)));
-            Guns.Add("right", new Gun(screen,"right", new Vector2(57, 20), new Vector2(-114, -128)));
+            Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(6, -18)));
+            Guns.Add("right", new Gun(screen,"right", new Vector2(57, 20), new Vector2(6, -18)));
 
             foreach (var gun in Guns.Values)
             {
@@ -114,7 +114,7 @@ namespace B_Type_2_Dev
             input.BindAction("Down",Keys.Down);
             input.BindAction("Fire",Keys.Space);
 
-            fireLimit = new Limiter(.5f);
+            fireLimit = new Limiter(.05f);
 
             CollisionEngine.Add(player.Sprite);
             CollisionEngine.Add(enemy.Sprite);

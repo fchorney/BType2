@@ -100,6 +100,7 @@
     <Compile Include="Collision\QuadTreeCollisionEngine.cs" />
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
+    <Compile Include="Primitives\Primitives.cs" />
     <Compile Include="Scripting\ActionInfo.cs" />
     <Compile Include="Scripting\ActionAttribute.cs" />
     <Compile Include="Scripting\Actions\CreateAction.cs" />

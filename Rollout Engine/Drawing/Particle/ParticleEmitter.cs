@@ -55,7 +55,7 @@ namespace Rollout.Drawing
         public Particle CreateParticle()
         {
             var p = new Particle(new Vector2(0, 0), new Animation(@"Sprites/Lensflare", 256, 256));
-                p.Shape = new Rectangle(0, 0, 25, 25);
+                p.Shape = new Circle(0, 0, 16);
                 Screen.collisionEngine.Add(p);
                 p.OnCollision = (src, obj) => src.Enabled = false;
                 p.Enabled = false;
@@ -142,10 +142,10 @@ namespace Rollout.Drawing
             var name = Name + "-Particle-" + pos;
             Screen.scriptingEngine.Add(name, particle);
 
-            IAction action = new MoveAction(name, new Vector2(0, -10000), 10f);
+            IAction action = new MoveAction(name, new Vector2(0, -10000), 1f);
             Screen.scriptingEngine.AddAction(name, action);
 
-            particle.TimeToLive = 2;
+            particle.TimeToLive = 10;
             particle.X = X;
             particle.Y = Y;
         }

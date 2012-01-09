@@ -6,5 +6,6 @@ namespace Rollout.Collision
     {
         void Add(ICollidable obj);
         void Update(GameTime gameTime);
+        void Draw(GameTime gameTime);
     }
 }

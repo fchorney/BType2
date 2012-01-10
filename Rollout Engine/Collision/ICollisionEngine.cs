@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace Rollout.Collision.Shapes
+namespace Rollout.Collision
 {
     public interface ICollisionEngine
     {

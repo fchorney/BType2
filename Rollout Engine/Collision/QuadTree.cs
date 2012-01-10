@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Rollout.Collision.Shapes;
 using Rollout.Primitives;
 
-namespace Rollout.Collision.Shapes
+namespace Rollout.Collision
 {
     public class QuadTree : Rectangle
     {

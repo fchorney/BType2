@@ -1,8 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
-using Rollout.Scripting.Actions;
 
-namespace Rollout.Scripting
+namespace Rollout.Scripting.Actions
 {
     [Action("action")]    
     public class Action : IAction

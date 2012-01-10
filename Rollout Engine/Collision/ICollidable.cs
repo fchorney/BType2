@@ -1,4 +1,6 @@
-namespace Rollout.Collision.Shapes
+using Rollout.Collision.Shapes;
+
+namespace Rollout.Collision
 {
     public delegate void CollisionHandler(ICollidable source, ICollidable obj);
 

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Rollout.Core;
 using Rollout.Primitives;
 
-namespace Rollout.Collision.Shapes
+namespace Rollout.Collision
 {
     public class QuadTreeCollisionEngine : ICollisionEngine
     {

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rollout.Collision.Shapes;
+using Rollout.Collision;
 using Rollout.Core;
+using Rollout.Core.GameObject;
 using Rollout.Input;
+using Rollout.Screens.Transitions;
 using Rollout.Scripting;
 using Rollout.Utility;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Rollout.Screens
 {

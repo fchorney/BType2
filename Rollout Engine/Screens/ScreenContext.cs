@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Rollout.Core;
-
 namespace Rollout.Screens
 {
     public static class ScreenContext

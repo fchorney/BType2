@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing;
 using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions

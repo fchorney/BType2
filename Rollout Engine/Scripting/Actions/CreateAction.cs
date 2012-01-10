@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Core.GameObject;
+using Rollout.Drawing.Sprites;
 using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions

@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Rollout.Collision;
 using Rollout.Collision.Shapes;
-using Rollout.Core;
+using Rollout.Core.GameObject;
+using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
 
-namespace Rollout.Drawing.Particle
+namespace Rollout.Drawing.Particles
 {
     public class ParticleEmitter : DrawableGameObject
     {

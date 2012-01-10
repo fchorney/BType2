@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing.Particles;
+using Rollout.Drawing.Sprites;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Utility;

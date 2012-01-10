@@ -1,6 +1,6 @@
 using System;
 
-namespace Rollout.Scripting.Actions
+namespace Rollout.Scripting
 {
     public class ActionAttribute : Attribute
     {

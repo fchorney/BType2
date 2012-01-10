@@ -2,9 +2,11 @@
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Collision;
 using Rollout.Collision.Shapes;
-using Rectangle = Rollout.Collision.Shapes.Rectangle;
 using Rollout.Core;
+using Rollout.Core.GameObject;
+using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace Rollout.Primitives
 {
@@ -189,7 +191,6 @@ namespace Rollout.Primitives
         /// Creates a rectangle starting from 0, 0.
         /// </summary>
         /// <param name="rectangle">Rectangle Object</param>
-        /// <param name="clear">Clear Bool</param>
         public void CreateRectangle(Rectangle rectangle)
         {
             vectors.Clear();
@@ -202,41 +203,5 @@ namespace Rollout.Primitives
             Position = new Vector2((float)rectangle.X, (float)rectangle.Y);
             shape = rectangle;
         }
-
-        //private void QuadRectangle(Rectangle r)
-        //{
-        //    vectors.Add(new Vector2((float)r.X, (float)r.Y));
-        //    vectors.Add(new Vector2((float)r.W, (float)r.Y));
-        //    vectors.Add(new Vector2((float)r.W, (float)r.H));
-        //    vectors.Add(new Vector2((float)r.X, (float)r.H));
-        //    vectors.Add(new Vector2((float)r.X, (float)r.Y));
-            
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="tree"></param>
-        //public void CreateQuadtree(QuadTree tree)
-        //{
-        //    vectors.Clear();
-
-        //    // Draw Base
-        //    var w = tree.W;
-        //    var h = tree.H;
-        //    var x = tree.X;
-        //    var y = tree.Y;
-            
-        //    var r1 = new Rectangle(x, y, w/2, h/2);
-        //    var r2 = new Rectangle(w/2, y, x/2, h/2);
-        //    var r3 = new Rectangle(x, h/2, x/2, h/2);
-        //    var r4 = new Rectangle(w/2, h/2, x/2, h/2);
-
-        //    //QuadRectangle(r1);
-        //    //QuadRectangle(r2);
-        //    //CreateRectangle(r3, false);
-        //    //CreateRectangle(r4, false);
-        //    //Position = new Vector2(0,0);
-        //}
     }
 }

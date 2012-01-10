@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Rollout.Scripting;
 
 namespace Rollout.Scripting
 {

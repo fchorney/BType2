@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
+using Rollout.Screens.Transitions;
 using Rollout.Utility;
 
 namespace Rollout.Screens

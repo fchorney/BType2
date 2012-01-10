@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Rollout.Core;
 
-namespace Rollout.Screens
+namespace Rollout.Screens.Transitions
 {
     public class Transition
     {

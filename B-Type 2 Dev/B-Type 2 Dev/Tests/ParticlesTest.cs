@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing.Particles;
+using Rollout.Drawing.Sprites;
 using Rollout.Screens;
 using Rollout.Scripting;
-using Rollout.Scripting.Actions;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev

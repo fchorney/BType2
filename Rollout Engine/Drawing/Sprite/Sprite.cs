@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Rollout.Collision;
+using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Scripting;
 using Microsoft.Xna.Framework;

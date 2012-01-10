@@ -2,8 +2,8 @@
 using System.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rollout.Collision;
-using Rectangle = Rollout.Collision.Rectangle;
+using Rollout.Collision.Shapes;
+using Rectangle = Rollout.Collision.Shapes.Rectangle;
 using Rollout.Core;
 
 namespace Rollout.Primitives

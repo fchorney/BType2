@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Rollout.Collision;
+using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Drawing.Particle;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Utility;
-using Rectangle = Rollout.Collision.Rectangle;
+using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
 {

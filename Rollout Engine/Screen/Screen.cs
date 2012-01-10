@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rollout.Collision;
+using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Input;
 using Rollout.Scripting;

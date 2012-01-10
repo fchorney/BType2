@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Rollout.Collision;
+using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;

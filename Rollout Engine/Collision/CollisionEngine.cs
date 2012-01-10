@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Screens;
 
-namespace Rollout.Collision
+namespace Rollout.Collision.Shapes
 {
     public static class CollisionEngine
     {

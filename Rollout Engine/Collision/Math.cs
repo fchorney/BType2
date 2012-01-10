@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rollout.Collision
+namespace Rollout.Collision.Shapes
 {
     public class MathUtil
     {
@@ -11,11 +11,13 @@ namespace Rollout.Collision
         {
             if (x1 > x2)
             {
+#warning WTF IS THIS SHIT?
                 double temp = x1;
                 x2 = x1;
                 x2 = temp;
             }
 
+#warning WTF IS THIS SHIT?
             if (y1 > y2)
             {
                 double temp = y1;
@@ -90,6 +92,7 @@ namespace Rollout.Collision
 
         public double DotProduct(double x, double y)
         {
+#warning Equality Checks with doubles? You crazy son?
             if (x == 0 && y == 0) return 0;
             return (this.x * x + this.y * y) / (x * x + y * y);
         }
@@ -153,8 +156,8 @@ namespace Rollout.Collision
 
         public void Set(double x, double y)
         {
-            this.X = x;
-            this.Y = y;
+            X = x;
+            Y = y;
         }
 
         public virtual Vector2D Projection(Vector2D v)
@@ -276,7 +279,7 @@ namespace Rollout.Collision
             string s = "";
 
             foreach (T obj in objects)
-                s += obj.ToString() + ", ";
+                s += obj + ", ";
             s = s.Substring(0, s.Length - 2);
 
             return "{" + s + "}";

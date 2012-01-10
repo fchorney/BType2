@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Core;
 using Rollout.Primitives;
 
-namespace Rollout.Collision
+namespace Rollout.Collision.Shapes
 {
     public class QuadTreeCollisionEngine : ICollisionEngine
     {
         private QuadTree quadTree;
         private List<PrimitiveLine> quadSprites;
 
+        private const int Split = 4;
+
         public QuadTreeCollisionEngine()
         {
             quadTree = new QuadTree(0, 0, G.Game.GraphicsDevice.Viewport.Width, G.Game.GraphicsDevice.Viewport.Height);
 
-            quadTree.Split();
-            quadTree.Split();
-            quadTree.Split();
-            quadTree.Split();
+            for (var i = 0; i < Split; i++)
+            {
+                quadTree.Split();
+            }
 
             if (CollisionEngine.Debug)
             {
@@ -38,7 +37,7 @@ namespace Rollout.Collision
         {
             PairList<ICollidable> collisions = quadTree.GetCollisions();
 
-            for (int i = 0; i < collisions.Count; i++)
+            for (var i = 0; i < collisions.Count; i++)
             {
                 Set<ICollidable> collision = collisions.Get(i);
                 ICollidable a = collision.Get(0);
@@ -50,7 +49,7 @@ namespace Rollout.Collision
 
             if (CollisionEngine.Debug)
             {
-                foreach (var primitive in quadTree.shapeSprites)
+                foreach (var primitive in quadTree.ShapeSprites)
                 {
                     primitive.Update(gameTime);
                 }
@@ -62,7 +61,7 @@ namespace Rollout.Collision
             {
                 primitive.Draw(gameTime);
             }
-            foreach (var primitive in quadTree.shapeSprites)
+            foreach (var primitive in quadTree.ShapeSprites)
             {
                 primitive.Draw(gameTime);
             }
@@ -71,14 +70,12 @@ namespace Rollout.Collision
         private void CreateQuadSprites(QuadTree tree)
         {
             var p = new PrimitiveLine() { Colour = Color.Red };
-            p.CreateRectangle(new Rectangle(tree.X, tree.Y, tree.W, tree.H));
+            p.CreateRectangle(tree);
             quadSprites.Add(p);
 
             if (tree.Children == null) return;
             foreach (var t in tree.Children)
-            {
                 CreateQuadSprites(t);
-            }
         } 
     }
 }

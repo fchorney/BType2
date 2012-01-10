@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Rollout.Collision
+namespace Rollout.Collision.Shapes
 {
     public enum ShapeType
     {
@@ -38,32 +38,28 @@ namespace Rollout.Collision
             return new Everywhere();
         }
 
-        public Everywhere()
-        {
-        }
-
         public double X
         {
             get { return -int.MaxValue/2; }
-            set { ; }
+            set { }
         }
 
         public double Y
         {
-            get { return -int.MaxValue/2; }
-            set { ; }
+            get { return -int.MaxValue / 2; }
+            set { }
         }
 
         public double W
         {
             get { return int.MaxValue; }
-            set { ; }
+            set { }
         }
 
         public double H
         {
             get { return int.MaxValue; }
-            set { ; }
+            set { }
         }
 
         public bool Intersects(IShape shape)
@@ -76,9 +72,9 @@ namespace Rollout.Collision
     {
         public ShapeType Type { get { return ShapeType.Circle; } }
 
-        double x;
-        double y;
-        double r;
+        private double x;
+        private double y;
+        private double r;
 
         public double X
         {
@@ -149,7 +145,7 @@ namespace Rollout.Collision
     {
         public ShapeType Type { get { return ShapeType.Rectangle; } }
 
-        Vector2D v;
+        private Vector2D v;
 
         public double X
         {
@@ -171,8 +167,6 @@ namespace Rollout.Collision
             get { return v.Y; }
             set { v.Y = value; }
         }
-
-        private Rectangle() { }
 
         public Rectangle(double x, double y, double w, double h)
         {

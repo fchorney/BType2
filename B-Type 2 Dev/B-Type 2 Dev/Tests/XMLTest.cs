@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Rollout.Core;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Screens;
 using Rollout.Scripting;
 

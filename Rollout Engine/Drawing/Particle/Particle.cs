@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Rollout.Core;
 using Rollout.Scripting;
 
-namespace Rollout.Drawing
+namespace Rollout.Drawing.Particle
 {
     public interface IParticle
     {

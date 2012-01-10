@@ -5,7 +5,7 @@ using Rollout.Scripting;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rollout.Drawing
+namespace Rollout.Drawing.Particle
 {
     public class Sprite : DrawableGameObject, IScriptable, ICollidable
     {
@@ -61,11 +61,10 @@ namespace Rollout.Drawing
 
         public override void Update(GameTime gameTime)
         {
-
             if (Shape != null)
             {
-                Shape.X = this.X;
-                Shape.Y = this.Y;
+                Shape.X = X;
+                Shape.Y = Y;
             }
 
             animation.Update(gameTime);

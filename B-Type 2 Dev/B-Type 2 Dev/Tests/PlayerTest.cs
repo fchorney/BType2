@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Utility;
@@ -34,15 +34,13 @@ namespace B_Type_2_Dev
                                  new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "leftgun"};
             rightGun = new Sprite(new Vector2(57, 20),
                                   new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "rightgun"};
-            leftEmitter = new ParticleEmitter(200)
+            leftEmitter = new ParticleEmitter("left-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200)
             {
-                Name = "left-emitter",
                 OffsetX = -114,
                 OffsetY = -128
             };
-            rightEmitter = new ParticleEmitter(200)
+            rightEmitter = new ParticleEmitter("right-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200)
             {
-                Name = "right-emitter",
                 OffsetX = -114,
                 OffsetY = -128
             };
@@ -115,12 +113,12 @@ namespace B_Type_2_Dev
                  if (fireRight)
                 {
                     rightGun.ReStart();
-                    rightEmitter.Fire2();
+                    rightEmitter.Emit();
                 }
                 else
                 {
                     leftGun.ReStart();
-                    leftEmitter.Fire2();
+                    leftEmitter.Emit();
                 }
                 fireRight = !fireRight;
             }

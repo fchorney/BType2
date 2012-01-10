@@ -1,4 +1,4 @@
-namespace Rollout.Drawing
+namespace Rollout.Drawing.Particle
 {
     public interface ITransformable
     {

@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
@@ -33,7 +33,7 @@ namespace Rollout.Scripting.Actions
         {
             this.targetName = targetName;
 
-            if (speed != 0)
+            if (speed > 0)
             {    
                 double distance = Math.Sqrt(x * x + y * y);
                 Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));

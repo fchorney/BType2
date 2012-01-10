@@ -3,7 +3,7 @@ using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Rollout.Drawing
+namespace Rollout.Drawing.Particle
 {
     public class Frame
     {

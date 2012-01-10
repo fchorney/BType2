@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
 using Rollout.Collision;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Utility;
 using Rectangle = Rollout.Collision.Rectangle;
 

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Rollout.Core;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Screens;
 using Rollout.Scripting;
+using Rollout.Scripting.Actions;
 using Rollout.Utility;
 
 namespace B_Type_2_Dev
@@ -21,8 +22,8 @@ namespace B_Type_2_Dev
 
             limiter = new Limiter(-1);
 
-            emitter = new ParticleEmitter(particleCount) {Name = "Effector", X = 500, Y = 200};
-            ScriptingEngine.Add(emitter.Name, emitter);
+            emitter = new ParticleEmitter("Effector",new Animation(@"Sprites/Lensflare", 16, 16), null, particleCount) {X = 500, Y = 200};
+            ScriptingEngine.Add("Effector", emitter);
             Add(emitter);
 
             base.Initialize();
@@ -30,14 +31,14 @@ namespace B_Type_2_Dev
 
         public override void Update(GameTime gameTime)
         {
-            TextWriter.Update("Particle Count", emitter.Count.ToString());
-            TextWriter.Update("Particle Buffer Count", emitter.BufferCount.ToString());
-            TextWriter.Update("Enabled Particles", (particleCount - emitter.BufferCount).ToString());
+            //TextWriter.Update("Particle Count", emitter.Count.ToString());
+            //TextWriter.Update("Particle Buffer Count", emitter.BufferCount.ToString());
+            //TextWriter.Update("Enabled Particles", (particleCount - emitter.BufferCount).ToString());
 
             limiter.Update(gameTime);
             if (limiter.Ready)
             {
-                emitter.Fire();
+                emitter.Emit(10);
             }
             base.Update(gameTime);
         }

@@ -64,6 +64,11 @@ namespace Rollout.Scripting
             get { return Scriptables[name].Object; }
         }
 
+        public void ResetActionQueue(string name)
+        {
+            Scriptables[name].Actions.Reset();
+        }
+
         public void Update(GameTime gameTime)
         {
             IsUpdating = true;

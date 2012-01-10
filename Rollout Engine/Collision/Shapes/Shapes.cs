@@ -23,6 +23,7 @@ namespace Rollout.Collision
         double Y { get; set; }
         double W { get; set; }
         double H { get; set; }
+        IShape DeepCopy();
     }
 
     public class Everywhere : IShape
@@ -30,6 +31,11 @@ namespace Rollout.Collision
         public ShapeType Type
         {
             get { return ShapeType.Everywhere; }
+        }
+
+        public IShape DeepCopy()
+        {
+            return new Everywhere();
         }
 
         public Everywhere()
@@ -117,6 +123,11 @@ namespace Rollout.Collision
             this.r = r;
         }
 
+        public IShape DeepCopy()
+        {
+            return new Circle((float)X, (float)Y, (float)R);
+        }
+
         public bool Intersects(IShape shape)
         {
             switch (shape.Type)
@@ -166,6 +177,11 @@ namespace Rollout.Collision
         public Rectangle(double x, double y, double w, double h)
         {
             v = new Vector2D(w, h, x, y);
+        }
+
+        public IShape DeepCopy()
+        {
+            return new Rectangle(X, Y, W, H);
         }
 
         public virtual bool Intersects(IShape shape)

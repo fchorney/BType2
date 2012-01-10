@@ -1,5 +1,5 @@
 using Microsoft.Xna.Framework;
-using Rollout.Drawing;
+using Rollout.Drawing.Particle;
 using Rollout.Scripting;
 
 namespace Rollout.Core

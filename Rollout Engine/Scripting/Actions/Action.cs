@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Scripting.Actions;
 
@@ -16,42 +15,16 @@ namespace Rollout.Scripting
 
         public bool Wait { get; set; }
 
-        protected IScriptingEngine engine;
-        public IScriptingEngine Engine
-        {
-            get { return engine; }
-            set { 
-                engine = value;
-                foreach (var action in Actions)
-                {
-                    action.Engine = engine;
-                }
-            }
-        }
-
-        public Action(string target)
-        {
-        }
-
         public Action(bool wait = false)
         {
             Wait = wait;
-            Reset();
+            Finished = false;
+            Actions.Reset();
         }
 
         public void AddAction(IAction action)
         {
             Actions.Add(action);
-        }
-
-        [Obsolete("Dont need bool autowait anymore")]
-        public void AddAction2(IAction action, bool autoWait = false)
-        {
-            if (!action.Wait)
-            {
-                action.Wait = autoWait;
-            }
-            actions.Add(action);
         }
 
         public virtual void Update(GameTime gameTime)

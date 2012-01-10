@@ -8,7 +8,7 @@ namespace Rollout.Scripting.Actions
 
     [Action("wait")]
     [ActionParam(0, "duration", typeof(int))]
-    public class WaitAction : Action
+    public sealed class WaitAction : Action
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;

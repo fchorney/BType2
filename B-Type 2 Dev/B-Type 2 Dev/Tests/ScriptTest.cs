@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing.Sprites;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Scripting;
@@ -36,8 +36,8 @@ namespace B_Type_2_Dev
 
                 IAction moveloop = new RepeatAction("",-1);
 
-                moveloop.AddAction2(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)), true);
-                moveloop.AddAction2(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)), true);
+                moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(200, 200), Time.ms(100)) {Wait = true});
+                moveloop.AddAction(new MoveAction(enemy.Name, new Vector2(-200, -200), Time.ms(100)) {Wait = true});
 
                 ScriptingEngine.AddAction(enemy.Name, moveloop);
                 Add(enemy);

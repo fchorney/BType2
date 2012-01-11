@@ -1,40 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rollout.Collision;
 using Rollout.Core;
-using Rollout.Input;
-using Rollout.Scripting;
+using Rollout.Screens.Transitions;
 using Rollout.Utility;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Rollout.Screens
 {
-    /// <summary>
-    /// Enum describes the screen transition state.
-    /// </summary>
-    public enum ScreenState
-    {
-        TransitionOn,
-        Active,
-        TransitionOff,
-        Hidden
-    }
 
-    /// <summary>
-    /// A screen is a single layer that has update and draw logic, and which
-    /// can be combined with other layers to build up a complex menu system.
-    /// For instance the main menu, the options menu, the "are you sure you
-    /// want to quit" message box, and the main game itself are all implemented
-    /// as screens.
-    /// </summary>
-    public abstract class Screen : DrawableGameObject
+    public class ScreenManager : DrawableGameComponent
     {
         #region Properties
 
         public Transition Transition { get; set; }
+
         public string ID { get; set; }
 
         /// <summary>
@@ -46,7 +25,7 @@ namespace Rollout.Screens
         //}
 
         public List<Screen> Components { get; internal set; }
-        private List<Screen> componentsToUpdate;
+        List<Screen> _ComponentsToUpdate;
 
         /// <summary>
         /// Gets the manager that this screen belongs to.
@@ -61,7 +40,10 @@ namespace Rollout.Screens
         /// transitioning off.
         /// </summary>
         public bool IsPopup { get; set; }
+
+
         public bool IsPersistant { get; set; }
+
 
         /// <summary>
         /// Gets the current screen transition state.
@@ -97,18 +79,17 @@ namespace Rollout.Screens
 
         #region Initialization
 
-        public Screen()
+        public ScreenManager()
+            : base(G.Game)
         {
-            ScreenContext.SetContext(this);
             Components = new List<Screen>();
-            componentsToUpdate = new List<Screen>();
+            _ComponentsToUpdate = new List<Screen>();
 
-            Transition = new Transition
-                             {
-                                 OnTime = Time.s(1),
-                                 OffTime = Time.s(1),
-                                 Position = 1
-                             };
+
+            Transition = new Transition();
+            Transition.OnTime = Time.s(1);
+            Transition.OffTime = Time.s(1);
+            Transition.Position = 1;
             ScreenState = ScreenState.TransitionOn;
 
             IsExiting = false;
@@ -120,14 +101,17 @@ namespace Rollout.Screens
         /// </summary>
         public new virtual void LoadContent() { }
 
+
         /// <summary>
         /// Unload content for the screen.
         /// </summary>
         public new virtual void UnloadContent() { }
 
+
         #endregion
 
         #region Update and Draw
+
 
         /// <summary>
         /// Allows the screen to run logic, such as updating the transition position.
@@ -138,30 +122,32 @@ namespace Rollout.Screens
 
         public override void Update(GameTime gameTime)
         {
+
             // Read the keyboard and gamepad.
             //input.Update();
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
-            componentsToUpdate.Clear();
+            _ComponentsToUpdate.Clear();
 
             foreach (Screen screen in Components)
             {
-                componentsToUpdate.Add(screen);
+                _ComponentsToUpdate.Add(screen);
             }
 
-            bool otherScreenHasFocus = false;
+            bool otherScreenHasFocus = !Game.IsActive;
             bool coveredByOtherScreen = false;
 
             // Loop as long as there are screens waiting to be updated.
-            while (componentsToUpdate.Count > 0)
+            while (_ComponentsToUpdate.Count > 0)
             {
                 // Pop the topmost screen off the waiting list.
-                Screen screen = componentsToUpdate[componentsToUpdate.Count - 1];
+                Screen screen = _ComponentsToUpdate[_ComponentsToUpdate.Count - 1];
 
-                componentsToUpdate.RemoveAt(componentsToUpdate.Count - 1);
+                _ComponentsToUpdate.RemoveAt(_ComponentsToUpdate.Count - 1);
 
                 // Update the screen.
+                ScreenContext.SetContext(screen);
                 screen.Update(gameTime);
                 screen.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
@@ -173,6 +159,7 @@ namespace Rollout.Screens
                     if (!otherScreenHasFocus)
                     {
                         //screen.HandleInput(input);
+
                         otherScreenHasFocus = true;
                     }
 
@@ -183,91 +170,35 @@ namespace Rollout.Screens
                 }
             }
 
-            base.Update(gameTime);
         }
 
-        public virtual void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
-        {
-            HasFocus = otherScreenHasFocus;
-
-            if (IsExiting)
-            {
-                // If the screen is going away to die, it should transition off.
-                ScreenState = ScreenState.TransitionOff;
-
-                if (!Transition.Update(gameTime, Transition.OffTime, 1))
-                {
-                    // When the transition finishes, remove the screen.
-                    if (ComponentManager != null)
-                        ComponentManager.Remove(this);
-                }
-            }
-            else if (coveredByOtherScreen && !IsPersistant)
-            {
-                // If the screen is covered by another, it should transition off.
-                if (Transition.Update(gameTime, Transition.OffTime, 1))
-                {
-                    // Still busy transitioning.
-                    ScreenState = ScreenState.TransitionOff;
-                }
-                else
-                {
-                    // Transition finished!
-                    ScreenState = ScreenState.Hidden;
-                }
-            }
-            else
-            {
-                // Otherwise the screen should transition on and become active.
-                if (Transition.Update(gameTime, Transition.OnTime, -1))
-                {
-                    // Still busy transitioning.
-                    ScreenState = ScreenState.TransitionOn;
-                }
-                else
-                {
-                    // Transition finished!
-                    ScreenState = ScreenState.Active;
-                }
-            }
-            ScriptingEngine.Update(gameTime);
-            CollisionEngine.Update(gameTime);
-            base.Update(gameTime);
-        }
-
-        /// <summary>
-        /// Allows the screen to handle user input. Unlike Update, this method
-        /// is only called when the screen is active, and not when some other
-        /// screen has taken the focus.
-        /// </summary>
-        public virtual void HandleInput(PlayerInput input) { }
-
+     
         /// <summary>
         /// This is called when the screen should draw itself.
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            foreach (var screen in Components.Where(screen => screen.ScreenState != ScreenState.Hidden))
+            foreach (Screen screen in Components)
             {
+                if (screen.ScreenState == ScreenState.Hidden)
+                    continue;
+
                 screen.Draw(gameTime);
+
             }
 
-            if (CollisionEngine.Debug)
-            {
-                CollisionEngine.Draw(gameTime);
-            }
-            base.Draw(gameTime);
         }
 
         #endregion
 
         #region Public Methods
 
-        public void AddScreen(Screen component)
+        public void Add(Screen component)
         {
+
             if (component.ComponentManager == null)
             {
-                component.ComponentManager = this;
+                //component.ComponentManager = this;
                 component.IsExiting = false;
                 component.Initialize();
 
@@ -283,38 +214,11 @@ namespace Rollout.Screens
         public void Remove(Screen component)
         {
             Components.Remove(component);
-            componentsToUpdate.Remove(component);
+            _ComponentsToUpdate.Remove(component);
+
             component.ComponentManager = null;
         }
 
-        /// <summary>
-        /// Tells the screen to go away. Unlike ScreenManager.RemoveScreen, which
-        /// instantly kills the screen, this method respects the transition timings
-        /// and will give the screen a chance to gradually transition off.
-        /// </summary>
-        public void ExitScreen()
-        {
-            if (Transition.OffTime == TimeSpan.Zero)
-            {
-                // If the screen has a zero transition time, remove it immediately.
-                ComponentManager.Remove(this);
-            }
-            else
-            {
-                // Otherwise flag that it should transition off and then exit.
-                IsExiting = true;
-            }
-        }
-
-        public static void FadeBackBufferToBlack(int alpha)
-        {
-            Viewport viewport = G.Game.GraphicsDevice.Viewport;
-            Texture2D blankTexture = G.Content.Load<Texture2D>("blank");
-
-            G.SpriteBatch.Draw(blankTexture,
-                             new Rectangle(0, 0, viewport.Width, viewport.Height),
-                             new Color(255, 255, 255, (byte)alpha));
-        }
         #endregion
 
         #region DEBUG
@@ -325,7 +229,7 @@ namespace Rollout.Screens
             foreach (Screen gc in Components)
             {
                 i += i;
-                G.SpriteBatch.DrawString(G.Content.Load<SpriteFont>(@"SpriteFonts\Arial"), gc.ID + " " + gc.ScreenState.ToString(), new Vector2(x, y + i), Color.Red);
+                G.SpriteBatch.DrawString(Game.Content.Load<SpriteFont>(@"SpriteFonts\Arial"), gc.ID + " " + gc.ScreenState.ToString(), new Vector2(x, y + i), Color.Red);
 
                 gc.DrawDebugInfo(x + 40, y + 10);
             }

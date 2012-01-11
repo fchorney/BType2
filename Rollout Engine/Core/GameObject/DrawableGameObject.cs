@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing;
 using Rollout.Scripting;
 
-namespace Rollout.Core
+namespace Rollout.Core.GameObject
 {
     public class DrawableGameObject : GameObject, ITransformable, IScriptable
     {

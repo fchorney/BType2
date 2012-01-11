@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting
@@ -11,11 +10,8 @@ namespace Rollout.Scripting
         bool Finished { get; set; }
 
         void AddAction(IAction action);
-        void AddAction2(IAction action, bool autoWait = false);
         
         ActionQueue Actions { get; }
-
-        IScriptingEngine Engine { get; set; }
 
         bool Wait { get; set; }
     }

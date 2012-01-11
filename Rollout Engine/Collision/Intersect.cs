@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Rollout.Collision.Shapes;
 
 namespace Rollout.Collision
 {
@@ -24,9 +21,9 @@ namespace Rollout.Collision
         public static bool CircleToRectangle(Circle a, Rectangle b)
         {
             double dmin = 0;
-            double[] C = new double[] { a.cX, a.cY };
-            double[] Bmin = new double[] { b.X, b.Y };
-            double[] Bmax = new double[] { b.X + b.W, b.Y + b.H };
+            double[] C = new [] { a.cX, a.cY };
+            double[] Bmin = new [] { b.X, b.Y };
+            double[] Bmax = new [] { b.X + b.W, b.Y + b.H };
             for (int i = 0; i < C.Length; i++)
             {
                 if (C[i] < Bmin[i]) dmin += (C[i] - Bmin[i]) * (C[i] - Bmin[i]);

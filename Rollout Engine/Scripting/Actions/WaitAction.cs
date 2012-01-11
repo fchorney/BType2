@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Utility;
 
@@ -8,7 +7,7 @@ namespace Rollout.Scripting.Actions
 
     [Action("wait")]
     [ActionParam(0, "duration", typeof(int))]
-    public class WaitAction : Action
+    public sealed class WaitAction : Action
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;

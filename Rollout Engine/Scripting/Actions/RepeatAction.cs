@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting.Actions
@@ -7,7 +5,7 @@ namespace Rollout.Scripting.Actions
 
     [Action("repeat")]
     [ActionParam(0, "count", typeof(int))]
-    public class RepeatAction : Action
+    public sealed class RepeatAction : Action
     {
         private int Iterations { get; set; }
         private int CurrentIterations { get; set; }

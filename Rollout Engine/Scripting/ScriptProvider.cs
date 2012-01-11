@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Rollout.Core;
-using Rollout.Scripting.Actions;
 using Rollout.Utility;
 
 namespace Rollout.Scripting

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Rollout.Core;
-using Rollout.Scripting;
+﻿using Microsoft.Xna.Framework;
+using Rollout.Drawing.Sprites;
 
-namespace Rollout.Drawing.Particle
+namespace Rollout.Drawing.Particles
 {
     public interface IParticle
     {
@@ -13,7 +11,7 @@ namespace Rollout.Drawing.Particle
         bool Enabled { get; set; }
     }
 
-    public class Particle : Sprite, IParticle
+    public sealed class Particle : Sprite, IParticle
     {
         public double Age { get; private set; }
         public double TimeToLive { get; set; }

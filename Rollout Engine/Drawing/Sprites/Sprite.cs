@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using Rollout.Collision;
-using Rollout.Core;
-using Rollout.Scripting;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Collision;
+using Rollout.Collision.Shapes;
+using Rollout.Core;
+using Rollout.Core.GameObject;
 
-namespace Rollout.Drawing.Particle
+namespace Rollout.Drawing.Sprites
 {
-    public class Sprite : DrawableGameObject, IScriptable, ICollidable
+    public class Sprite : DrawableGameObject, ICollidable
     {
         #region variables
 
@@ -118,7 +119,6 @@ namespace Rollout.Drawing.Particle
             if (animations.Count == 1)
                 SetAnimation(animationName);
         }
-
 
         public IShape Shape { get; set; }
 

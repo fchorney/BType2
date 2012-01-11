@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Rollout.Core;
 using Rollout.Collision;
-using Rollout.Drawing.Particle;
-using Rollout.Utility;
-using Rectangle = Rollout.Collision.Rectangle;
+using Rollout.Collision.Shapes;
+using Rollout.Core;
+using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace Rollout.Game
 {

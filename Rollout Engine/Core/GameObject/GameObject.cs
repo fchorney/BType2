@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Rollout.Screens;
 
-namespace Rollout.Core
+namespace Rollout.Core.GameObject
 {
     public interface IGameObject
     {
@@ -54,6 +53,5 @@ namespace Rollout.Core
             foreach (var gameObject in Children)
                 gameObject.Draw(gameTime);
         }
-
     }
 }

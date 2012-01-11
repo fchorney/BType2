@@ -1,23 +1,19 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Core.GameObject;
+using Rollout.Drawing.Sprites;
 using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
 {
-
     [Action("create")]
     [ActionParam(0, "id", typeof(string))]
     [ActionParam(1, "x", typeof(int))]
     [ActionParam(2, "y", typeof(int))]
-    public class CreateAction : Action, IAction
+    public sealed class CreateAction : Action
     {
         private string target;
         private string templateid;
         private Vector2 position;
-        private List<IAction> actions;
         private static int Counter;
 
         public CreateAction(string target, string id, int x,  int y)
@@ -28,7 +24,7 @@ namespace Rollout.Scripting.Actions
             templateid = id;
         }
 
-        public CreateAction(string target, string templateid, Vector2 position, List<IAction> actions)
+        public CreateAction(string target, string templateid, Vector2 position, ActionQueue actions)
         {
             this.target = target;
             this.templateid = templateid;
@@ -42,17 +38,17 @@ namespace Rollout.Scripting.Actions
 
             var enemy = CreateEnemy(targetName);
 
-            var createTarget = Engine[target] as DrawableGameObject;
+            var createTarget = ScriptingEngine.Item(target) as DrawableGameObject;
             if (createTarget != null) createTarget.Add(enemy);
 
 
-            actions = new List<IAction>();
+            actions = new ActionQueue();
             foreach (var child in ScriptProvider.Templates[templateid].Elements())
             {
                 actions.Add(ScriptProvider.ProcessAction(child, targetName));
             }
 
-            Engine.Add(targetName, enemy, actions);
+            ScriptingEngine.Add(targetName, enemy, actions);
 
             Finished = true;
         }
@@ -66,7 +62,6 @@ namespace Rollout.Scripting.Actions
             enemy.Rotation = RNG.Next(0, 500)/100.0f;
 
             return enemy;
-
         }
     }
 }

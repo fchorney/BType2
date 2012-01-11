@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing.Particles;
+using Rollout.Drawing.Sprites;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Utility;
@@ -36,13 +37,13 @@ namespace B_Type_2_Dev
                                   new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false)){Name = "rightgun"};
             leftEmitter = new ParticleEmitter("left-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200)
             {
-                OffsetX = -114,
-                OffsetY = -128
+                OffsetX = 6,
+                OffsetY = -18
             };
             rightEmitter = new ParticleEmitter("right-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200)
             {
-                OffsetX = -114,
-                OffsetY = -128
+                OffsetX = 6,
+                OffsetY = -18
             };
 
             // Add in top to bottom graph form

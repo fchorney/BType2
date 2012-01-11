@@ -1,5 +1,3 @@
-using System;
-
 namespace B_Type_2_Dev
 {
 #if WINDOWS || XBOX

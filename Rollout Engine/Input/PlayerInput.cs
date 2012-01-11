@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Rollout.Core;
 
 namespace Rollout.Input
 {

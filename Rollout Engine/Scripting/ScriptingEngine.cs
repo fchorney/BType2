@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Screens;
-using Rollout.Scripting;
 
 namespace Rollout.Scripting
 {

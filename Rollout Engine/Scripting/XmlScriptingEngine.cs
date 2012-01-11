@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -40,7 +39,6 @@ namespace Rollout.Scripting
                 if (actions != null)
                     foreach (var action in actions)
                     {
-                        action.Engine = this;
                         s.Actions.Add(action);
                     }
 
@@ -55,7 +53,6 @@ namespace Rollout.Scripting
 
         public void AddAction(string name, IAction action)
         {
-            action.Engine = this;
             Scriptables[name].Actions.Add(action);
         }
 

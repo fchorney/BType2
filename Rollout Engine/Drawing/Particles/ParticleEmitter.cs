@@ -2,11 +2,13 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
-using Rollout.Core;
+using Rollout.Collision.Shapes;
+using Rollout.Core.GameObject;
+using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
 
-namespace Rollout.Drawing.Particle
+namespace Rollout.Drawing.Particles
 {
     public class ParticleEmitter : DrawableGameObject
     {
@@ -54,11 +56,14 @@ namespace Rollout.Drawing.Particle
         {
             var p = new Particle(Vector2.Zero, particleAnimation)
                         {
-                            Shape = particleShape.DeepCopy(),
                             OnCollision = particleHandler,
                             Enabled = false,
                             Name = name + "-Particle-" + particleNumber++
                         };
+            if (particleShape != null)
+            {
+                p.Shape = particleShape.DeepCopy();
+            }
             CollisionEngine.Add(p);
             ScriptingEngine.Add(p.Name, p);
 

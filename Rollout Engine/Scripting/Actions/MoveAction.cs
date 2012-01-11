@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using Rollout.Drawing.Particle;
+using Rollout.Drawing;
 using Rollout.Utility;
 
 namespace Rollout.Scripting.Actions
@@ -10,7 +10,7 @@ namespace Rollout.Scripting.Actions
     [ActionParam(1, "y", typeof(int))]
     [ActionParam(2, "speed", typeof(double))]
     [ActionParam(3, "duration", typeof(int))]
-    public class MoveAction : Action
+    public sealed class MoveAction : Action
     {
         const double PixelsInAMeter = 100;
 
@@ -26,7 +26,7 @@ namespace Rollout.Scripting.Actions
 
         private ITransformable Target
         {
-            get { return target ?? (target = Engine[targetName] as ITransformable); }
+            get { return target ?? (target = ScriptingEngine.Item(targetName) as ITransformable); }
         }
 
         public MoveAction(String targetName, int x, int y, double speed, int duration)
@@ -59,6 +59,8 @@ namespace Rollout.Scripting.Actions
             TargetDelta = delta;
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+
+            Reset();
         }
 
         public MoveAction(String targetName, Vector2 delta, TimeSpan duration)

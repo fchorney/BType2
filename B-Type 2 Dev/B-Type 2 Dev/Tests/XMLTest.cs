@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Rollout.Core;
-using Rollout.Drawing.Particle;
+using Rollout.Core.GameObject;
+using Rollout.Drawing.Sprites;
 using Rollout.Screens;
 using Rollout.Scripting;
 

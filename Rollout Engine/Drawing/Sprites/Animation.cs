@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Rollout.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Core;
 
-namespace Rollout.Drawing.Particle
+namespace Rollout.Drawing.Sprites
 {
     public class Frame
     {

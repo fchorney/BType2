@@ -10,6 +10,7 @@ namespace Rollout.Collision
     {
         private QuadTree quadTree;
         private List<PrimitiveLine> quadSprites;
+        private Dictionary<int, CollisionHandler> CollisionHandlers { get; set; }
 
         private const int Split = 4;
 
@@ -28,7 +29,7 @@ namespace Rollout.Collision
                 CreateQuadSprites(quadTree);
             }
 
-            CollisionHandlers = new Dictionary<int, Action<ICollidable, ICollidable>>();
+            CollisionHandlers = new Dictionary<int, CollisionHandler>();
 
         }
 
@@ -47,14 +48,19 @@ namespace Rollout.Collision
                 ICollidable a = collision.Get(0);
                 ICollidable b = collision.Get(1);
 
-                
-                if (a.OnCollision != null) a.OnCollision(a, b);
-                if (b.OnCollision != null) b.OnCollision(b, a);
+                //if (a.OnCollision != null) a.OnCollision(a, b);
+                //if (b.OnCollision != null) b.OnCollision(b, a);
 
-                int key = GetTypeHashKey(a.GetType(), b.GetType());
+                var key = GetTypeHashKey(a.GetType(), b.GetType());
                 if (CollisionHandlers.ContainsKey(key))
                 {
-                    CollisionHandlers[key].Invoke(a,b);
+                    var handler = CollisionHandlers[key];
+
+                    if (a.GetType() == handler.Sender)
+                        handler.Handler.Invoke(a, b);
+                    else
+                        handler.Handler.Invoke(b, a);
+
                 }
                 
             }
@@ -68,21 +74,40 @@ namespace Rollout.Collision
             }
         }
 
-        private Dictionary<int, Action<ICollidable, ICollidable>> CollisionHandlers { get; set; }
+        class CollisionHandler
+        {
+            public Type Sender { get; set; }
+            public Type Object { get; set; }
+            public Action<ICollidable, ICollidable> Handler { get; set; }
+
+            public CollisionHandler(Type s, Type o, Action<ICollidable, ICollidable> handler)
+            {
+                Sender = s;
+                Object = o;
+                Handler = handler;
+            }
+
+            public int HashKey
+            {
+                get { return GetTypeHashKey(Sender, Object); }
+            }
+        }
+
+        private static int GetTypeHashKey(Type t, Type u)
+        {
+            return t.GetHashCode() ^ u.GetHashCode();
+        } 
+
 
         public void Register<TSender, TObject>(Action<TSender, TObject> eventHandler)
             where TSender : ICollidable 
             where TObject : ICollidable
         {
-            Action<ICollidable, ICollidable> action = (x, y) => eventHandler.Invoke((TSender)x, (TObject)y);
 
-            CollisionHandlers.Add(GetTypeHashKey(typeof(TSender), typeof(TObject)), action);
+            var handler = new CollisionHandler(typeof (TSender), typeof (TObject), (x, y) => eventHandler.Invoke((TSender)x, (TObject)y));
+
+            CollisionHandlers.Add(handler.HashKey, handler);
         }
-
-        private int GetTypeHashKey(Type T, Type U)
-        {
-            return T.GetHashCode() ^ U.GetHashCode();
-        } 
 
         public void Draw(GameTime gameTime)
         {

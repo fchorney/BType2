@@ -14,21 +14,17 @@ using Rectangle = Rollout.Collision.Shapes.Rectangle;
 namespace B_Type_2_Dev
 {
 
-    public class Enemy
+    public class Enemy : Sprite
     {
-        public Sprite Sprite { get; set; }
-
-        public Enemy(Screen numberOne)
+        public Enemy()
         {
+            AddAnimation("main", Animation.Load("player"));
+            Name = "enemy";
 
+            Position = new Vector2(300,200);
+            Rotation = MathHelper.Pi;
+            Shape = new Rectangle(0, 0, 64, 64);
 
-            Sprite = new Sprite(new Vector2(300, 200), Animation.Load("player")) { Name = "enemy" };
-            Sprite.Rotation = MathHelper.Pi;
-
-            Sprite.Shape = new Rectangle(0,0,64,64);
-            //Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation += 0.1f;
-
-            numberOne.Add(Sprite);
         }
     }
 
@@ -41,10 +37,9 @@ namespace B_Type_2_Dev
         {
             
             Sprite = new Sprite(new Vector2(300, 400), Animation.Load("player")) { Name = "player" };
+            Sprite.Shape = new Rectangle(0, 0, 64, 64);
+
             screen.Add(Sprite);            
-            
-            //Sprite.Shape = new Circle(5,5,5);
-            //Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation -= 0.1f;
             
             Guns = new Dictionary<string, Gun>();
             Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(6, -18)));
@@ -98,9 +93,14 @@ namespace B_Type_2_Dev
 
         private Enemy enemy;
 
-        public void GetHitByABullet(Particle p, Sprite s)
+        public void GetHitByABullet(Enemy s, Particle p)
         {
             s.Rotation += 0.1f;
+        }        
+        public void GetHitByASprite(Sprite s, Sprite p)
+        {
+            s.Rotation += 0.1f;
+            p.Rotation += -0.1f;
         }
 
         public override void Initialize()
@@ -109,11 +109,13 @@ namespace B_Type_2_Dev
             base.Initialize();
             //CollisionEngine.Debug = true;
 
-            CollisionEngine.Engine.Register<Particle, Sprite>(GetHitByABullet);
+            CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
+            CollisionEngine.Register<Sprite, Sprite>(GetHitByASprite);
 
             AnimationLoader.Test();
 
-            enemy = new Enemy(this);
+            enemy = new Enemy();
+            this.Add(enemy);
 
             player = new Player(this);
           
@@ -128,7 +130,7 @@ namespace B_Type_2_Dev
             fireLimit = new Limiter(.01f);
 
             CollisionEngine.Add(player.Sprite);
-            CollisionEngine.Add(enemy.Sprite);
+            CollisionEngine.Add(enemy);
 
             TextWriter.Add("Left Particle Count");
             TextWriter.Add("Left Particle Buffer Count");

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Screens;
@@ -28,6 +29,15 @@ namespace Rollout.Collision
         {
             Engine.Update(gameTime);
         }
+
+
+        public static void Register<TSender, TObject>(Action<TSender, TObject> eventHandler)
+            where TSender : ICollidable
+            where TObject : ICollidable
+        {
+            Engine.Register(eventHandler);
+        }
+
 
         public static void Draw(GameTime gameTime)
         {

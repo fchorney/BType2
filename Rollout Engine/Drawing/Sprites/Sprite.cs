@@ -37,6 +37,15 @@ namespace Rollout.Drawing.Sprites
 
         #endregion
 
+        public Sprite()
+        {
+            animations = new Dictionary<string, Animation>();
+            Color = Color.White;
+            Scale = 1f;
+            Rotation = 0f;
+            Enabled = true;
+        }
+
         /// <summary>
         /// Create a new Sprite with a position.
         /// Optionally pass in a default animation name and animation.
@@ -44,15 +53,10 @@ namespace Rollout.Drawing.Sprites
         /// <param name="startPosition">Required: Start position of sprite</param>
         /// <param name="animationName">Optional: Default animation name (Required with animation parameter)</param>
         /// <param name="animation">Optional: Default animation (Required with animationName parameter)</param>
-        public Sprite(Vector2 startPosition, Animation animation = null, string animationName = "main")
+        public Sprite(Vector2 startPosition, Animation animation = null, string animationName = "main") : this()
         {
-            animations = new Dictionary<string, Animation>();
             OffsetX = startPosition.X;
             OffsetY = startPosition.Y;
-            Color = Color.White;
-            Scale = 1f;
-            Rotation = 0f;
-            Enabled = true;
 
             if (animation != null)
             {

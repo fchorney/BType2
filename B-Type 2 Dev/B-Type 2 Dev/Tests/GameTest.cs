@@ -100,7 +100,7 @@ namespace B_Type_2_Dev
 
         public void GetHitByABullet(Particle p, Sprite s)
         {
-            s.Rotation += 0.0f;
+            s.Rotation += 0.1f;
         }
 
         public override void Initialize()

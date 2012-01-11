@@ -74,7 +74,7 @@ namespace Rollout.Collision
             where TSender : ICollidable 
             where TObject : ICollidable
         {
-            Action<ICollidable, ICollidable> action = eventHandler as Action<ICollidable, ICollidable>;
+            Action<ICollidable, ICollidable> action = (x, y) => eventHandler.Invoke((TSender)x, (TObject)y);
 
             CollisionHandlers.Add(GetTypeHashKey(typeof(TSender), typeof(TObject)), action);
         }

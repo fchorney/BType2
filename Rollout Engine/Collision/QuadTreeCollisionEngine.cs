@@ -20,13 +20,16 @@ namespace Rollout.Collision
             quadTree.Split();
             quadTree.Split();
             quadTree.Split();
-            quadTree.Split();
+            //quadTree.Split();
 
             if (CollisionEngine.Debug)
             {
                 quadSprites = new List<PrimitiveLine>();
                 CreateQuadSprites(quadTree);
             }
+
+            CollisionHandlers = new Dictionary<int, Action<ICollidable, ICollidable>>();
+
         }
 
         public void Add(ICollidable obj)
@@ -44,8 +47,16 @@ namespace Rollout.Collision
                 ICollidable a = collision.Get(0);
                 ICollidable b = collision.Get(1);
 
-                a.OnCollision(a, b);
-                b.OnCollision(b, a);
+                
+                if (a.OnCollision != null) a.OnCollision(a, b);
+                if (b.OnCollision != null) b.OnCollision(b, a);
+
+                int key = GetTypeHashKey(a.GetType(), b.GetType());
+                if (CollisionHandlers.ContainsKey(key))
+                {
+                    CollisionHandlers[key].Invoke(a,b);
+                }
+                
             }
 
             if (CollisionEngine.Debug)
@@ -56,6 +67,23 @@ namespace Rollout.Collision
                 }
             }
         }
+
+        private Dictionary<int, Action<ICollidable, ICollidable>> CollisionHandlers { get; set; }
+
+        public void Register<TSender, TObject>(Action<TSender, TObject> eventHandler)
+            where TSender : ICollidable 
+            where TObject : ICollidable
+        {
+            Action<ICollidable, ICollidable> action = eventHandler as Action<ICollidable, ICollidable>;
+
+            CollisionHandlers.Add(GetTypeHashKey(typeof(TSender), typeof(TObject)), action);
+        }
+
+        private int GetTypeHashKey(Type T, Type U)
+        {
+            return T.GetHashCode() ^ U.GetHashCode();
+        } 
+
         public void Draw(GameTime gameTime)
         {
             foreach (var primitive in quadSprites)

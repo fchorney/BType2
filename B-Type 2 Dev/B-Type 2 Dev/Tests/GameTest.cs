@@ -24,7 +24,7 @@ namespace B_Type_2_Dev
             Sprite.Rotation = MathHelper.Pi;
 
             Sprite.Shape = new Rectangle(0,0,64,64);
-            Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation += 0.1f;
+            //Sprite.OnCollision += (src, obj) => ((Sprite) src).Rotation += 0.1f;
 
             numberOne.Add(Sprite);
         }
@@ -67,6 +67,7 @@ namespace B_Type_2_Dev
                          {Name = name};
 
             CollisionHandler handler = (src, obj) => {  };
+
             Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200, new Circle(0,0,8), handler)
             {
                 OffsetX = emitterOffset.X,
@@ -95,11 +96,18 @@ namespace B_Type_2_Dev
 
         private Enemy enemy;
 
+        public void GetHitByABullet(Particle p, Sprite s)
+        {
+            s.Rotation += 0.0f;
+        }
+
         public override void Initialize()
         {
             // Must happen at the start
             base.Initialize();
-            CollisionEngine.Debug = true;
+            //CollisionEngine.Debug = true;
+
+            CollisionEngine.Engine.Register<Particle, Sprite>(GetHitByABullet);
 
             AnimationLoader.Test();
 

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<scripts>
+
+    
+    <script for="enemies">
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>            
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+            <create id="enemy1" x="0" y="0"/>
+            <wait duration="700"/>
+    </script>
+    
+    <template id="enemy1">
+        <move x="1000" y="300" duration="1000" />
+        <repeat>
+            <move x="-200" y="200" duration="1000" />    
+            <move x="-200" y="-200" duration="1000" />    
+            <move x="200" y="-200" duration="1000" />    
+            <move x="200" y="200" duration="1000" />    
+        </repeat>
+    </template>
+ 
+</scripts>

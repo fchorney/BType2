@@ -4,10 +4,12 @@ using Microsoft.Xna.Framework.Input;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
 using Rollout.Core;
+using Rollout.Core.GameObject;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Input;
 using Rollout.Screens;
+using Rollout.Scripting;
 using Rollout.Utility;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
@@ -28,26 +30,24 @@ namespace B_Type_2_Dev
         }
     }
 
-    public class Player
+    public class Player : Sprite
     {
-        public Sprite Sprite { get; set; }
         public Dictionary<string, Gun> Guns { get; set; }
 
         public Player(Screen screen)
         {
-            
-            Sprite = new Sprite(new Vector2(300, 400), Animation.Load("player")) { Name = "player" };
-            Sprite.Shape = new Rectangle(0, 0, 64, 64);
+            Position = new Vector2(500,600);
+            AddAnimation("main", Animation.Load("player"));
+            Name = "player";
+            Shape = new Rectangle(0, 0, 64, 64);
 
-            screen.Add(Sprite);            
-            
             Guns = new Dictionary<string, Gun>();
             Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(6, -18)));
             Guns.Add("right", new Gun(screen,"right", new Vector2(57, 20), new Vector2(6, -18)));
 
             foreach (var gun in Guns.Values)
             {
-                Sprite.Add(gun.Sprite);       
+                Add(gun.Sprite);       
             }
         }
 
@@ -93,14 +93,15 @@ namespace B_Type_2_Dev
 
         private Enemy enemy;
 
-        public void GetHitByABullet(Enemy s, Particle p)
+        public void GetHitByABullet(Sprite s, Particle p)
         {
             s.Rotation += 0.1f;
-        }        
+        }
+
         public void GetHitByASprite(Sprite s, Sprite p)
         {
             s.Rotation += 0.1f;
-            p.Rotation += -0.1f;
+            p.Rotation += 0.1f;
         }
 
         public override void Initialize()
@@ -109,15 +110,18 @@ namespace B_Type_2_Dev
             base.Initialize();
             //CollisionEngine.Debug = true;
 
-            CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
-            CollisionEngine.Register<Sprite, Sprite>(GetHitByASprite);
+            //CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
+            CollisionEngine.Register<Sprite, Particle>(GetHitByABullet);
+            CollisionEngine.Register<Player, Sprite>(GetHitByASprite);
+            CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
 
             AnimationLoader.Test();
 
             enemy = new Enemy();
-            this.Add(enemy);
+            Add(enemy);
 
             player = new Player(this);
+            Add(player);
           
             input = new PlayerInput(PlayerIndex.One);
             input.BindAction("Quit", Keys.Q);
@@ -129,7 +133,7 @@ namespace B_Type_2_Dev
 
             fireLimit = new Limiter(.01f);
 
-            CollisionEngine.Add(player.Sprite);
+            CollisionEngine.Add(player);
             CollisionEngine.Add(enemy);
 
             TextWriter.Add("Left Particle Count");
@@ -137,6 +141,16 @@ namespace B_Type_2_Dev
 
             TextWriter.Add("Right Particle Count");
             TextWriter.Add("Right Particle Buffer Count");
+
+
+
+            var enemies = new DrawableGameObject();
+            Add(enemies);
+            ScriptingEngine.Add("enemies", enemies);
+
+            var scriptProvider = new ScriptProvider(ScriptingEngine.Engine as XmlScriptingEngine);
+            scriptProvider.Load("GameTest");
+
         }
 
         public override void Update(GameTime gameTime)
@@ -148,13 +162,13 @@ namespace B_Type_2_Dev
                 G.Game.Exit();
 
             if (input.IsHeld("Left"))
-                player.Sprite.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.X -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Right"))
-                player.Sprite.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.X += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Up"))
-                player.Sprite.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Y -= speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (input.IsHeld("Down"))
-                player.Sprite.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                player.Y += speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (input.IsPressed("Fire"))
             {

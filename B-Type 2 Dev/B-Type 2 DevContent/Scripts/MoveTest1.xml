@@ -1,73 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <scripts>
 
-    <script for="enemies">
-        <repeat>
-            <create id="invader" x="50" y="10" />
-            <create id="invader" x="150" y="10" />
-            <create id="invader" x="250" y="10" />
-            <create id="invader" x="350" y="10" />
-            <create id="invader" x="450" y="10" />
-            <create id="invader" x="550" y="10" />
-            <create id="invader" x="650" y="10" />
-            <create id="invader" x="750" y="10" />
-            <create id="invader" x="850" y="10" />
-            <create id="invader" x="950" y="10" />
-            <create id="invader" x="1050" y="10" />
-            <create id="invader" x="1150" y="10" />
-
-            <create id="invader2" x="70" y="10" />
-            <create id="invader2" x="170" y="10" />
-            <create id="invader2" x="270" y="10" />
-            <create id="invader2" x="370" y="10" />
-            <create id="invader2" x="470" y="10" />
-            <create id="invader2" x="570" y="10" />
-            <create id="invader2" x="670" y="10" />
-            <create id="invader2" x="770" y="10" />
-            <create id="invader2" x="870" y="10" />
-            <create id="invader2" x="970" y="10" />
-            <create id="invader2" x="1070" y="10" />
-            <create id="invader2" x="1170" y="10" />
-        </repeat>
-    </script>
     
-    <template id="invader">
-        <repeat>
-            <wait duration="1" />
-            <move y="40" speed="5" />
-            <wait duration="1" />
-            <move x="-20" speed="5" />
-            <wait duration="1" />
-            <move y="40" speed="5" />
-            <wait duration="1" />
-            <move x="20" speed="5" />
-        </repeat>
-    </template>
-
-    <template id="invader2">
-        <repeat>
-            <wait duration="10" />
-            <move y="40" speed="5" />
-            <wait duration="1" />
-            <move x="20" speed="5" />
-            <wait duration="1" />
-            <move y="40" speed="5" />
-            <wait duration="1" />
-            <move x="-20" speed="5" />
-        </repeat>
-    </template>
-
-    <!--
-    <script for="TheBiggest">
-        <repeat>
-            <move x="100" y="100" duration="500" />
-            <move x="-100" y="-100" duration="500" />
-            <wait duration="500" />
-        </repeat>
-    </script>
-  
     <script for="enemies">
-        <action wait="false">
+        <repeat wait="false">
             <create id="enemy1" x="0" y="0"/>
             <wait duration="700"/>
             <create id="enemy1" x="0" y="0"/>
@@ -86,8 +22,8 @@
             <wait duration="700"/>
             <create id="enemy1" x="0" y="0"/>
             <wait duration="700"/>
-        </action>
-        <action wait="false">
+        </repeat>
+        <repeat wait="false">
             <wait duration="350" />
             <create id="enemy2" x="1000" y="0"/>
             <wait duration="700"/>
@@ -107,7 +43,7 @@
             <wait duration="700"/>
             <create id="enemy2" x="1000" y="0"/>
             <wait duration="700"/>
-        </action>
+        </repeat>
     </script>
     
     <template id="enemy1">
@@ -127,5 +63,5 @@
             <move x="10" y="-20" duration="250" />
         </repeat>
     </template>
- -->
+ 
 </scripts>

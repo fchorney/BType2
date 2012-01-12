@@ -12,7 +12,7 @@ namespace Rollout.Collision
         private List<PrimitiveLine> quadSprites;
         private Dictionary<int, CollisionHandler> CollisionHandlers { get; set; }
 
-        private const int Split = 4;
+        private const int Split = 2;
 
         public QuadTreeCollisionEngine()
         {

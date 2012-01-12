@@ -1,4 +1,6 @@
 using Microsoft.Xna.Framework;
+using Rollout.Collision;
+using Rollout.Collision.Shapes;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
 using Rollout.Utility;
@@ -36,10 +38,10 @@ namespace Rollout.Scripting.Actions
         {
             var targetName = templateid + "|" + Counter++;
 
-            var enemy = CreateEnemy(targetName);
+            var sprite = CreateSprite(targetName);
 
             var createTarget = ScriptingEngine.Item(target) as DrawableGameObject;
-            if (createTarget != null) createTarget.Add(enemy);
+            if (createTarget != null) createTarget.Add(sprite);
 
 
             actions = new ActionQueue();
@@ -48,20 +50,23 @@ namespace Rollout.Scripting.Actions
                 actions.Add(ScriptProvider.ProcessAction(child, targetName));
             }
 
-            ScriptingEngine.Add(targetName, enemy, actions);
+            ScriptingEngine.Add(targetName, sprite, actions);
+            CollisionEngine.Add(sprite);
 
             Finished = true;
         }
 
-
-        public Sprite CreateEnemy(string name)
+        public Sprite CreateSprite(string name)
         {
-            var enemy = new Sprite(position,
-                    new Animation(@"Sprites/spaceship2", 64, 64, 2, new double[] { 0.3f, 0.3f })) { Name = name };
-            enemy.Scale = RNG.Next(50, 100)/100.0f;
-            enemy.Rotation = RNG.Next(0, 500)/100.0f;
+            var sprite = new Sprite();
 
-            return enemy;
+            sprite.Name = name;
+            sprite.Position = position;
+            sprite.AddAnimation("main", Animation.Load("player"));
+            sprite.Shape = new Collision.Shapes.Rectangle(0, 0, 64, 64);
+
+            return sprite;
         }
+
     }
 }

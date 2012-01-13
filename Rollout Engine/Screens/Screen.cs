@@ -38,14 +38,6 @@ namespace Rollout.Screens
         public Transition Transition { get; set; }
         public string ID { get; set; }
 
-        /// <summary>
-        /// Collection of components this component manages
-        /// </summary>
-        //public List<Screen> Components
-        //{
-        //    get { return _Components; }
-        //}
-
         public List<Screen> Components { get; internal set; }
         private List<Screen> componentsToUpdate;
 
@@ -108,7 +100,7 @@ namespace Rollout.Screens
                              {
                                  OnTime = Time.s(1),
                                  OffTime = Time.s(1),
-                                 Position = 1
+                                 Position = 0
                              };
             ScreenState = ScreenState.TransitionOn;
 

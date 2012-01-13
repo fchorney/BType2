@@ -131,17 +131,10 @@ namespace B_Type_2_Dev
             input.BindAction("Down",Keys.Down);
             input.BindAction("Fire",Keys.Space);
 
-            fireLimit = new Limiter(.01f);
+            fireLimit = new Limiter(.05f);
 
             CollisionEngine.Add(player);
             CollisionEngine.Add(enemy);
-
-            TextWriter.Add("Left Particle Count");
-            TextWriter.Add("Left Particle Buffer Count");
-
-            TextWriter.Add("Right Particle Count");
-            TextWriter.Add("Right Particle Buffer Count");
-
 
 
             var enemies = new DrawableGameObject();
@@ -190,13 +183,6 @@ namespace B_Type_2_Dev
                     FireGun();
                 }
             }
-
-
-            TextWriter.Update("Left Particle Count", player.Guns["left"].Emitter.PCount.ToString());
-            TextWriter.Update("Left Particle Buffer Count", player.Guns["left"].Emitter.BCount.ToString());
-
-            TextWriter.Update("Right Particle Count", player.Guns["right"].Emitter.PCount.ToString());
-            TextWriter.Update("Right Particle Buffer Count", player.Guns["right"].Emitter.BCount.ToString());
 
             base.Update(gameTime);
         }

@@ -23,7 +23,7 @@ namespace Rollout.Scripting.Actions
 
             if (Actions.Queue.Count == 0)
             {
-                if (CurrentIterations == 0)
+                if (CurrentIterations == 1)
                 {
                     Finished = true;
                     CurrentIterations = Iterations;

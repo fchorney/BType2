@@ -36,7 +36,7 @@ namespace Rollout.Scripting.Actions
             if (speed > 0)
             {    
                 double distance = Math.Sqrt(x * x + y * y);
-                Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
+                Duration = Time.ms((int)(distance / speed * 1000f / PixelsInAMeter));
             }
             else
             {
@@ -44,31 +44,6 @@ namespace Rollout.Scripting.Actions
             }
             
             TargetDelta = new Vector2(x,y);
-
-            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
-
-            Reset();
-        }
-
-        public MoveAction(String targetName, Vector2 delta, double speed)
-        {
-            this.targetName = targetName;
-
-            double distance = Math.Sqrt(delta.X * delta.X + delta.Y * delta.Y);
-            Duration = Time.ms((int)(distance / speed * 1000 / PixelsInAMeter));
-            TargetDelta = delta;
-
-            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
-
-            Reset();
-        }
-
-        public MoveAction(String targetName, Vector2 delta, TimeSpan duration)
-        {
-            this.targetName = targetName;
-
-            Duration = duration;
-            TargetDelta = delta;
 
             DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
 

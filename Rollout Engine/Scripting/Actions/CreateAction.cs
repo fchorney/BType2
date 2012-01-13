@@ -44,14 +44,21 @@ namespace Rollout.Scripting.Actions
             if (createTarget != null) createTarget.Add(sprite);
 
 
-            actions = new ActionQueue();
+            var childActions = new ActionQueue();
             foreach (var child in ScriptProvider.Templates[templateid].Elements())
             {
-                actions.Add(ScriptProvider.ProcessAction(child, targetName));
+                childActions.Add(ScriptProvider.ProcessAction(child, targetName));
             }
+            ScriptingEngine.Add(targetName, sprite, childActions);
 
-            ScriptingEngine.Add(targetName, sprite, actions);
-            CollisionEngine.Add(sprite);
+            //actions = new ActionQueue();
+            //foreach (var child in ScriptProvider.Templates[templateid].Elements())
+            //{
+            //    actions.Add(ScriptProvider.ProcessAction(child, targetName));
+            //}
+
+            //ScriptingEngine.Add(targetName, sprite, actions);
+            //CollisionEngine.Add(sprite);
 
             Finished = true;
         }

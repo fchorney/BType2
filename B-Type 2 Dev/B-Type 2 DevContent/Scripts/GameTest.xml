@@ -3,9 +3,9 @@
 
     
     <script for="enemies">
-
+        
         <wait duration="500"/>
-
+        
         <repeat count="10">
             <create id="enemy1" x="0" y="0"/>
             <wait duration="100"/>
@@ -13,7 +13,7 @@
     </script>
     
     <template id="enemy1">
-        <move x="64" y="64" speed="10" />
+        <move x="64" y="64" duration="1000" />
         <!--<repeat>
             <move x="-200" y="200" duration="500" />    
             <move x="-200" y="-200" duration="500" />    

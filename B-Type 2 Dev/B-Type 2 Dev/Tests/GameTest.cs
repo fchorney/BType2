@@ -15,7 +15,7 @@ using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
 {
-
+    [Sprite("enemy")]
     public class Enemy : Sprite
     {
         public Enemy()
@@ -23,7 +23,6 @@ namespace B_Type_2_Dev
             AddAnimation("main", Animation.Load("player"));
             Name = "enemy";
 
-            Position = new Vector2(300,200);
             Rotation = MathHelper.Pi;
             Shape = new Rectangle(0, 0, 64, 64);
 
@@ -34,7 +33,7 @@ namespace B_Type_2_Dev
     {
         public Dictionary<string, Gun> Guns { get; set; }
 
-        public Player(Screen screen)
+        public Player()
         {
             Position = new Vector2(500,600);
             AddAnimation("main", Animation.Load("player"));
@@ -42,12 +41,12 @@ namespace B_Type_2_Dev
             Shape = new Rectangle(0, 0, 64, 64);
 
             Guns = new Dictionary<string, Gun>();
-            Guns.Add("left", new Gun(screen,"left", new Vector2(-21, 20), new Vector2(6, -18)));
-            Guns.Add("right", new Gun(screen,"right", new Vector2(57, 20), new Vector2(6, -18)));
+            Guns.Add("left", new Gun("left", new Vector2(-21, 20), new Vector2(6, -18)));
+            Guns.Add("right", new Gun("right", new Vector2(57, 20), new Vector2(6, -18)));
 
             foreach (var gun in Guns.Values)
             {
-                Add(gun.Sprite);       
+                Add(gun.Sprite);
             }
         }
 
@@ -58,7 +57,7 @@ namespace B_Type_2_Dev
         public Sprite Sprite { get; set; }
         public ParticleEmitter Emitter { get; set; }
 
-        public Gun(Screen screen, string name, Vector2 gunOffset, Vector2 emitterOffset)
+        public Gun(string name, Vector2 gunOffset, Vector2 emitterOffset)
         {
             Sprite = new Sprite(gunOffset, new Animation(@"Sprites/gun1", 32, 32, 2, new double[] {0.05f, 0.08f}, false))
                          {Name = name};
@@ -110,8 +109,7 @@ namespace B_Type_2_Dev
             base.Initialize();
             //CollisionEngine.Debug = true;
 
-            //CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
-            CollisionEngine.Register<Sprite, Particle>(GetHitByABullet);
+            CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
             CollisionEngine.Register<Player, Sprite>(GetHitByASprite);
             CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
 
@@ -120,7 +118,7 @@ namespace B_Type_2_Dev
             enemy = new Enemy();
             Add(enemy);
 
-            player = new Player(this);
+            player = new Player();
             Add(player);
           
             input = new PlayerInput(PlayerIndex.One);

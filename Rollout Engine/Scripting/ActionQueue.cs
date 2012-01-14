@@ -39,7 +39,6 @@ namespace Rollout.Scripting
                 Queue.Remove(action);
             }
 
-          
         }
 
         public virtual void Reset()

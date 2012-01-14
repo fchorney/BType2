@@ -6,23 +6,22 @@
         
         <wait duration="500"/>
         
-        <repeat count="10">
-            <create id="enemy1" x="0" y="0"/>
-            <wait duration="100"/>
+        <repeat count="9">
+            <create id="enemy1" x="400" y="200"/>
+            <wait duration="200"/>
         </repeat>
     </script>
     
-    <template id="enemy1">
-        <move x="64" y="64" duration="1000" />
-        <!--<repeat>
-            <move x="-200" y="200" duration="500" />    
+    <template id="enemy1" sprite="enemy">
+        <repeat>
+            <move x="-200" y="200" duration="50" />    
             <move x="-200" y="-200" duration="500" />    
-            <move x="200" y="-200" duration="500" />    
+            <move x="200" y="-200" duration="50" />    
             <move x="200" y="200" duration="500" />    
-        </repeat>-->
+        </repeat>
     </template>
 
-    <template id="enemy2">
+    <template id="enemy2" sprite="enemy">
     </template>
  
 </scripts>

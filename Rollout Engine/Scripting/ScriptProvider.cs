@@ -11,6 +11,7 @@ namespace Rollout.Scripting
     {
         public XmlScriptingEngine Engine { get; private set; }
 
+        public static Dictionary<string, Type> SpriteTypes { get; set; }
         public static Dictionary<string, XElement> Templates;
         private static Dictionary<string, ActionInfo> ActionTypes { get; set; } 
 
@@ -19,6 +20,7 @@ namespace Rollout.Scripting
             Engine = engine;
             Templates = new Dictionary<string, XElement>();
             ActionTypes = new Dictionary<string, ActionInfo>();
+            SpriteTypes = new Dictionary<string, Type>();
 
             RegisterActions();
         }
@@ -27,14 +29,24 @@ namespace Rollout.Scripting
         {
             var doc = XElement.Load(G.Content.RootDirectory + @"\Scripts\" + assetName + ".xml");
 
+            //load sprite types
+            var spriteTypes = AttributeHelper.GetTypesWith<SpriteAttribute>();
+            foreach (var spriteType in spriteTypes)
+            {
+                var spriteAttribute = (SpriteAttribute)spriteType.GetCustomAttributes(typeof (SpriteAttribute), false)[0];
 
+                SpriteTypes.Add(spriteAttribute.Name,spriteType);
+            }
+
+            //load templates
             var templates = doc.Elements("template");
             foreach (var template in templates)
             {
-                string id = template.Attribute("id").Value;
+                var id = template.Attribute("id").Value;
                 Templates.Add(id, template);
             }
 
+            //load action scripts
             var scripts = doc.Elements("script");
             foreach(var script in scripts)
             {

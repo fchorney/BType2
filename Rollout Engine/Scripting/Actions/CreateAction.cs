@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
@@ -36,41 +37,36 @@ namespace Rollout.Scripting.Actions
 
         public override void Update(GameTime gameTime)
         {
+            var template = ScriptProvider.Templates[templateid];
+
             var targetName = templateid + "|" + Counter++;
 
-            var sprite = CreateSprite(targetName);
+            var sprite = CreateSprite(targetName, template.Attribute("sprite").Value);
 
             var createTarget = ScriptingEngine.Item(target) as DrawableGameObject;
             if (createTarget != null) createTarget.Add(sprite);
 
 
-            var childActions = new ActionQueue();
-            foreach (var child in ScriptProvider.Templates[templateid].Elements())
+            var targetActions = new ActionQueue();
+            foreach (var action in template.Elements())
             {
-                childActions.Add(ScriptProvider.ProcessAction(child, targetName));
+                targetActions.Add(ScriptProvider.ProcessAction(action, targetName));
             }
-            ScriptingEngine.Add(targetName, sprite, childActions);
 
-            //actions = new ActionQueue();
-            //foreach (var child in ScriptProvider.Templates[templateid].Elements())
-            //{
-            //    actions.Add(ScriptProvider.ProcessAction(child, targetName));
-            //}
-
-            //ScriptingEngine.Add(targetName, sprite, actions);
-            //CollisionEngine.Add(sprite);
+            ScriptingEngine.Add(targetName, sprite, targetActions);
+            CollisionEngine.Add(sprite);
 
             Finished = true;
         }
 
-        public Sprite CreateSprite(string name)
+        public Sprite CreateSprite(string name, string spriteType)
         {
-            var sprite = new Sprite();
+
+            var type = ScriptProvider.SpriteTypes.ContainsKey(spriteType) ? ScriptProvider.SpriteTypes[spriteType] : typeof (Sprite);
+            var sprite = (Sprite)Activator.CreateInstance(type);
 
             sprite.Name = name;
             sprite.Position = position;
-            sprite.AddAnimation("main", Animation.Load("player"));
-            sprite.Shape = new Collision.Shapes.Rectangle(0, 0, 64, 64);
 
             return sprite;
         }

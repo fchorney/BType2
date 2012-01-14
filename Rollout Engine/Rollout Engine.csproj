@@ -106,6 +106,7 @@
     <Compile Include="Scripting\ActionInfo.cs" />
     <Compile Include="Scripting\ActionAttribute.cs" />
     <Compile Include="Scripting\Actions\CreateAction.cs" />
+    <Compile Include="Scripting\SpriteAttribute.cs" />
     <Compile Include="Utility\Cloning.cs" />
     <Compile Include="Drawing\ITransformable.cs" />
     <Compile Include="Drawing\Sprites\Animation.cs" />

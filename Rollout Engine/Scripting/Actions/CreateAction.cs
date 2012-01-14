@@ -70,6 +70,5 @@ namespace Rollout.Scripting.Actions
 
             return sprite;
         }
-
     }
 }

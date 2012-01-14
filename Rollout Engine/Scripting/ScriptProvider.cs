@@ -57,7 +57,6 @@ namespace Rollout.Scripting
 
         private void RegisterActions()
         {
-
             //find all Types with the ActionAttribute
             var actionTypes = AttributeHelper.GetTypesWith<ActionAttribute>();
             foreach (var actionType in actionTypes)

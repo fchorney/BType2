@@ -53,7 +53,19 @@ namespace Rollout.Scripting
 
         public void AddAction(string name, IAction action)
         {
-            Scriptables[name].Actions.Add(action);
+            if (Scriptables.ContainsKey(name))
+            {
+                Scriptables[name].Actions.Add(action);
+            }
+            else
+            {
+                foreach (var scriptable in AddQueue)
+                {
+                    if (scriptable.Name != name) continue;
+                    scriptable.Actions.Add(action);
+                    break;
+                }
+            }
         }
 
         public IScriptable this[string name]

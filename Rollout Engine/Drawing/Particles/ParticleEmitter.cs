@@ -68,7 +68,7 @@ namespace Rollout.Drawing.Particles
             ScriptingEngine.Add(p.Name, p);
 
             //DEBUG MUST BE REPLACED LATER
-            particleAction = new MoveAction(p.Name, 0, -10000, 10f, 0);
+            particleAction = new MoveAction(p.Name, 0, 10000, 5f, 0);
             /***********************************/
 
             ScriptingEngine.AddAction(p.Name, particleAction);

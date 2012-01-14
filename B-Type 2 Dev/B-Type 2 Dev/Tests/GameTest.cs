@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Collision;
@@ -16,16 +17,27 @@ using Rectangle = Rollout.Collision.Shapes.Rectangle;
 namespace B_Type_2_Dev
 {
     [Sprite("enemy")]
-    public class Enemy : Sprite
+    public class Enemy : Sprite, IFireable
     {
+        private ParticleEmitter gun;
+
         public Enemy()
         {
             AddAnimation("main", Animation.Load("player"));
-            Name = "enemy";
+            Name = "enemy" + this.GetHashCode().ToString();
 
             Rotation = MathHelper.Pi;
             Shape = new Rectangle(0, 0, 64, 64);
 
+
+            gun = new ParticleEmitter(Name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 30,
+                                      new Circle(0, 0, 8));
+            Add(gun);
+        }
+
+        public void Fire()
+        {
+            gun.Emit(3);
         }
     }
 
@@ -64,7 +76,7 @@ namespace B_Type_2_Dev
 
             CollisionHandler handler = (src, obj) => {  };
 
-            Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200, new Circle(0,0,8), handler)
+            Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 0, new Circle(0,0,8), handler)
             {
                 OffsetX = emitterOffset.X,
                 OffsetY = emitterOffset.Y
@@ -107,16 +119,16 @@ namespace B_Type_2_Dev
         {
             // Must happen at the start
             base.Initialize();
-            //CollisionEngine.Debug = true;
+            CollisionEngine.Debug = true;
 
             CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
-            CollisionEngine.Register<Player, Sprite>(GetHitByASprite);
             CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
+            CollisionEngine.Register<Player, Particle>(GetHitByABullet);
 
             AnimationLoader.Test();
 
             enemy = new Enemy();
-            Add(enemy);
+            //Add(enemy);
 
             player = new Player();
             Add(player);

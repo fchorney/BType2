@@ -9,6 +9,7 @@ namespace Rollout.Utility
         public static IEnumerable<Type> GetTypesWith<TAttribute>(bool inherit = false) 
             where TAttribute : System.Attribute
         {
+            //var x = AppDomain.CurrentDomain.GetAssemblies();
             return from a in AppDomain.CurrentDomain.GetAssemblies()
                    from t in a.GetTypes()
                    where t.IsDefined(typeof(TAttribute), inherit)

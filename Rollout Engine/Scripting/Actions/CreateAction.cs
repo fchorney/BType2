@@ -50,15 +50,7 @@ namespace Rollout.Scripting.Actions
                 childActions.Add(ScriptProvider.ProcessAction(child, targetName));
             }
             ScriptingEngine.Add(targetName, sprite, childActions);
-
-            //actions = new ActionQueue();
-            //foreach (var child in ScriptProvider.Templates[templateid].Elements())
-            //{
-            //    actions.Add(ScriptProvider.ProcessAction(child, targetName));
-            //}
-
-            //ScriptingEngine.Add(targetName, sprite, actions);
-            //CollisionEngine.Add(sprite);
+            CollisionEngine.Add(sprite);
 
             Finished = true;
         }
@@ -71,9 +63,9 @@ namespace Rollout.Scripting.Actions
             sprite.Position = position;
             sprite.AddAnimation("main", Animation.Load("player"));
             sprite.Shape = new Collision.Shapes.Rectangle(0, 0, 64, 64);
+            sprite.Rotation = MathHelper.Pi;
 
             return sprite;
         }
-
     }
 }

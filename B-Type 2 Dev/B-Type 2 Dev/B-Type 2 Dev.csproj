@@ -108,7 +108,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Actions\CreateEnemy.cs" />
+    <Compile Include="Game\Entities\EnemyTest.cs" />
     <Compile Include="Game\Manager.cs" />
+    <Compile Include="Game\Actions\FireAction.cs" />
     <Compile Include="Tests\GameTest.cs" />
     <Compile Include="Tests\ScriptTest.cs" />
     <Compile Include="Tests\PlayerTest.cs" />

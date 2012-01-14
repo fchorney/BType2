@@ -65,7 +65,7 @@ namespace B_Type_2_Dev
 
             CollisionHandler handler = (src, obj) => {  };
 
-            Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 200, new Circle(0,0,8), handler)
+            Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 0, new Circle(0,0,8), handler)
             {
                 OffsetX = emitterOffset.X,
                 OffsetY = emitterOffset.Y
@@ -108,17 +108,18 @@ namespace B_Type_2_Dev
         {
             // Must happen at the start
             base.Initialize();
-            //CollisionEngine.Debug = true;
+            CollisionEngine.Debug = true;
 
             //CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
             CollisionEngine.Register<Sprite, Particle>(GetHitByABullet);
             CollisionEngine.Register<Player, Sprite>(GetHitByASprite);
             CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
+            CollisionEngine.Register<Player, Particle>(GetHitByABullet);
 
             AnimationLoader.Test();
 
             enemy = new Enemy();
-            Add(enemy);
+            //Add(enemy);
 
             player = new Player(this);
             Add(player);

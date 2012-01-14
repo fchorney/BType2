@@ -1,7 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <scripts>
 
+    <script for="enemies">
+        <repeat count="10">
+            <ecreate id="enemy1" x="200" y="0"/>
+            <ecreate id="enemy2" x="1100" y="0"/>
+            <wait duration="700"/>
+        </repeat>
+    </script>
+
+    <template id="enemy1">
+        <repeat>
+            <repeat count="5" wait="no">
+                <fire/>
+                <wait duration="200"/>
+            </repeat>
+            <move x="900" y="150" duration="1200"/>
+            <repeat count="5" wait="no">
+                <fire/>
+                <wait duration="200"/>
+            </repeat>
+            <move x="-900" y="150" duration="1200"/>
+        </repeat>
+    </template>
+
+    <template id="enemy2">
+        <repeat>
+            <repeat count="3" wait="no">
+                <fire/>
+                <wait duration="300"/>
+            </repeat>
+            <move x="-900" y="150" duration="1200"/>
+            <repeat count="3" wait="no">
+                <fire/>
+                <wait duration="300"/>
+            </repeat>           
+            <move x="900" y="150" duration="1200"/>
+        </repeat>
+    </template>
     
+    <!--
     <script for="enemies">
         
         <wait duration="500"/>
@@ -14,15 +52,16 @@
     
     <template id="enemy1">
         <move x="64" y="64" duration="1000" />
-        <!--<repeat>
+        <repeat>
             <move x="-200" y="200" duration="500" />    
             <move x="-200" y="-200" duration="500" />    
             <move x="200" y="-200" duration="500" />    
             <move x="200" y="200" duration="500" />    
-        </repeat>-->
+        </repeat>
     </template>
 
     <template id="enemy2">
     </template>
+    -->
  
 </scripts>

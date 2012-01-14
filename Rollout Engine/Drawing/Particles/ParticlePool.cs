@@ -22,7 +22,10 @@ namespace Rollout.Drawing
 
             for (int i = 0; i < bufferSize; i++)
             {
-                Buffer.Add(CreateParticle());
+                var p = CreateParticle();
+                Buffer.Add(p);
+                Pool.Add(p);
+                p.Enabled = false;
             }
         }
 

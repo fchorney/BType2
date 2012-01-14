@@ -56,9 +56,6 @@ namespace B_Type_2_Dev
 
             bullet.Enabled = true;
 
-            var action = new MoveAction(bullet.Name, 0, 10000, 5f, 0);
-            ScriptingEngine.Add(bullet.Name, bullet);
-            ScriptingEngine.AddAction(bullet.Name, action);
         }
     }
 
@@ -72,7 +69,14 @@ namespace B_Type_2_Dev
 
             Shape = new Circle(0, 0, 8);
 
-            //CollisionEngine.Add(this);
+            var action = new MoveAction(this.Name, 0, 10000, 5f, 0);
+
+            ScriptingEngine.Add(this.Name, this);
+            ScriptingEngine.AddAction(this.Name, action);
+
+            CollisionEngine.Add(this);
+
+
         }
     }
 

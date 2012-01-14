@@ -26,7 +26,7 @@ namespace Rollout.Drawing.Particles
         public void Reset()
         {
             Age = 0;
-            ElapsedTime = 0;
+            //ElapsedTime = 0;
         }
 
         public override void Update(GameTime gameTime)

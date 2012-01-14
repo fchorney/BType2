@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <scripts>
 
-    <script for="enemies">
+    <!--<script for="enemies">
         <repeat count="10">
             <create id="enemy1" x="200" y="0"/>
             <create id="enemy2" x="1100" y="0"/>
@@ -37,30 +37,29 @@
             </repeat>           
             <move x="900" y="150" duration="3000"/>
         </repeat>
-    </template>
+    </template>-->
     
-    <!--
     <script for="enemies">
         
         <wait duration="500"/>
         
         <repeat count="9">
-            <create id="enemy1" x="400" y="200"/>
-            <wait duration="200"/>
+            <create id="enemy1" x="0" y="200"/>
+            <wait duration="1000"/>
         </repeat>
     </script>
     
     <template id="enemy1" sprite="enemy">
         <repeat>
-            <move x="-200" y="200" duration="500" />    
-            <move x="-200" y="-200" duration="500" />    
-            <move x="200" y="-200" duration="500" />    
-            <move x="200" y="200" duration="500" />    
+            <move x="2000" y="200" duration="10000" wait="false"/>
+            <repeat count="9">
+                <fire />
+                <wait duration="1000"/>
+            </repeat>
         </repeat>
     </template>
 
     <template id="enemy2" sprite="enemy">
     </template>
-    -->
  
 </scripts>

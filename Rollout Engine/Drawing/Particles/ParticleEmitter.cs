@@ -54,7 +54,7 @@ namespace Rollout.Drawing.Particles
 
         private Particle CreateParticle()
         {
-            var p = new Particle(Vector2.Zero, particleAnimation)
+            var p = new Particle()
                         {
                             OnCollision = particleHandler,
                             Enabled = false,

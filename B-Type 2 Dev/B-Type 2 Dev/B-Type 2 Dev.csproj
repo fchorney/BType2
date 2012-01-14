@@ -110,15 +110,12 @@
   <ItemGroup>
     <Compile Include="Game\Manager.cs" />
     <Compile Include="Game\Actions\FireAction.cs" />
+    <Compile Include="Tests\Enemy.cs" />
     <Compile Include="Tests\GameTest.cs" />
-    <Compile Include="Tests\ScriptTest.cs" />
-    <Compile Include="Tests\PlayerTest.cs" />
-    <Compile Include="Tests\ParticlesTest.cs" />
-    <Compile Include="Tests\QuadTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Main.cs" />
-    <Compile Include="Tests\XMLTest.cs" />
+    <Compile Include="Tests\Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

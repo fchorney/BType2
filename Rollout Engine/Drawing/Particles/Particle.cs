@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
 
 namespace Rollout.Drawing.Particles
 {
-    public interface IParticle
+    public interface IParticle : IGameObject
     {
         double Age { get; }
         double TimeToLive { get; }
@@ -11,22 +12,21 @@ namespace Rollout.Drawing.Particles
         bool Enabled { get; set; }
     }
 
-    public sealed class Particle : Sprite, IParticle
+    public class Particle : Sprite, IParticle
     {
         public double Age { get; private set; }
         public double TimeToLive { get; set; }
         public double ElapsedTime { get; private set; }
 
-        public Particle(Vector2 startPosition, Animation animation = null, string animationName = "main") 
-            : base(startPosition, animation, animationName)
+        public Particle() 
         {
-            Initialize();
+            Reset();
         }
 
-        public override void Initialize()
+        public void Reset()
         {
             Age = 0;
-            base.Initialize();
+            ElapsedTime = 0;
         }
 
         public override void Update(GameTime gameTime)

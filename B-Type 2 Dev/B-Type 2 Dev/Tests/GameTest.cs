@@ -1,69 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Core.GameObject;
+using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Input;
 using Rollout.Screens;
 using Rollout.Scripting;
 using Rollout.Utility;
-using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
 {
-    [Sprite("enemy")]
-    public class Enemy : Sprite, IFireable
-    {
-        private ParticleEmitter gun;
-
-        public Enemy()
-        {
-            AddAnimation("main", Animation.Load("player"));
-            Name = "enemy" + this.GetHashCode().ToString();
-
-            Rotation = MathHelper.Pi;
-            Shape = new Rectangle(0, 0, 64, 64);
-
-
-            gun = new ParticleEmitter(Name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 30,
-                                      new Circle(0, 0, 8));
-            Add(gun);
-        }
-
-        public void Fire()
-        {
-            gun.Emit(3);
-        }
-    }
-
-    public class Player : Sprite
-    {
-        public Dictionary<string, Gun> Guns { get; set; }
-
-        public Player()
-        {
-            Position = new Vector2(500,600);
-            AddAnimation("main", Animation.Load("player"));
-            Name = "player";
-            Shape = new Rectangle(0, 0, 64, 64);
-
-            Guns = new Dictionary<string, Gun>();
-            Guns.Add("left", new Gun("left", new Vector2(-21, 20), new Vector2(6, -18)));
-            Guns.Add("right", new Gun("right", new Vector2(57, 20), new Vector2(6, -18)));
-
-            foreach (var gun in Guns.Values)
-            {
-                Add(gun.Sprite);
-            }
-        }
-
-    }
-
     public class Gun
     {
         public Sprite Sprite { get; set; }
@@ -88,7 +39,7 @@ namespace B_Type_2_Dev
         public void Fire()
         {
             Sprite.ReStart();
-            Emitter.Emit(2);   
+            Emitter.Emit(5);   
         }
     }
 
@@ -122,13 +73,11 @@ namespace B_Type_2_Dev
             CollisionEngine.Debug = true;
 
             CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
-            CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
             CollisionEngine.Register<Player, Particle>(GetHitByABullet);
 
-            AnimationLoader.Test();
+            CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
 
-            enemy = new Enemy();
-            //Add(enemy);
+            AnimationLoader.Test();
 
             player = new Player();
             Add(player);
@@ -144,7 +93,6 @@ namespace B_Type_2_Dev
             fireLimit = new Limiter(.05f);
 
             CollisionEngine.Add(player);
-            CollisionEngine.Add(enemy);
 
 
             var enemies = new DrawableGameObject();

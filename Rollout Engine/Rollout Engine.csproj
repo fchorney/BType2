@@ -98,6 +98,7 @@
     <Compile Include="Collision\Math.cs" />
     <Compile Include="Collision\QuadTree.cs" />
     <Compile Include="Collision\QuadTreeCollisionEngine.cs" />
+    <Compile Include="Drawing\Particles\ParticlePool.cs" />
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />

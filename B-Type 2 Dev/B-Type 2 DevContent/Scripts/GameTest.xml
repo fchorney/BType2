@@ -50,10 +50,10 @@
     </script>
     
     <template id="enemy1" sprite="enemy">
-        <repeat>
-            <move x="2000" y="200" duration="10000" wait="false"/>
-            <repeat count="9">
-                <fire />
+        <repeat count="0">
+            <move x="500" y="200" duration="5000" wait="false"/>
+            <repeat count="3">
+                <!--<fire />-->
                 <wait duration="1000"/>
             </repeat>
         </repeat>

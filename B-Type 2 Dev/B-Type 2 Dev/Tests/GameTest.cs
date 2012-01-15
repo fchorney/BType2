@@ -45,8 +45,8 @@ namespace B_Type_2_Dev
             base.Initialize();
             CollisionEngine.Debug = true;
 
-            CollisionEngine.Register<Enemy, Particle>(GetHitByABullet);
-            CollisionEngine.Register<Player, Particle>(GetHitByABullet);
+            CollisionEngine.Register<Enemy, PlayerBullet>(GetHitByABullet);
+            CollisionEngine.Register<Player, EnemyBullet>(GetHitByABullet);
 
             CollisionEngine.Register<Player, Enemy>(GetHitByASprite);
 

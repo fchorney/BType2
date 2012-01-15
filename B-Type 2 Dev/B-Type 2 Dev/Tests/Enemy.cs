@@ -25,7 +25,7 @@ namespace B_Type_2_Dev
             Shape = new Rectangle(0, 0, 64, 64);
 
 
-            Gun = new EnemyGun(this);
+            Gun = new EnemyGun();
             Add(Gun);
         }
 
@@ -37,11 +37,8 @@ namespace B_Type_2_Dev
 
     public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
     {
-        public Sprite Sprite { get; private set; }
-
-        public EnemyGun(Sprite sprite) : base(10)
+        public EnemyGun() : base(10)
         {
-            Sprite = sprite;
         }
 
         public void Fire()
@@ -51,8 +48,8 @@ namespace B_Type_2_Dev
             //reset bullet state
             bullet.Reset();
 
-            bullet.X = Sprite.X;
-            bullet.Y = Sprite.Y;
+            bullet.X = X;
+            bullet.Y = Y;
 
             bullet.Enabled = true;
 

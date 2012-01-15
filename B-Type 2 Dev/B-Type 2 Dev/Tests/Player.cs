@@ -2,15 +2,18 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
+using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
+using Rollout.Scripting;
+using Rollout.Scripting.Actions;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
 {
     public class Player : Sprite
     {
-        public Dictionary<string, Gun> Guns { get; set; }
+        public Dictionary<string, PlayerGun> Guns { get; set; }
 
         public Player()
         {
@@ -19,42 +22,66 @@ namespace B_Type_2_Dev
             Name = "player";
             Shape = new Rectangle(0, 0, 64, 64);
 
-            Guns = new Dictionary<string, Gun>();
-            Guns.Add("left", new Gun("left", new Vector2(-21, 20), new Vector2(6, -18)));
-            Guns.Add("right", new Gun("right", new Vector2(57, 20), new Vector2(6, -18)));
+            Guns = new Dictionary<string, PlayerGun>();
 
-            foreach (var gun in Guns.Values)
-            {
-                Add(gun.Sprite);
-            }
+            var leftGun = new PlayerGun();
+            leftGun.Position = new Vector2(8, 28);
+            Add(leftGun);
+            Guns.Add("left", leftGun);
+
+            var rightGun = new PlayerGun();
+            leftGun.Position = new Vector2(48, 28);
+            Add(rightGun);
+            Guns.Add("right", rightGun);
+
         }
 
     }
 
-    public class Gun
+    public class PlayerGun : ParticlePool<PlayerBullet>, IFireable
     {
-        public Sprite Sprite { get; set; }
-        public ParticleEmitter Emitter { get; set; }
-
-        public Gun(string name, Vector2 gunOffset, Vector2 emitterOffset)
+        public PlayerGun() : base(10)
         {
-            Sprite = new Sprite(gunOffset, new Animation(@"Sprites/gun1", 32, 32, 2, new double[] { 0.05f, 0.08f }, false)) { Name = name };
 
-            CollisionHandler handler = (src, obj) => { };
-
-            Emitter = new ParticleEmitter(name + "-emitter", new Animation(@"Sprites/Lensflare", 16, 16), null, 0, new Circle(0, 0, 8), handler)
-            {
-                OffsetX = emitterOffset.X,
-                OffsetY = emitterOffset.Y
-            };
-
-            Sprite.Add(Emitter);
         }
 
         public void Fire()
         {
-            Sprite.ReStart();
-            Emitter.Emit(5);
+            var bullet = GetParticle();
+
+            //reset bullet state
+            bullet.Reset();
+            ScriptingEngine.Engine.ResetActionQueue(bullet.Name);
+
+
+            bullet.X = X;
+            bullet.Y = Y;
+
+            bullet.TimeToLive = 2;
+
+            bullet.Enabled = true;
+
         }
     }
+
+    public class PlayerBullet : Particle
+    {
+        public PlayerBullet()
+        {
+            Name = "EnemyBullet_" + this.GetHashCode().ToString();
+
+            AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16));
+
+            Shape = new Circle(0, 0, 8);
+
+            var action = new MoveAction(this.Name, 0, -2000, 10f, 0);
+
+            ScriptingEngine.Add(this.Name, this);
+            ScriptingEngine.AddAction(this.Name, action);
+
+            CollisionEngine.Add(this);
+
+        }
+    }
+
 }

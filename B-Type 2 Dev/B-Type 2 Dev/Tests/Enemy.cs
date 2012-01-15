@@ -47,9 +47,12 @@ namespace B_Type_2_Dev
 
             //reset bullet state
             bullet.Reset();
+            ScriptingEngine.Engine.ResetActionQueue(bullet.Name);
 
             bullet.X = X;
             bullet.Y = Y;
+
+            bullet.TimeToLive = 2;
 
             bullet.Enabled = true;
 
@@ -66,7 +69,7 @@ namespace B_Type_2_Dev
 
             Shape = new Circle(0, 0, 8);
 
-            var action = new MoveAction(this.Name, 0, 10000, 5f, 0);
+            var action = new MoveAction(this.Name, 0, 2000, 10f, 0);
 
             ScriptingEngine.Add(this.Name, this);
             ScriptingEngine.AddAction(this.Name, action);

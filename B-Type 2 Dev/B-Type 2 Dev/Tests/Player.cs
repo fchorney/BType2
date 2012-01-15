@@ -42,7 +42,6 @@ namespace B_Type_2_Dev
     {
         public PlayerGun() : base(10)
         {
-
         }
 
         public void Fire()
@@ -52,7 +51,6 @@ namespace B_Type_2_Dev
             //reset bullet state
             bullet.Reset();
             ScriptingEngine.Engine.ResetActionQueue(bullet.Name);
-
 
             bullet.X = X;
             bullet.Y = Y;
@@ -68,7 +66,7 @@ namespace B_Type_2_Dev
     {
         public PlayerBullet()
         {
-            Name = "EnemyBullet_" + this.GetHashCode().ToString();
+            Name = "PlayerBullet_" + this.GetHashCode().ToString();
 
             AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16));
 

@@ -9,17 +9,15 @@ namespace Rollout.Collision
         {
             if (x1 > x2)
             {
-#warning WTF IS THIS SHIT?
                 double temp = x1;
-                x2 = x1;
+                x1 = x2;
                 x2 = temp;
             }
 
-#warning WTF IS THIS SHIT?
             if (y1 > y2)
             {
                 double temp = y1;
-                y2 = y1;
+                y1 = y2;
                 y2 = temp;
             }
 
@@ -33,7 +31,6 @@ namespace Rollout.Collision
         {
             return from.AngleTo(to);
         }
-
     }
 
     public class Point
@@ -90,7 +87,6 @@ namespace Rollout.Collision
 
         public double DotProduct(double x, double y)
         {
-#warning Equality Checks with doubles? You crazy son?
             if (x == 0 && y == 0) return 0;
             return (this.x * x + this.y * y) / (x * x + y * y);
         }

@@ -66,16 +66,16 @@ namespace B_Type_2_Dev
     {
         public PlayerBullet()
         {
-            Name = "PlayerBullet_" + this.GetHashCode().ToString();
+            Name = "PlayerBullet_" + GetHashCode().ToString();
 
             AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16));
 
             Shape = new Circle(0, 0, 8);
 
-            var action = new MoveAction(this.Name, 0, -2000, 10f, 0);
+            var action = new MoveAction(Name, 0, -2000, 10f, 0);
 
-            ScriptingEngine.Add(this.Name, this);
-            ScriptingEngine.AddAction(this.Name, action);
+            ScriptingEngine.Add(Name, this);
+            ScriptingEngine.AddAction(Name, action);
 
             CollisionEngine.Add(this);
 

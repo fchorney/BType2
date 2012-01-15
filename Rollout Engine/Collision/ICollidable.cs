@@ -2,12 +2,11 @@ using Rollout.Collision.Shapes;
 
 namespace Rollout.Collision
 {
-    public delegate void CollisionHandler(ICollidable source, ICollidable obj);
 
     public interface ICollidable
     {
         IShape Shape { get; }
-        CollisionHandler OnCollision { get; }
+        bool Primary { get; set; }
         bool Enabled { get; set; }
     }
 }

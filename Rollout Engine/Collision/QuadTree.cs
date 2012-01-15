@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Rollout.Collision.Shapes;
+using Rollout.Core;
 using Rollout.Primitives;
+using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace Rollout.Collision
 {
@@ -9,11 +12,12 @@ namespace Rollout.Collision
     {
         private QuadTree root;
         public QuadTree[] Children { get; private set; }
+        public int Threshold = 4;
+        public int CurrentDepth;
+        public bool Enabled;
 
         private List<ICollidable> Objects;
-        private PairList<ICollidable> Collisions;
-
-        public List<PrimitiveLine> ShapeSprites = new List<PrimitiveLine>(); 
+        private PrimitiveLine sprite;
 
         public Vector2D Offset;
 
@@ -21,48 +25,28 @@ namespace Rollout.Collision
             : base(x, y, w, h)
         {
             Objects = new List<ICollidable>();
-            Collisions = new PairList<ICollidable>();
             Offset = new Vector2D();
             root = this;
+            Enabled = false;
+
+            sprite = new PrimitiveLine() { Colour = Color.Red };
+            sprite.CreateRectangle(this);
+
         }
 
-        private QuadTree(double x, double y, double w, double h, QuadTree root)
-            : base(x, y, w, h)
+        private QuadTree(double x, double y, double w, double h, QuadTree root) : this(x, y, w, h)
         {
-            Objects = new List<ICollidable>();
-            Collisions = new PairList<ICollidable>();
-            Offset = new Vector2D();
             this.root = root;
-        }
-
-        public void Add(ICollidable obj)
-        {            
-            if (CollisionEngine.Debug && obj.Shape != null)
-            {
-                var pl = new PrimitiveLine(obj);
-                ShapeSprites.Add(pl);
-            }
-
-            if (Children != null)
-                foreach (var t in Children.Where(t => t.QuadIntersects(obj.Shape)))
-                    t.AddToChildren(obj);
-            else
-                Objects.Add(obj);
-        }
-
-        public PairList<ICollidable> GetCollisions()
-        {
-            Collisions.Clear();
-            CheckChildCollisions(Collisions);
-            return Collisions;
         }
 
         public void Split()
         {
-            if (Children != null)
+            if(Children != null)
             {
-                foreach (var t in Children)
-                    t.Split();
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    Children[i].Split();
+                } 
             }
             else
             {
@@ -74,17 +58,87 @@ namespace Rollout.Collision
                 Children[1] = new QuadTree(X + hW, Y, hW, hY, root);
                 Children[2] = new QuadTree(X, Y + hY, hW, hY, root);
                 Children[3] = new QuadTree(X + hW, Y + hY, hW, hY, root);
+            }
 
+        }
+
+        public void Reset()
+        {
+            Enabled = false;
+            Objects.Clear();
+
+            if (Children != null)
+            {
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    Children[i].Reset();
+                }
             }
         }
 
-        protected void Clear()
+        public void Add(ICollidable obj)
+        {
+            if(!IsDivided())
+            {
+                Objects.Add(obj);
+
+                if (Objects.Count > Threshold && Divide())
+                {
+                    Add(Objects);
+                    Objects.Clear();
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    if (Children[i].Enabled && Children[i].QuadIntersects(obj.Shape))
+                    {
+                        Children[i].Add(obj);
+                    }
+                }
+            }
+
+        }
+
+
+        public void Add(List<ICollidable> obj)
+        {
+            for (int i = 0; i < obj.Count; i++)
+            {
+                Add(obj[i]);
+            }
+        }
+
+        protected bool IsDivided()
+        {
+            return Children != null && Children[0].Enabled;
+        }
+
+
+        public PairList<ICollidable> GetCollisions()
+        {
+
+            var Collisions = new PairList<ICollidable>();
+
+            CheckCollisions(Collisions);
+
+            return Collisions;
+        }
+
+
+        private bool Divide()
         {
             if (Children != null)
-                foreach (var t in Children)
-                    t.Clear();
-            else
-                Objects.Clear();
+            {
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    Children[i].Enabled = true;
+                }
+                return true;
+            }
+            return false;
         }
 
         private bool QuadIntersects(IShape obj)
@@ -94,40 +148,46 @@ namespace Rollout.Collision
                    MathUtil.CheckAxis(root.Offset.Y + Y, root.Offset.Y + Y + H, obj.Y, obj.Y + obj.H);
         }
 
-        private void AddToChildren(ICollidable obj)
+        private void CheckCollisions(PairList<ICollidable> collisions)
         {
-            if (Children != null)
-                foreach (var t in Children.Where(t => t.QuadIntersects(obj.Shape)))
-                    t.AddToChildren(obj);
-            else
-                Objects.Add(obj);
-        }
-
-        private void CheckChildCollisions(PairList<ICollidable> collisionList)
-        {
-            if (Children != null)
+            if (!IsDivided() && Objects.Count > 1)
             {
-                foreach (var t in Children)
-                    t.CheckChildCollisions(collisionList);
-            }
-            else
-            {
-                Collisions.Clear();
-                if (Objects.Count >= 2)
+                for (var i = 0; i < Objects.Count - 1; i++)
                 {
-                    for (var i = 0; i < Objects.Count - 1; i++)
+                    for (var j = i + 1; j < Objects.Count; j++)
                     {
-                        for (var j = i + 1; j < Objects.Count; j++)
-                        {
-                            if (!Objects[i].Enabled || !Objects[j].Enabled) continue;
-                            if (!Objects[i].Shape.Intersects(Objects[j].Shape)) continue;
+                        if (!Objects[i].Primary && !Objects[j].Primary) continue;
+                        if (!Objects[i].Enabled || !Objects[j].Enabled) continue;
+                        if (!Objects[i].Shape.Intersects(Objects[j].Shape)) continue;
 
-                            collisionList.Add(Objects[i], Objects[j]);
-                            Collisions.Add(Objects[i], Objects[j]);
-                        }
+                        collisions.Add(Objects[i], Objects[j]);
                     }
                 }
             }
+            else 
+            {
+                if (Children != null)
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    Children[i].CheckCollisions(collisions);
+                }
+            }
         }
+
+        public void Draw(GameTime gameTime)
+        {
+            if (!IsDivided())
+            {
+                sprite.Draw(gameTime);
+                G.SpriteBatch.DrawString(Objects.Count.ToString(), (int)(root.Offset.X + X), (int)(root.Offset.Y + Y));
+            }
+            else
+            {
+                for (int i = 0; i < Children.Count(); i++)
+                {
+                    Children[i].Draw(gameTime);
+                }
+            }
+        } 
     }
 }

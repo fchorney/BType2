@@ -43,18 +43,23 @@
         
         <wait duration="500"/>
         
-        <repeat count="9">
-            <create id="enemy1" x="0" y="200"/>
-            <wait duration="1000"/>
+        <repeat count="10">
+            <create id="enemy1" x="0" y="500"/>
+            <wait duration="300"/>
         </repeat>
     </script>
     
     <template id="enemy1" sprite="enemy">
         <repeat count="0">
-            <move x="500" y="200" duration="5000" wait="false"/>
-            <repeat count="3">
+            
+            <repeat wait="false">
+                <move x="1280" y="5" duration="2000" />
+                <move x="-1280" y="5" duration="2000" />
+            </repeat>
+
+            <repeat>
                 <fire />
-                <wait duration="1000"/>
+                <wait duration="50"/>
             </repeat>
         </repeat>
     </template>

@@ -112,7 +112,6 @@
     <Compile Include="Drawing\ITransformable.cs" />
     <Compile Include="Drawing\Sprites\Animation.cs" />
     <Compile Include="Drawing\Particles\Particle.cs" />
-    <Compile Include="Drawing\Particles\ParticleEmitter.cs" />
     <Compile Include="Core\GameObject\DrawableGameObject.cs" />
     <Compile Include="Core\GameObject\GameObject.cs" />
     <Compile Include="Drawing\Sprites\Sprite.cs" />

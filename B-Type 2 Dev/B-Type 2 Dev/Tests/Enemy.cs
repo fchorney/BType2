@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
@@ -19,7 +20,8 @@ namespace B_Type_2_Dev
         public Enemy()
         {
             AddAnimation("main", Animation.Load("player"));
-            Name = "enemy" + this.GetHashCode().ToString();
+            Name = "enemy" + Guid.NewGuid();
+            Primary = true;
 
             Rotation = MathHelper.Pi;
             Shape = new Rectangle(0, 0, 64, 64);
@@ -52,7 +54,7 @@ namespace B_Type_2_Dev
             bullet.X = X;
             bullet.Y = Y;
 
-            bullet.TimeToLive = 2;
+            bullet.TimeToLive = 7;
 
             bullet.Enabled = true;
 
@@ -63,19 +65,18 @@ namespace B_Type_2_Dev
     {
         public EnemyBullet()
         {
-            Name = "EnemyBullet_" + this.GetHashCode().ToString();
+            Name = "EnemyBullet_" + Guid.NewGuid();
 
             AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16));
 
             Shape = new Circle(0, 0, 8);
 
-            var action = new MoveAction(this.Name, 0, 2000, 10f, 0);
+            var action = new MoveAction(this.Name, 0, 2000, 2f, 0);
 
             ScriptingEngine.Add(this.Name, this);
             ScriptingEngine.AddAction(this.Name, action);
 
             CollisionEngine.Add(this);
-
 
         }
     }

@@ -20,6 +20,7 @@ namespace Rollout.Utility
             if (text == null)
                 text = new Dictionary<string, TextObject>();
             x = y = 20;
+
         }
 
         public static void Add(string label)

@@ -20,6 +20,10 @@ namespace Rollout.Scripting.Actions
             Actions.Reset();
         }
 
+        public Action(string target) : this(false)
+        {
+        }
+
         public void AddAction(IAction action)
         {
             Actions.Add(action);

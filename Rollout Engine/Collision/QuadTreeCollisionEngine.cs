@@ -9,37 +9,49 @@ namespace Rollout.Collision
     public class QuadTreeCollisionEngine : ICollisionEngine
     {
         private QuadTree quadTree;
-        private List<PrimitiveLine> quadSprites;
         private Dictionary<int, CollisionHandler> CollisionHandlers { get; set; }
+        private List<ICollidable> objects;
 
-        private const int Split = 2;
+        public List<PrimitiveLine> ShapeSprites = new List<PrimitiveLine>(); 
+
 
         public QuadTreeCollisionEngine()
         {
             quadTree = new QuadTree(0, 0, G.Game.GraphicsDevice.Viewport.Width, G.Game.GraphicsDevice.Viewport.Height);
 
-            for (var i = 0; i < Split; i++)
+
+            for (int i = 0; i < 3; i++)
             {
                 quadTree.Split();
             }
 
-            if (CollisionEngine.Debug)
-            {
-                quadSprites = new List<PrimitiveLine>();
-                CreateQuadSprites(quadTree);
-            }
+            objects = new List<ICollidable>();
 
             CollisionHandlers = new Dictionary<int, CollisionHandler>();
 
         }
 
+
         public void Add(ICollidable obj)
         {
-            quadTree.Add(obj);
+            objects.Add(obj);
+
+            if (CollisionEngine.Debug && obj.Shape != null)
+            {
+                var pl = new PrimitiveLine(obj);
+                ShapeSprites.Add(pl);
+            }
         }
 
         public void Update(GameTime gameTime)
         {
+            quadTree.Reset();
+
+            for (int i = 0; i < objects.Count; i++)
+            {
+                quadTree.Add(objects[i]);
+            }
+
             PairList<ICollidable> collisions = quadTree.GetCollisions();
 
             for (var i = 0; i < collisions.Count; i++)
@@ -47,9 +59,6 @@ namespace Rollout.Collision
                 Set<ICollidable> collision = collisions.Get(i);
                 ICollidable a = collision.Get(0);
                 ICollidable b = collision.Get(1);
-
-                //if (a.OnCollision != null) a.OnCollision(a, b);
-                //if (b.OnCollision != null) b.OnCollision(b, a);
 
                 var key = GetTypeHashKey(a.GetType(), b.GetType());
                 if (CollisionHandlers.ContainsKey(key))
@@ -67,7 +76,7 @@ namespace Rollout.Collision
 
             if (CollisionEngine.Debug)
             {
-                foreach (var primitive in quadTree.ShapeSprites)
+                foreach (var primitive in ShapeSprites)
                 {
                     primitive.Update(gameTime);
                 }
@@ -111,25 +120,13 @@ namespace Rollout.Collision
 
         public void Draw(GameTime gameTime)
         {
-            foreach (var primitive in quadSprites)
-            {
-                primitive.Draw(gameTime);
-            }
-            foreach (var primitive in quadTree.ShapeSprites)
+
+            quadTree.Draw(gameTime);
+
+            foreach (var primitive in ShapeSprites)
             {
                 primitive.Draw(gameTime);
             }
         }
-
-        private void CreateQuadSprites(QuadTree tree)
-        {
-            var p = new PrimitiveLine() { Colour = Color.Red };
-            p.CreateRectangle(tree);
-            quadSprites.Add(p);
-
-            if (tree.Children == null) return;
-            foreach (var t in tree.Children)
-                CreateQuadSprites(t);
-        } 
     }
 }

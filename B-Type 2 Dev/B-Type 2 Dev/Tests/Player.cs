@@ -17,6 +17,8 @@ namespace B_Type_2_Dev
 
         public Player()
         {
+            Primary = true;
+
             Position = new Vector2(500,600);
             AddAnimation("main", Animation.Load("player"));
             Name = "player";

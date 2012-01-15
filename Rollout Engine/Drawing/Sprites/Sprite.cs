@@ -128,6 +128,6 @@ namespace Rollout.Drawing.Sprites
 
         public IShape Shape { get; set; }
 
-        public CollisionHandler OnCollision { get; set; }
+        public bool Primary { get; set; }
     }
 }

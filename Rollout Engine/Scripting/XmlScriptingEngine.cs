@@ -75,6 +75,7 @@ namespace Rollout.Scripting
 
         public void ResetActionQueue(string name)
         {
+            if (Scriptables.ContainsKey(name))
             Scriptables[name].Actions.Reset();
         }
 

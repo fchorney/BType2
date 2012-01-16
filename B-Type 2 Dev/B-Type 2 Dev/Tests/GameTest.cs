@@ -43,6 +43,7 @@ namespace B_Type_2_Dev
         {
             // Must happen at the start
             base.Initialize();
+            
             //CollisionEngine.Debug = true;
 
             CollisionEngine.Register<Enemy, PlayerBullet>(GetHitByABullet);

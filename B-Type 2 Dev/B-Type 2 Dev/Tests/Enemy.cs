@@ -67,7 +67,7 @@ namespace B_Type_2_Dev
         {
             Name = "EnemyBullet_" + Guid.NewGuid();
 
-            AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16));
+            AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16, 2, new double[]{10,10}));
 
             Shape = new Circle(0, 0, 8);
 

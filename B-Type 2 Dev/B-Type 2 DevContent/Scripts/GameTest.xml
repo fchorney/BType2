@@ -44,7 +44,7 @@
         <wait duration="500"/>
         
         <repeat count="10">
-            <create id="enemy1" x="0" y="500"/>
+            <create id="enemy1" x="0" y="50"/>
             <wait duration="300"/>
         </repeat>
     </script>
@@ -53,8 +53,8 @@
         <repeat count="0">
             
             <repeat wait="false">
-                <move x="1280" y="5" duration="2000" />
-                <move x="-1280" y="5" duration="2000" />
+                <move x="1280" y="50" duration="2000" />
+                <move x="-1280" y="50" duration="2000" />
             </repeat>
 
             <repeat>

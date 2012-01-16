@@ -15,6 +15,7 @@ namespace Rollout.Collision
         public int Threshold = 4;
         public int CurrentDepth;
         public bool Enabled;
+        public int PrimaryCount;
 
         private List<ICollidable> Objects;
         private PrimitiveLine sprite;
@@ -66,6 +67,7 @@ namespace Rollout.Collision
         {
             Enabled = false;
             Objects.Clear();
+            PrimaryCount = 0;
 
             if (Children != null)
             {
@@ -81,6 +83,9 @@ namespace Rollout.Collision
             if(!IsDivided())
             {
                 Objects.Add(obj);
+
+                if (obj.Primary)
+                    PrimaryCount++;
 
                 if (Objects.Count > Threshold && Divide())
                 {
@@ -150,7 +155,7 @@ namespace Rollout.Collision
 
         private void CheckCollisions(PairList<ICollidable> collisions)
         {
-            if (!IsDivided() && Objects.Count > 1)
+            if (!IsDivided() && Objects.Count > 1 && PrimaryCount > 0)
             {
                 for (var i = 0; i < Objects.Count - 1; i++)
                 {
@@ -179,7 +184,7 @@ namespace Rollout.Collision
             if (!IsDivided())
             {
                 sprite.Draw(gameTime);
-                G.SpriteBatch.DrawString(Objects.Count.ToString(), (int)(root.Offset.X + X), (int)(root.Offset.Y + Y));
+                G.SpriteBatch.DrawString(PrimaryCount.ToString(), (int)(root.Offset.X + X), (int)(root.Offset.Y + Y));
             }
             else
             {

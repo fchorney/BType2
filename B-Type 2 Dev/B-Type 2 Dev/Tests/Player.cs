@@ -42,7 +42,7 @@ namespace B_Type_2_Dev
 
     public class PlayerGun : ParticlePool<PlayerBullet>, IFireable
     {
-        public PlayerGun() : base(10)
+        public PlayerGun() : base()
         {
         }
 

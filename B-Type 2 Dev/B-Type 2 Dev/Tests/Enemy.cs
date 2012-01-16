@@ -39,7 +39,7 @@ namespace B_Type_2_Dev
 
     public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
     {
-        public EnemyGun() : base(10)
+        public EnemyGun() : base()
         {
         }
 

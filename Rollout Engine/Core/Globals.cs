@@ -14,22 +14,13 @@ namespace Rollout.Core
         }
         public static void SetGame(Game _game)
         {
-            if (game == null)
-            {
-                game = _game;
-            }
+            if (game != null) return;
+            game = _game;
         }
 
         public static ManagedSpriteBatch SpriteBatch
         {
-            get
-            {
-                if (spriteBatch == null)
-                {
-                    spriteBatch = new ManagedSpriteBatch();
-                }
-                return spriteBatch;
-            }
+            get { return spriteBatch ?? (spriteBatch = new ManagedSpriteBatch()); }
         }
 
         public static ContentManager Content

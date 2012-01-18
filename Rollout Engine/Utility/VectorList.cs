@@ -3,39 +3,39 @@
     public sealed class VectorList<T>
     {
 
-        private T[] Array = null;
+        private T[] array;
 
         public int Count { get; private set; }
 
-        public T this[int Index]
+        public T this[int index]
         {
             get
             {
-                return Array[Index];
+                return array[index];
             }
             set
             {
-                Array[Index] = value;
+                array[index] = value;
             }
         }
 
         public VectorList()
         {
-            Array = new T[8];
+            array = new T[8];
         }
 
-        public VectorList(int Reserved)
+        public VectorList(int reserved)
         {
-            Array = new T[Reserved];
+            array = new T[reserved];
         }
 
-        public void Add(T Value)
+        public void Add(T value)
         {
-            Array[Count] = Value;
+            array[Count] = value;
             Count++;
-            if (Count >= Array.Length)
+            if (Count >= array.Length)
             {
-                System.Array.Resize(ref Array, Array.Length << 1);
+                System.Array.Resize(ref array, array.Length << 1);
             }
         }
 
@@ -46,13 +46,13 @@
 
         public T[] ToArray()
         {
-            if (Count == Array.Length)
+            if (Count == array.Length)
             {
-                return Array;
+                return array;
             }
-            T[] NewArray = new T[Count];
-            System.Array.Copy(Array, NewArray, Count);
-            return NewArray;
+            T[] newArray = new T[Count];
+            System.Array.Copy(array, newArray, Count);
+            return newArray;
         }
 
     }

@@ -149,8 +149,9 @@ namespace Rollout.Collision
         private bool QuadIntersects(IShape obj)
         {
             if (obj == null) return false;
-            return MathUtil.CheckAxis(root.Offset.X + X, root.Offset.X + X + W, obj.X, obj.X + obj.W) &&
-                   MathUtil.CheckAxis(root.Offset.Y + Y, root.Offset.Y + Y + H, obj.Y, obj.Y + obj.H);
+
+            return   !(root.Offset.X + X > obj.X + obj.W || root.Offset.X + X + W < obj.X ||
+                       root.Offset.Y + Y > obj.Y + obj.H || root.Offset.Y + Y + H < obj.Y);
         }
 
         private void CheckCollisions(PairList<ICollidable> collisions)

@@ -5,6 +5,7 @@ namespace Rollout.Collision
 {
     public class MathUtil
     {
+        [Obsolete("Don't need to check axis!")]
         public static bool CheckAxis(double x1, double x2, double y1, double y2)
         {
             if (x1 > x2)

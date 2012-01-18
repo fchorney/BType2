@@ -140,6 +140,7 @@
     <Compile Include="Utility\RNG.cs" />
     <Compile Include="Utility\TextWriter.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
+    <Compile Include="Utility\VectorList.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

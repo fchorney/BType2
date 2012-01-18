@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Rollout.Core;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
@@ -12,8 +13,8 @@ namespace Rollout.Drawing
     public class ParticlePool<TParticle> : DrawableGameObject where TParticle : IParticle
     {
 
-        List<TParticle> Pool { get; set; }
-        List<TParticle> Buffer { get; set; }
+        protected List<TParticle> Pool { get; set; }
+        protected List<TParticle> Buffer { get; set; }
 
         public ParticlePool(int bufferSize = 0)
         {
@@ -72,6 +73,9 @@ namespace Rollout.Drawing
 
         public override void Draw(GameTime gameTime)
         {
+            G.SpriteBatch.DrawString(this.Pool.Count.ToString(), (int)X, (int)Y - 20);
+
+
             foreach (var p in Pool.AsParallel().Where(p => p.Enabled))
                 p.Draw(gameTime);
             base.Draw(gameTime);

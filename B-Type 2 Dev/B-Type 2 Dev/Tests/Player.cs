@@ -70,7 +70,7 @@ namespace B_Type_2_Dev
         {
             Name = "PlayerBullet_" + GetHashCode().ToString();
 
-            AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16, 2, new double[]{10,10}));
+            AddAnimation("main", Animation.Load("bullet"));
             Color = Color.LightCyan;
 
             Shape = new Circle(0, 0, 8);

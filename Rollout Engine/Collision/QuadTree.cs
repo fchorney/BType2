@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Primitives;
+using Rollout.Utility;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace Rollout.Collision
@@ -13,11 +14,10 @@ namespace Rollout.Collision
         private QuadTree root;
         public QuadTree[] Children { get; private set; }
         public int Threshold = 4;
-        public int CurrentDepth;
         public bool Enabled;
         public int PrimaryCount;
 
-        private List<ICollidable> Objects;
+        private VectorList<ICollidable> Objects;
         private PrimitiveLine sprite;
 
         public Vector2D Offset;
@@ -25,7 +25,7 @@ namespace Rollout.Collision
         public QuadTree(double x, double y, double w, double h)
             : base(x, y, w, h)
         {
-            Objects = new List<ICollidable>();
+            Objects = new VectorList<ICollidable>();
             Offset = new Vector2D();
             root = this;
             Enabled = false;
@@ -44,7 +44,7 @@ namespace Rollout.Collision
         {
             if(Children != null)
             {
-                for (int i = 0; i < Children.Count(); i++)
+                for (int i = 0; i < Children.Length; i++)
                 {
                     Children[i].Split();
                 } 
@@ -71,7 +71,7 @@ namespace Rollout.Collision
 
             if (Children != null)
             {
-                for (int i = 0; i < Children.Count(); i++)
+                for (int i = 0; i < Children.Length; i++)
                 {
                     Children[i].Reset();
                 }
@@ -87,7 +87,7 @@ namespace Rollout.Collision
                 if (obj.Primary)
                     PrimaryCount++;
 
-                if (Objects.Count > Threshold && Divide())
+                if (PrimaryCount > 0 && Objects.Count > Threshold && Divide())
                 {
                     Add(Objects);
                     Objects.Clear();
@@ -96,7 +96,7 @@ namespace Rollout.Collision
             }
             else
             {
-                for (int i = 0; i < Children.Count(); i++)
+                for (int i = 0; i < Children.Length; i++)
                 {
                     if (Children[i].Enabled && Children[i].QuadIntersects(obj.Shape))
                     {
@@ -108,7 +108,7 @@ namespace Rollout.Collision
         }
 
 
-        public void Add(List<ICollidable> obj)
+        public void Add(VectorList<ICollidable> obj)
         {
             for (int i = 0; i < obj.Count; i++)
             {
@@ -137,7 +137,7 @@ namespace Rollout.Collision
         {
             if (Children != null)
             {
-                for (int i = 0; i < Children.Count(); i++)
+                for (int i = 0; i < Children.Length; i++)
                 {
                     Children[i].Enabled = true;
                 }
@@ -172,10 +172,10 @@ namespace Rollout.Collision
             else 
             {
                 if (Children != null)
-                for (int i = 0; i < Children.Count(); i++)
-                {
-                    Children[i].CheckCollisions(collisions);
-                }
+                    for (int i = 0; i < Children.Length; i++)
+                    {
+                        Children[i].CheckCollisions(collisions);
+                    }
             }
         }
 
@@ -188,7 +188,7 @@ namespace Rollout.Collision
             }
             else
             {
-                for (int i = 0; i < Children.Count(); i++)
+                for (int i = 0; i < Children.Length; i++)
                 {
                     Children[i].Draw(gameTime);
                 }

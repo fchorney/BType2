@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
+using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
+using Rollout.Utility;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
@@ -19,12 +21,12 @@ namespace B_Type_2_Dev
 
         public Enemy()
         {
-            AddAnimation("main", Animation.Load("player"));
+            AddAnimation("main", Animation.Load("bullet"));
             Name = "enemy" + Guid.NewGuid();
             Primary = true;
 
             Rotation = MathHelper.Pi;
-            Shape = new Rectangle(0, 0, 64, 64);
+            Shape = new Rectangle(0, 0, 16, 16);
 
 
             Gun = new EnemyGun();
@@ -45,6 +47,7 @@ namespace B_Type_2_Dev
 
         public void Fire()
         {
+
             var bullet = GetParticle();
 
             //reset bullet state
@@ -54,7 +57,7 @@ namespace B_Type_2_Dev
             bullet.X = X;
             bullet.Y = Y;
 
-            bullet.TimeToLive = 7;
+            bullet.TimeToLive = 25;
 
             bullet.Enabled = true;
 
@@ -67,11 +70,12 @@ namespace B_Type_2_Dev
         {
             Name = "EnemyBullet_" + Guid.NewGuid();
 
-            AddAnimation("main", new Animation(@"Sprites/Lensflare", 16, 16, 2, new double[]{10,10}));
+            AddAnimation("main", Animation.Load("bullet"));
 
             Shape = new Circle(0, 0, 8);
+            Scale = 2.0f;
 
-            var action = new MoveAction(this.Name, 0, 2000, 2f, 0);
+            var action = new MoveAction(this.Name, 0, 2000, 0.5f, 0);
 
             ScriptingEngine.Add(this.Name, this);
             ScriptingEngine.AddAction(this.Name, action);

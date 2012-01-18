@@ -142,6 +142,21 @@ namespace Rollout.Drawing.Sprites
 
             LoadAnimation(animationInfo);
 
+            animationInfo = new AnimationInfo
+            {
+                Name = "bullet",
+                AssetName = @"Sprites/Lensflare",
+                Width = 16,
+                Height = 16,
+                Frames = new List<FrameInfo>
+                                                     {
+                                                         new FrameInfo() {Index = 0, Duration = 300},
+                                                         new FrameInfo() {Index = 1, Duration = 300}
+                                                     }
+            };
+
+            LoadAnimation(animationInfo);
+
         }
 
         private static void LoadAnimation(AnimationInfo animInfo)

@@ -9,6 +9,8 @@ namespace Rollout.Core
         private SpriteFont DefaultFont { get; set; }
         private Boolean HasBegun { get; set; }
 
+        private Effect Effect { get; set; }
+
         public ManagedSpriteBatch()
             : base(G.Game.GraphicsDevice)
         {
@@ -26,7 +28,13 @@ namespace Rollout.Core
             if (!transform.HasValue)
                 transform = Matrix.Identity;
 
-            Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
+            
+            //Effect = Effect ?? G.Content.Load<Effect>(@"Effect/BlurEffect");
+            Effect = null;
+            
+            Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, Effect, transform.Value);
+
+            GraphicsDevice.Clear(Color.Black);
         }
 
         public new void End()

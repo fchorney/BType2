@@ -59,7 +59,7 @@
 
             <repeat>
                 <fire />
-                <wait duration="50"/>
+                <wait duration="10"/>
             </repeat>
         </repeat>
     </template>

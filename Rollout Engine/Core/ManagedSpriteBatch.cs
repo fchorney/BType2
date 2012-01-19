@@ -10,10 +10,7 @@ namespace Rollout.Core
         private SpriteFont DefaultFont { get; set; }
         private Boolean HasBegun { get; set; }
 
-        private Effect Effect { get; set; }
-
-        private RenderTarget2D BackBuffer { get; set; }
-        private RenderTarget2D ScreenBuffer { get; set; }
+        private BloomComponent bloom;
 
         public ManagedSpriteBatch()
             : base(G.Game.GraphicsDevice)
@@ -32,10 +29,8 @@ namespace Rollout.Core
             if (!transform.HasValue)
                 transform = Matrix.Identity;
 
-            ScreenBuffer = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            BackBuffer = new RenderTarget2D(GraphicsDevice, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-
-            GraphicsDevice.SetRenderTarget(ScreenBuffer);
+            bloom = new BloomComponent(this);
+            bloom.BeginDraw();
 
             Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
 
@@ -47,24 +42,8 @@ namespace Rollout.Core
             base.End();
             HasBegun = false;
 
-            Effect = Effect ?? G.Content.Load<Effect>(@"Effect/TestEffect");
-
-            GraphicsDevice.SamplerStates[1] = SamplerState.LinearClamp;
-            GraphicsDevice.SetRenderTarget(BackBuffer);
-
-            Begin(0, BlendState.AlphaBlend, null, null, null, Effect);
-            Draw(ScreenBuffer, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            base.End();
-
-            GraphicsDevice.SetRenderTarget(null);
-
-            Begin(0, BlendState.Opaque, null, null, null, null);
-            Draw(ScreenBuffer, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            base.End();
-
-            Begin(0, BlendState.AlphaBlend, null, null, null, null);
-            Draw(BackBuffer, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            base.End();
+            bloom.Draw();
+            
         }
 
         public void DrawString(string text, int x, int y)

@@ -12,11 +12,13 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Rollout.Core;
+
 #endregion
 
 namespace BloomPostprocess
 {
-    public class BloomComponent : DrawableGameComponent
+    public class BloomComponent
     {
         #region Fields
 
@@ -40,53 +42,28 @@ namespace BloomPostprocess
 
         BloomSettings settings = BloomSettings.PresetSettings[0];
 
-
-        // Optionally displays one of the intermediate buffers used
-        // by the bloom postprocess, so you can see exactly what is
-        // being drawn into each rendertarget.
-        public enum IntermediateBuffer
-        {
-            PreBloom,
-            BlurredHorizontally,
-            BlurredBothWays,
-            FinalResult,
-        }
-
-        public IntermediateBuffer ShowBuffer
-        {
-            get { return showBuffer; }
-            set { showBuffer = value; }
-        }
-
-        IntermediateBuffer showBuffer = IntermediateBuffer.FinalResult;
-
-
         #endregion
 
         #region Initialization
 
-
-        public BloomComponent(Game game)
-            : base(game)
+        public BloomComponent(SpriteBatch spriteBatch)
         {
-            if (game == null)
-                throw new ArgumentNullException("game");
+            this.spriteBatch = new SpriteBatch(spriteBatch.GraphicsDevice);
+            Initialize();
         }
-
 
         /// <summary>
         /// Load your graphics content.
         /// </summary>
-        protected override void LoadContent()
+        protected void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            bloomExtractEffect = Game.Content.Load<Effect>("BloomExtract");
-            bloomCombineEffect = Game.Content.Load<Effect>("BloomCombine");
-            gaussianBlurEffect = Game.Content.Load<Effect>("GaussianBlur");
+            bloomExtractEffect = G.Content.Load<Effect>("BloomExtract");
+            bloomCombineEffect = G.Content.Load<Effect>("BloomCombine");
+            gaussianBlurEffect = G.Content.Load<Effect>("GaussianBlur");
 
             // Look up the resolution and format of our main backbuffer.
-            PresentationParameters pp = GraphicsDevice.PresentationParameters;
+            PresentationParameters pp = spriteBatch.GraphicsDevice.PresentationParameters;
 
             int width = pp.BackBufferWidth;
             int height = pp.BackBufferHeight;
@@ -94,7 +71,7 @@ namespace BloomPostprocess
             SurfaceFormat format = pp.BackBufferFormat;
 
             // Create a texture for rendering the main scene, prior to applying bloom.
-            sceneRenderTarget = new RenderTarget2D(GraphicsDevice, width, height, false,
+            sceneRenderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, width, height, false,
                                                    format, pp.DepthStencilFormat, pp.MultiSampleCount,
                                                    RenderTargetUsage.DiscardContents);
 
@@ -105,15 +82,15 @@ namespace BloomPostprocess
             width /= 2;
             height /= 2;
 
-            renderTarget1 = new RenderTarget2D(GraphicsDevice, width, height, false, format, DepthFormat.None);
-            renderTarget2 = new RenderTarget2D(GraphicsDevice, width, height, false, format, DepthFormat.None);
+            renderTarget1 = new RenderTarget2D(spriteBatch.GraphicsDevice, width, height, false, format, DepthFormat.None);
+            renderTarget2 = new RenderTarget2D(spriteBatch.GraphicsDevice, width, height, false, format, DepthFormat.None);
         }
 
 
         /// <summary>
         /// Unload your graphics content.
         /// </summary>
-        protected override void UnloadContent()
+        protected void UnloadContent()
         {
             sceneRenderTarget.Dispose();
             renderTarget1.Dispose();
@@ -133,10 +110,7 @@ namespace BloomPostprocess
         /// </summary>
         public void BeginDraw()
         {
-            if (Visible)
-            {
-                GraphicsDevice.SetRenderTarget(sceneRenderTarget);
-            }
+            spriteBatch.GraphicsDevice.SetRenderTarget(sceneRenderTarget);
         }
 
 
@@ -144,39 +118,33 @@ namespace BloomPostprocess
         /// This is where it all happens. Grabs a scene that has already been rendered,
         /// and uses postprocess magic to add a glowing bloom effect over the top of it.
         /// </summary>
-        public override void Draw(GameTime gameTime)
+        public void Draw()
         {
-            GraphicsDevice.SamplerStates[1] = SamplerState.LinearClamp;
+            spriteBatch.GraphicsDevice.SamplerStates[1] = SamplerState.LinearClamp;
 
             // Pass 1: draw the scene into rendertarget 1, using a
             // shader that extracts only the brightest parts of the image.
             bloomExtractEffect.Parameters["BloomThreshold"].SetValue(
                 Settings.BloomThreshold);
 
-            DrawFullscreenQuad(sceneRenderTarget, renderTarget1,
-                               bloomExtractEffect,
-                               IntermediateBuffer.PreBloom);
+            DrawFullscreenQuad(sceneRenderTarget, renderTarget1, bloomExtractEffect);
 
             // Pass 2: draw from rendertarget 1 into rendertarget 2,
             // using a shader to apply a horizontal gaussian blur filter.
             SetBlurEffectParameters(1.0f / (float)renderTarget1.Width, 0);
 
-            DrawFullscreenQuad(renderTarget1, renderTarget2,
-                               gaussianBlurEffect,
-                               IntermediateBuffer.BlurredHorizontally);
+            DrawFullscreenQuad(renderTarget1, renderTarget2, gaussianBlurEffect);
 
             // Pass 3: draw from rendertarget 2 back into rendertarget 1,
             // using a shader to apply a vertical gaussian blur filter.
             SetBlurEffectParameters(0, 1.0f / (float)renderTarget1.Height);
 
-            DrawFullscreenQuad(renderTarget2, renderTarget1,
-                               gaussianBlurEffect,
-                               IntermediateBuffer.BlurredBothWays);
+            DrawFullscreenQuad(renderTarget2, renderTarget1, gaussianBlurEffect);
 
             // Pass 4: draw both rendertarget 1 and the original scene
             // image back into the main backbuffer, using a shader that
             // combines them to produce the final bloomed result.
-            GraphicsDevice.SetRenderTarget(null);
+            spriteBatch.GraphicsDevice.SetRenderTarget(null);
 
             EffectParameterCollection parameters = bloomCombineEffect.Parameters;
 
@@ -185,14 +153,13 @@ namespace BloomPostprocess
             parameters["BloomSaturation"].SetValue(Settings.BloomSaturation);
             parameters["BaseSaturation"].SetValue(Settings.BaseSaturation);
 
-            GraphicsDevice.Textures[1] = sceneRenderTarget;
+            spriteBatch.GraphicsDevice.Textures[1] = sceneRenderTarget;
 
-            Viewport viewport = GraphicsDevice.Viewport;
+            Viewport viewport = spriteBatch.GraphicsDevice.Viewport;
 
             DrawFullscreenQuad(renderTarget1,
                                viewport.Width, viewport.Height,
-                               bloomCombineEffect,
-                               IntermediateBuffer.FinalResult);
+                               bloomCombineEffect);
         }
 
 
@@ -200,14 +167,11 @@ namespace BloomPostprocess
         /// Helper for drawing a texture into a rendertarget, using
         /// a custom shader to apply postprocessing effects.
         /// </summary>
-        void DrawFullscreenQuad(Texture2D texture, RenderTarget2D renderTarget,
-                                Effect effect, IntermediateBuffer currentBuffer)
+        void DrawFullscreenQuad(Texture2D texture, RenderTarget2D renderTarget, Effect effect)
         {
-            GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTarget);
 
-            DrawFullscreenQuad(texture,
-                               renderTarget.Width, renderTarget.Height,
-                               effect, currentBuffer);
+            DrawFullscreenQuad(texture, renderTarget.Width, renderTarget.Height, effect);
         }
 
 
@@ -215,16 +179,8 @@ namespace BloomPostprocess
         /// Helper for drawing a texture into the current rendertarget,
         /// using a custom shader to apply postprocessing effects.
         /// </summary>
-        void DrawFullscreenQuad(Texture2D texture, int width, int height,
-                                Effect effect, IntermediateBuffer currentBuffer)
+        void DrawFullscreenQuad(Texture2D texture, int width, int height, Effect effect)
         {
-            // If the user has selected one of the show intermediate buffer options,
-            // we still draw the quad to make sure the image will end up on the screen,
-            // but might need to skip applying the custom pixel shader.
-            if (showBuffer < currentBuffer)
-            {
-                effect = null;
-            }
 
             spriteBatch.Begin(0, BlendState.Opaque, null, null, null, effect);
             spriteBatch.Draw(texture, new Rectangle(0, 0, width, height), Color.White);

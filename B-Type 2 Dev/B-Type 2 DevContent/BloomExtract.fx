@@ -11,8 +11,13 @@ float4 PixelShaderFunction(float2 texCoord : TEXCOORD0) : COLOR0
     // Look up the original image color.
     float4 c = tex2D(TextureSampler, texCoord);
 
+    c = saturate((c - BloomThreshold) / (1 - BloomThreshold));
+    c = c * 5;
+    c.a = 0.1;
+
+
     // Adjust it to keep only values brighter than the specified threshold.
-    return saturate((c - BloomThreshold) / (1 - BloomThreshold));
+    return c;
 }
 
 

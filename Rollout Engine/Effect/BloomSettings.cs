@@ -77,6 +77,7 @@ namespace BloomPostprocess
             new BloomSettings("Saturated",   0.25f,  4,   2,     1,    2,       0),
             new BloomSettings("Blurry",      0,      2,   1,     0.1f, 1,       1),
             new BloomSettings("Subtle",      0.5f,   2,   1,     1,    1,       1),
+            new BloomSettings("NUTZ",        0.3f,   5,   .5f,   2,    .9f,     .8f), 
         };
     }
 }

@@ -40,7 +40,7 @@ namespace BloomPostprocess
             set { settings = value; }
         }
 
-        BloomSettings settings = BloomSettings.PresetSettings[0];
+        BloomSettings settings = BloomSettings.PresetSettings[6];
 
         #endregion
 

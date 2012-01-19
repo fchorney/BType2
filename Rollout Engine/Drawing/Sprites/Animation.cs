@@ -130,7 +130,7 @@ namespace Rollout.Drawing.Sprites
             var animationInfo = new AnimationInfo
                                     {
                                         Name = "player",
-                                        AssetName = @"Sprites/spaceship2",
+                                        AssetName = @"Sprites/spaceship3",
                                         Width = 64,
                                         Height = 64,
                                         Frames = new List<FrameInfo>

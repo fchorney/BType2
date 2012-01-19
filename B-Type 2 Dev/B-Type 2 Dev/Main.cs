@@ -39,12 +39,13 @@ namespace B_Type_2_Dev
         {
             G.SetGame(this);
             Components.Add(new TextWriter(@"SpriteFonts/Debug"));
-            Components.Add(new FPS());
+            //Components.Add(new FPS());
             //Components.AddScreen(new ParticlesTest());
             //Components.AddScreen(new PlayerTest());
             //Components.AddScreen(new QuadTest());
             //Components.AddScreen(new ScriptTest());
             Components.Add(new Manager());
+            Components.Add(new FPS());
 
             base.Initialize();
         }

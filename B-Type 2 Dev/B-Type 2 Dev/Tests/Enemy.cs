@@ -83,6 +83,13 @@ namespace B_Type_2_Dev
             CollisionEngine.Add(this);
 
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            this.Rotation += (float)(2 * gameTime.ElapsedGameTime.TotalSeconds);
+        }
     }
 
 }

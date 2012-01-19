@@ -185,7 +185,7 @@ namespace Rollout.Collision
             if (!IsDivided())
             {
                 sprite.Draw(gameTime);
-                G.SpriteBatch.DrawString(PrimaryCount.ToString(), (int)(root.Offset.X + X), (int)(root.Offset.Y + Y));
+                G.SpriteBatch.DrawString(PrimaryCount.ToString(), new Vector2((float)X,(float)Y));
             }
             else
             {

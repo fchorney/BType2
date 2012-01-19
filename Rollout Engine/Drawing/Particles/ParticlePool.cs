@@ -73,7 +73,7 @@ namespace Rollout.Drawing
 
         public override void Draw(GameTime gameTime)
         {
-            G.SpriteBatch.DrawString(this.Pool.Count.ToString(), (int)X, (int)Y - 20);
+            G.SpriteBatch.DrawString(this.Pool.Count.ToString(), new Vector2(X, Y - 20));
 
 
             foreach (var p in Pool.AsParallel().Where(p => p.Enabled))

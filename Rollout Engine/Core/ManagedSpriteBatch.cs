@@ -18,6 +18,7 @@ namespace Rollout.Core
             HasBegun = false;
 
             DefaultFont = G.Content.Load<SpriteFont>(@"SpriteFonts/Debug");
+            bloom = new BloomComponent(this);
 
         }
 
@@ -29,7 +30,6 @@ namespace Rollout.Core
             if (!transform.HasValue)
                 transform = Matrix.Identity;
 
-            bloom = new BloomComponent(this);
             bloom.BeginDraw();
 
             Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
@@ -46,9 +46,14 @@ namespace Rollout.Core
             
         }
 
-        public void DrawString(string text, int x, int y)
+        public void DrawString(string text, Vector2 position, Color? color = null)
         {
-            DrawString(DefaultFont, text, new Vector2(x,y), Color.White);
+            if (!color.HasValue)
+            {
+                color = Color.White;
+            }
+
+            DrawString(DefaultFont, text, position, color.Value);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Rollout.Core;
 
 namespace Rollout.Utility
@@ -9,6 +10,8 @@ namespace Rollout.Utility
         public int FrameRate { get; set; }
         private int frameCounter = 0;
         private TimeSpan elapsedTime = TimeSpan.Zero;
+        private SpriteBatch spriteBatch;
+        private SpriteFont DefaultFont = G.Content.Load<SpriteFont>(@"SpriteFonts/Debug");
 
         public FPS() : base(G.Game)
         {
@@ -17,8 +20,9 @@ namespace Rollout.Utility
 
         public override void Initialize()
         {
-            TextWriter.Add("FPS");
             base.Initialize();
+
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         public override void Update(GameTime gameTime)
@@ -32,12 +36,15 @@ namespace Rollout.Utility
                 frameCounter = 0;
             }
 
-            TextWriter.Update("FPS",FrameRate.ToString());
+            frameCounter++;
+
         }
 
         public override void Draw(GameTime gameTime)
         {
-            frameCounter++;
+            spriteBatch.Begin();
+            spriteBatch.DrawString(DefaultFont, FrameRate + "FPS", new Vector2(4, 4), Color.White);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

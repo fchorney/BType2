@@ -120,7 +120,6 @@ namespace Rollout.Collision
 
         public void Draw(GameTime gameTime)
         {
-
             quadTree.Draw(gameTime);
 
             foreach (var primitive in ShapeSprites)

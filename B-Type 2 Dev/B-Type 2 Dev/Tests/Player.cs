@@ -22,7 +22,8 @@ namespace B_Type_2_Dev
             Position = new Vector2(500,600);
             AddAnimation("main", Animation.Load("player"));
             Name = "player";
-            Shape = new Rectangle(0, 0, 64, 64);
+            //Shape = new Rectangle(0, 0, 64, 64);
+            Shape = new Circle(10,10,8);
 
             Guns = new Dictionary<string, PlayerGun>();
 

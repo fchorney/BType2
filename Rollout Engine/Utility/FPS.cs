@@ -43,7 +43,7 @@ namespace Rollout.Utility
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
-            spriteBatch.DrawString(DefaultFont, FrameRate + "FPS", new Vector2(4, 4), Color.White);
+            spriteBatch.DrawString(DefaultFont, FrameRate + " FPS", new Vector2(4, 4), Color.White);
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -240,6 +240,7 @@ namespace Rollout.Screens
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
             foreach (var screen in Components.Where(screen => screen.ScreenState != ScreenState.Hidden))
             {
                 screen.Draw(gameTime);
@@ -249,7 +250,7 @@ namespace Rollout.Screens
             {
                 CollisionEngine.Draw(gameTime);
             }
-            base.Draw(gameTime);
+            //base.Draw(gameTime);
         }
 
         #endregion

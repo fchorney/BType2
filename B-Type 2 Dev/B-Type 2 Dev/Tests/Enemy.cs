@@ -73,7 +73,7 @@ namespace B_Type_2_Dev
             AddAnimation("main", Animation.Load("bullet"));
 
             Shape = new Circle(0, 0, 8);
-            Scale = 2.0f;
+            Scale = 1.5f;
 
             var action = new MoveAction(this.Name, 0, 2000, 0.5f, 0);
 

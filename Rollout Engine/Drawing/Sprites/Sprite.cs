@@ -66,8 +66,6 @@ namespace Rollout.Drawing.Sprites
 
         public override void Update(GameTime gameTime)
         {
-
-
             animation.Update(gameTime);
             base.Update(gameTime);
 

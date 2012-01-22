@@ -140,6 +140,7 @@
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />
+    <Compile Include="Utility\ShuntingYard.cs" />
     <Compile Include="Utility\TextWriter.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
     <Compile Include="Utility\VectorList.cs" />

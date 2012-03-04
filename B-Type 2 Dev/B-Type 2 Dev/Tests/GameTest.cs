@@ -44,7 +44,7 @@ namespace B_Type_2_Dev
             // Must happen at the start
             base.Initialize();
             
-            CollisionEngine.Debug = true;
+            //CollisionEngine.Debug = true;
 
             CollisionEngine.Register<Enemy, PlayerBullet>(GetHitByABullet);
             CollisionEngine.Register<Player, EnemyBullet>(GetHitByABullet);
@@ -67,6 +67,7 @@ namespace B_Type_2_Dev
             fireLimit = new Limiter(.05f);
 
             CollisionEngine.Add(player);
+            ScriptingEngine.Add("player", player);
 
 
             var enemies = new DrawableGameObject();
@@ -80,7 +81,7 @@ namespace B_Type_2_Dev
 
         public override void Update(GameTime gameTime)
         {
-            int speed = 500;
+            int speed = 250;
             fireLimit.Update(gameTime);
 
             if (input.IsPressed("Quit"))

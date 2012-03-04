@@ -53,8 +53,8 @@
         <repeat count="0">
             
             <repeat wait="false">
-                <move x="1280" y="0" duration="2000" />
-                <move x="-1280" y="0" duration="2000" />
+                <move x="1280" y="0" duration="450" />
+                <move x="-1280" y="0" duration="350" />
             </repeat>
 
             <repeat>

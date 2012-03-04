@@ -52,10 +52,13 @@ namespace B_Type_2_Dev
 
             //reset bullet state
             bullet.Reset();
-            ScriptingEngine.Engine.ResetActionQueue(bullet.Name);
+            ScriptingEngine.Engine.ClearActionQueue(bullet.Name);
 
             bullet.X = X;
             bullet.Y = Y;
+
+            bullet.Initialize();
+
 
             bullet.TimeToLive = 25;
 
@@ -75,14 +78,34 @@ namespace B_Type_2_Dev
             Shape = new Circle(0, 0, 8);
             Scale = 1.5f;
 
-            var action = new MoveAction(this.Name, 0, 2000, 0.5f, 0);
-
             ScriptingEngine.Add(this.Name, this);
-            ScriptingEngine.AddAction(this.Name, action);
 
             CollisionEngine.Add(this);
 
         }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            var attackVector = GetAttackVector();
+            var action = new MoveAction(this.Name, (int)attackVector.X, (int)attackVector.Y, 4f, 0);
+            ScriptingEngine.AddAction(this.Name, action);
+        }
+
+        private Vector2 GetAttackVector()
+        {
+            var v = new Vector2();
+            ITransformable target = ScriptingEngine.Item("player");
+
+            
+
+            v.X = target.X - this.X;
+            v.Y = target.Y - this.Y;
+
+            return v;
+        }
+       
 
         public override void Update(GameTime gameTime)
         {

@@ -35,6 +35,7 @@ namespace Rollout.Core
             Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, transform.Value);
 
             GraphicsDevice.Clear(Color.Black);
+
         }
 
         public new void End()

@@ -44,7 +44,7 @@
         <wait duration="500"/>
         
         <repeat count="10">
-            <create id="enemy1" x="0" y="50"/>
+            <create id="enemy1" x="0" y="50 + ($RAND$ * 200)"/>
             <wait duration="300"/>
         </repeat>
     </script>
@@ -53,13 +53,13 @@
         <repeat count="0">
             
             <repeat wait="false">
-                <move x="1280" y="0" duration="450" />
-                <move x="-1280" y="0" duration="350" />
+                <move x="1280" y="0" duration="450 + ($RAND$ * 500)" />
+                <move x="-1280" y="0" duration="350 + ($RAND$ * 500)" />
             </repeat>
 
             <repeat>
                 <fire />
-                <wait duration="100"/>
+                <wait duration="$RAND$ * 1000"/>
             </repeat>
         </repeat>
     </template>

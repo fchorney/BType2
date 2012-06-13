@@ -5,23 +5,27 @@ using Rollout.Collision.Shapes;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
 using Rollout.Utility;
+using Rollout.Utility.ShuntingYard;
 
 namespace Rollout.Scripting.Actions
 {
     [Action("create")]
     [ActionParam(0, "id", typeof(string))]
     [ActionParam(1, "x", typeof(int))]
-    [ActionParam(2, "y", typeof(int))]
+    [ActionParam(2, "y", typeof(string))]
     public sealed class CreateAction : Action
     {
         private string target;
         private string templateid;
         private Vector2 position;
         private static int Counter;
+        private RPNCalculation rpn;
 
-        public CreateAction(string target, string id, int x,  int y)
+        public CreateAction(string target, string id, int x,  string y)
         {
-            position = new Vector2(x,y);
+            rpn = ShuntingYard.Parse(y);
+            int newy = rpn.SolveAsInt();
+            position = new Vector2(x,newy);
 
             this.target = target;
             templateid = id;
@@ -66,7 +70,7 @@ namespace Rollout.Scripting.Actions
             var sprite = (Sprite)Activator.CreateInstance(type);
 
             sprite.Name = name;
-            sprite.Position = position;
+            sprite.Position = new Vector2((int)position.X, rpn.SolveAsInt());
 
             return sprite;
         }

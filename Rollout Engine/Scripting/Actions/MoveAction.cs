@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 using Rollout.Utility;
+using Rollout.Utility.ShuntingYard;
 
 namespace Rollout.Scripting.Actions
 {
@@ -9,7 +10,7 @@ namespace Rollout.Scripting.Actions
     [ActionParam(0, "x", typeof(int))]
     [ActionParam(1, "y", typeof(int))]
     [ActionParam(2, "speed", typeof(double))]
-    [ActionParam(3, "duration", typeof(int))]
+    [ActionParam(3, "duration", typeof(String))]
     public sealed class MoveAction : Action
     {
         const double PixelsInAMeter = 100;
@@ -21,6 +22,10 @@ namespace Rollout.Scripting.Actions
         private TimeSpan ElapsedTime { get; set; }
         private TimeSpan Duration { get; set; }
 
+        private int x, y;
+        private double speed;
+        private RPNCalculation rpn;
+
         private string targetName;
         private ITransformable target;
 
@@ -29,23 +34,15 @@ namespace Rollout.Scripting.Actions
             get { return target ?? (target = ScriptingEngine.Item(targetName) as ITransformable); }
         }
 
-        public MoveAction(String targetName, int x, int y, double speed, int duration)
+        public MoveAction(String targetName, int x, int y, double speed, String duration)
         {
             this.targetName = targetName;
 
-            if (speed > 0)
-            {    
-                double distance = Math.Sqrt(x * x + y * y);
-                Duration = Time.ms((int)(distance / speed * 1000f / PixelsInAMeter));
-            }
-            else
-            {
-                Duration = Time.ms(duration);   
-            }
-            
-            TargetDelta = new Vector2(x,y);
+            this.x = x;
+            this.y = y;
+            this.speed = speed;
 
-            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+            rpn = ShuntingYard.Parse(duration);
 
             Reset();
         }
@@ -53,6 +50,21 @@ namespace Rollout.Scripting.Actions
         public override void Reset()
         {
             base.Reset();
+
+            if (speed > 0)
+            {
+                double distance = Math.Sqrt(x * x + y * y);
+                Duration = Time.ms((int)(distance / speed * 1000f / PixelsInAMeter));
+            }
+            else
+            {
+                Duration = Time.ms(rpn.SolveAsInt());
+            }
+
+            TargetDelta = new Vector2(x, y);
+
+            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+
             ElapsedTime = new TimeSpan();
             TotalDelta = new Vector2(0f, 0f);
         }

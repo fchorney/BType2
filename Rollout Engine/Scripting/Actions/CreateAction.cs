@@ -11,7 +11,7 @@ namespace Rollout.Scripting.Actions
 {
     [Action("create")]
     [ActionParam(0, "id", typeof(string))]
-    [ActionParam(1, "x", typeof(int))]
+    [ActionParam(1, "x", typeof(string))]
     [ActionParam(2, "y", typeof(string))]
     public sealed class CreateAction : Action
     {
@@ -19,13 +19,13 @@ namespace Rollout.Scripting.Actions
         private string templateid;
         private Vector2 position;
         private static int Counter;
-        private Equation rpn;
+        private Equation x,y;
 
-        public CreateAction(string target, string id, int x,  string y)
+        public CreateAction(string target, string id, string x,  string y)
         {
-            rpn = Equation.Parse(y);
-            int newy = rpn.SolveAsInt();
-            position = new Vector2(x,newy);
+            this.y = Equation.Parse(y);
+            this.x = Equation.Parse(x);          
+            position = new Vector2(this.x.SolveAsInt(), this.y.SolveAsInt());
 
             this.target = target;
             templateid = id;
@@ -70,7 +70,7 @@ namespace Rollout.Scripting.Actions
             var sprite = (Sprite)Activator.CreateInstance(type);
 
             sprite.Name = name;
-            sprite.Position = new Vector2((int)position.X, rpn.SolveAsInt());
+            sprite.Position = new Vector2(this.x.SolveAsInt(), this.y.SolveAsInt());
 
             return sprite;
         }

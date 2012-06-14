@@ -43,20 +43,20 @@
         
         <wait duration="500"/>
         
-        <repeat count="10">
-            <create id="enemy1" x="0" y="50 + ($RAND$ * 200)"/>
-            <wait duration="300"/>
+        <repeat count="25">
+            <create id="enemy1" x="$SEQ$ + ($RAND$ * 3)" y="$SEQ$ + ($RAND$ * 4)"/>
+            <wait duration="100"/>
         </repeat>
     </script>
     
     <template id="enemy1" sprite="enemy">
         <repeat count="0">
             
-            <repeat wait="false">
+            <!--<repeat wait="false">
                 <move x="1280" y="0" duration="450 + ($RAND$ * 500)" />
                 <move x="-1280" y="0" duration="350 + ($RAND$ * 500)" />
-            </repeat>
-
+            </repeat>-->
+            
             <repeat>
                 <fire />
                 <wait duration="$RAND$ * 1000"/>
@@ -66,5 +66,5 @@
 
     <template id="enemy2" sprite="enemy">
     </template>
- 
+
 </scripts>

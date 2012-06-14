@@ -98,8 +98,6 @@ namespace B_Type_2_Dev
             var v = new Vector2();
             ITransformable target = ScriptingEngine.Item("player");
 
-            
-
             v.X = target.X - this.X;
             v.Y = target.Y - this.Y;
 

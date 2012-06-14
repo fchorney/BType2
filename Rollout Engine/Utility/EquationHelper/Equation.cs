@@ -11,6 +11,7 @@ namespace Rollout.Utility.EquationHelper
     public class Equation
     {
         private static readonly Random Rand = new Random();
+        private int Sequence;
         private readonly List<EToken> tokens;
 
         internal Equation(List<EToken> tokens)
@@ -76,17 +77,19 @@ namespace Rollout.Utility.EquationHelper
             {
                 return Rand.NextDouble();
             }
+            if (token.Contains("SEQ"))
+            {
+                return Sequence;
+            }
             return Convert.ToDouble(token);
-        }
-
-        public double SolveAsDouble()
-        {
-            return Convert.ToDouble(Solve().Value);
         }
 
         public int SolveAsInt()
         {
-            return Convert.ToInt32(SolveAsDouble());
+
+            Sequence = Convert.ToInt32(Convert.ToDouble(Solve().Value));
+
+            return Sequence;
         }
 
         public static Equation Parse(string str)

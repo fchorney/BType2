@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 using Rollout.Utility;
@@ -7,94 +7,73 @@ using Rollout.Utility.EquationHelper;
 namespace Rollout.Scripting.Actions
 {
     [Action("move")]
-    [ActionParam(0, "x", typeof(int))]
-    [ActionParam(1, "y", typeof(int))]
-    [ActionParam(2, "speed", typeof(double))]
-    [ActionParam(3, "duration", typeof(String))]
+    [ActionParam(0, "target", typeof(string))]
+    [ActionParam(1, "direction", typeof(string))]
+    [ActionParam(2, "speed", typeof(string))]
     public sealed class MoveAction : Action
     {
         const double PixelsInAMeter = 100;
 
-        private Vector2 TargetDelta;
-        private Vector2 TotalDelta;
-        private Vector2 DeltaRate;
+        private Vector2 Speed;
 
-        private TimeSpan ElapsedTime { get; set; }
-        private TimeSpan Duration { get; set; }
+        private Equation direction, speed;
 
-        private int x, y;
-        private double speed;
-        private Equation rpn;
+        private string sourceName, targetName;
+        private ITransformable source, target;
+        private bool initialized;
 
-        private string targetName;
-        private ITransformable target;
+        private ITransformable Source
+        {
+            get { return source ?? (source = ScriptingEngine.Item(sourceName)); }
+        }
 
         private ITransformable Target
         {
-            get { return target ?? (target = ScriptingEngine.Item(targetName) as ITransformable); }
+            get { return target ?? (target = ScriptingEngine.Item(targetName)); }
         }
 
-        public MoveAction(String targetName, int x, int y, double speed, String duration)
+        public MoveAction(string source, string target, string direction, string speed)
         {
-            this.targetName = targetName;
+            sourceName = source;
+            targetName = target;
 
-            this.x = x;
-            this.y = y;
-            this.speed = speed;
+            this.direction = Equation.Parse(direction);
+            this.speed = Equation.Parse(speed);
 
-            rpn = Equation.Parse(duration);
-
-            Reset();
+            //Reset();
         }
 
         public override void Reset()
         {
             base.Reset();
 
-            if (speed > 0)
-            {
-                double distance = Math.Sqrt(x * x + y * y);
-                Duration = Time.ms((int)(distance / speed * 1000f / PixelsInAMeter));
-            }
-            else
-            {
-                Duration = Time.ms(rpn.SolveAsInt());
-            }
+            initialized = true;
+            int currSpeed = speed.SolveAsInt();
+            //int currDirection = direction.SolveAsInt();
 
-            TargetDelta = new Vector2(x, y);
+            double dx = Target.X - Source.X;
+            double dy = Target.Y - Source.Y;
+            double ax = Math.Abs(dx);
+            double ay = Math.Abs(dy);
 
-            DeltaRate = new Vector2((float)(TargetDelta.X / Duration.TotalSeconds), (float)(TargetDelta.Y / Duration.TotalSeconds));
+            double ratio = 1 / Math.Max(ax, ay);
+            // Crazy Magic Numbers
+            ratio = ratio * (1.29289 - (ax + ay) * ratio * 0.29289);
 
-            ElapsedTime = new TimeSpan();
-            TotalDelta = new Vector2(0f, 0f);
+            Speed = new Vector2((float) (currSpeed * dx *ratio), (float) (currSpeed * dy * ratio));
         }
 
         public override void Update(GameTime gameTime)
         {
-            ElapsedTime += gameTime.ElapsedGameTime;
-
-            if (ElapsedTime < Duration)
+            if (!initialized)
             {
-
-                float dX = DeltaRate.X * (float)(gameTime.ElapsedGameTime.TotalSeconds);
-                float dY = DeltaRate.Y * (float)(gameTime.ElapsedGameTime.TotalSeconds);
-
-                TotalDelta.X += dX;
-                TotalDelta.Y += dY;
-
-                Target.X += dX;
-                Target.Y += dY;
-
-            }
-            else
-            {
-                
-                Target.X += TargetDelta.X - TotalDelta.X;
-                Target.Y += TargetDelta.Y - TotalDelta.Y;
-
-                Finished = true;
+                Reset();
             }
 
+            Source.X += Speed.X;
+            Source.Y += Speed.Y;
+
+            //    Finished = true;
         }
 
     }

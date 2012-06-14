@@ -101,6 +101,7 @@
     <Compile Include="Drawing\Particles\ParticlePool.cs" />
     <Compile Include="Effect\BloomComponent.cs" />
     <Compile Include="Effect\BloomSettings.cs" />
+    <Compile Include="Scripting\Actions\MoveAction.cs" />
     <Compile Include="Scripting\ScriptingEngine.cs" />
     <Compile Include="Collision\Shapes\Shapes.cs" />
     <Compile Include="Core\Globals.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Scripting\IScriptingEngine.cs" />
     <Compile Include="Scripting\ActionQueue.cs" />
     <Compile Include="Scripting\XmlScriptingEngine.cs" />
-    <Compile Include="Scripting\Actions\MoveAction.cs" />
+    <Compile Include="Scripting\Actions\MoveToAction.cs" />
     <Compile Include="Scripting\ScriptProvider.cs" />
     <Compile Include="Utility\AttributeHelper.cs" />
     <Compile Include="Utility\FPS.cs" />

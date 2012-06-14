@@ -21,7 +21,7 @@ namespace B_Type_2_Dev
 
         public Enemy()
         {
-            AddAnimation("main", Animation.Load("bullet"));
+            AddAnimation("main", Animation.Load("player"));
             Name = "enemy" + Guid.NewGuid();
             Primary = true;
 
@@ -89,7 +89,7 @@ namespace B_Type_2_Dev
             base.Initialize();
 
             var attackVector = GetAttackVector();
-            var action = new MoveAction(this.Name, (int)attackVector.X, (int)attackVector.Y, 4f, "0");
+            var action = new MoveAction(this.Name,"player","0","10");
             ScriptingEngine.AddAction(this.Name, action);
         }
 

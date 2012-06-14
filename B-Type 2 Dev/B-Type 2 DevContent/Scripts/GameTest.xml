@@ -43,8 +43,8 @@
         
         <wait duration="500"/>
         
-        <repeat count="25">
-            <create id="enemy1" x="$SEQ$ + ($RAND$ * 3)" y="$SEQ$ + ($RAND$ * 4)"/>
+        <repeat count="60">
+            <create id="enemy1" x="$SEQ$ + 30" y="0"/>
             <wait duration="100"/>
         </repeat>
     </script>
@@ -53,8 +53,8 @@
         <repeat count="0">
             
             <!--<repeat wait="false">
-                <move x="1280" y="0" duration="450 + ($RAND$ * 500)" />
-                <move x="-1280" y="0" duration="350 + ($RAND$ * 500)" />
+                <moveto x="1280" y="0" duration="1000 + ($RAND$ * 500)" />
+                <moveto x="-1280" y="0" duration="1000 + ($RAND$ * 500)" />
             </repeat>-->
             
             <repeat>

@@ -12,8 +12,6 @@ namespace Rollout.Scripting.Actions
     [ActionParam(2, "speed", typeof(string))]
     public sealed class MoveAction : Action
     {
-        const double PixelsInAMeter = 100;
-
         private Vector2 Speed;
 
         private Equation direction, speed;
@@ -60,7 +58,7 @@ namespace Rollout.Scripting.Actions
             // Crazy Magic Numbers
             ratio = ratio * (1.29289 - (ax + ay) * ratio * 0.29289);
 
-            Speed = new Vector2((float) (currSpeed * dx *ratio), (float) (currSpeed * dy * ratio));
+            Speed = new Vector2((float) (currSpeed * dx * ratio), (float) (currSpeed * dy * ratio));
         }
 
         public override void Update(GameTime gameTime)
@@ -70,8 +68,8 @@ namespace Rollout.Scripting.Actions
                 Reset();
             }
 
-            Source.X += Speed.X;
-            Source.Y += Speed.Y;
+            Source.X += Speed.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Source.Y += Speed.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             //    Finished = true;
         }

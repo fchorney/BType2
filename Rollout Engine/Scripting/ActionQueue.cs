@@ -41,6 +41,12 @@ namespace Rollout.Scripting
 
         }
 
+        public new void Clear()
+        {
+            base.Clear();
+            Queue.Clear();
+        }
+
         public virtual void Reset()
         {
             foreach (var action in this)

@@ -41,7 +41,7 @@ namespace B_Type_2_Dev
 
     public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
     {
-        public EnemyGun() : base()
+        public EnemyGun() : base(10)
         {
         }
 
@@ -60,7 +60,7 @@ namespace B_Type_2_Dev
             bullet.Initialize();
 
 
-            bullet.TimeToLive = 25;
+            bullet.TimeToLive = 10;
 
             bullet.Enabled = true;
 
@@ -89,7 +89,7 @@ namespace B_Type_2_Dev
             base.Initialize();
 
             var attackVector = GetAttackVector();
-            var action = new MoveAction(this.Name,"player","0","10");
+            var action = new MoveAction(this.Name,"player","0","450");
             ScriptingEngine.AddAction(this.Name, action);
         }
 

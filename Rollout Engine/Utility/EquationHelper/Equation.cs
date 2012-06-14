@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rollout.Utility.ShuntingYard
+namespace Rollout.Utility.EquationHelper
 {
     /// <summary>
     /// Reverse Polish Notation Calculation
     /// </summary>
-    public class RPNCalculation
+    public class Equation
     {
         private static readonly Random Rand = new Random();
         private readonly List<EToken> tokens;
 
-        public RPNCalculation(List<EToken> tokens)
+        internal Equation(List<EToken> tokens)
         {
             this.tokens = tokens;
         }
@@ -87,6 +87,11 @@ namespace Rollout.Utility.ShuntingYard
         public int SolveAsInt()
         {
             return Convert.ToInt32(SolveAsDouble());
+        }
+
+        public static Equation Parse(string str)
+        {
+            return ShuntingYard.Parse(str);
         }
     }
 }

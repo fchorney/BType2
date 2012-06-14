@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Rollout.Utility.ShuntingYard
+namespace Rollout.Utility.EquationHelper
 {
     /// <summary>
     /// Equation Token
@@ -60,7 +60,7 @@ namespace Rollout.Utility.ShuntingYard
         public bool IsRightAssociative { get; private set; }
         public int Precedence { get; private set; }
 
-        public EToken(string value)
+        internal EToken(string value)
         {
             Value = value;
         }

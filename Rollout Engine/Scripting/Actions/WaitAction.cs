@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Rollout.Utility;
-using Rollout.Utility.ShuntingYard;
+using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting.Actions
 {
@@ -12,11 +12,11 @@ namespace Rollout.Scripting.Actions
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;
-        private RPNCalculation rpn;
+        private Equation rpn;
 
         public WaitAction(string target, string duration) : base (true)
         {
-            rpn = ShuntingYard.Parse(duration);
+            rpn = Equation.Parse(duration);
             waitTime = Time.ms(rpn.SolveAsInt());
 
             Reset();

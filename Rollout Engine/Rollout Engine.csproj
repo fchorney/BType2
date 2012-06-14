@@ -140,9 +140,9 @@
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
     <Compile Include="Utility\RNG.cs" />
-    <Compile Include="Utility\ShuntingYard\EToken.cs" />
-    <Compile Include="Utility\ShuntingYard\RPNCalculation.cs" />
-    <Compile Include="Utility\ShuntingYard\ShuntingYard.cs" />
+    <Compile Include="Utility\EquationHelper\EToken.cs" />
+    <Compile Include="Utility\EquationHelper\Equation.cs" />
+    <Compile Include="Utility\EquationHelper\ShuntingYard.cs" />
     <Compile Include="Utility\TextWriter.cs" />
     <Compile Include="Utility\TimeHelper.cs" />
     <Compile Include="Utility\VectorList.cs" />

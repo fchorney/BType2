@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 using Rollout.Utility;
-using Rollout.Utility.ShuntingYard;
+using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting.Actions
 {
@@ -24,7 +24,7 @@ namespace Rollout.Scripting.Actions
 
         private int x, y;
         private double speed;
-        private RPNCalculation rpn;
+        private Equation rpn;
 
         private string targetName;
         private ITransformable target;
@@ -42,7 +42,7 @@ namespace Rollout.Scripting.Actions
             this.y = y;
             this.speed = speed;
 
-            rpn = ShuntingYard.Parse(duration);
+            rpn = Equation.Parse(duration);
 
             Reset();
         }

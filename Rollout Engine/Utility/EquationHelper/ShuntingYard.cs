@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Rollout.Utility.ShuntingYard
+namespace Rollout.Utility.EquationHelper
 {
     /// <summary>
     /// Shunting Yard turns Infix Notation in to Postfix Notation
     /// </summary>
     public class ShuntingYard
     {
-        public static RPNCalculation Parse(string exp)
+        internal static Equation Parse(string exp)
         {
             var output = new Queue<EToken>();
             var operators = new Stack<EToken>();
@@ -65,10 +65,10 @@ namespace Rollout.Utility.ShuntingYard
                 output.Enqueue(operators.Pop());
             }
 
-            return new RPNCalculation(output.ToList());
+            return new Equation(output.ToList());
         }
 
-        public static List<EToken> GetTokens(string exp)
+        internal static List<EToken> GetTokens(string exp)
         {
             var results = new List<EToken>();
 

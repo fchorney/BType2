@@ -5,7 +5,7 @@ using Rollout.Collision.Shapes;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
 using Rollout.Utility;
-using Rollout.Utility.ShuntingYard;
+using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting.Actions
 {
@@ -19,11 +19,11 @@ namespace Rollout.Scripting.Actions
         private string templateid;
         private Vector2 position;
         private static int Counter;
-        private RPNCalculation rpn;
+        private Equation rpn;
 
         public CreateAction(string target, string id, int x,  string y)
         {
-            rpn = ShuntingYard.Parse(y);
+            rpn = Equation.Parse(y);
             int newy = rpn.SolveAsInt();
             position = new Vector2(x,newy);
 

@@ -139,6 +139,7 @@
     <Compile Include="Utility\AttributeHelper.cs" />
     <Compile Include="Utility\FPS.cs" />
     <Compile Include="Utility\Limiter.cs" />
+    <Compile Include="Utility\MathUtility.cs" />
     <Compile Include="Utility\RNG.cs" />
     <Compile Include="Utility\EquationHelper\EToken.cs" />
     <Compile Include="Utility\EquationHelper\Equation.cs" />

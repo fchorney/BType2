@@ -4,7 +4,7 @@ using Rollout.Scripting;
 
 namespace Rollout.Core.GameObject
 {
-    public class DrawableGameObject : GameObject, ITransformable, IScriptable
+    public class DrawableGameObject : GameObject, IScriptable
     {
         public float OffsetX { get; set; }
         public float OffsetY { get; set; }

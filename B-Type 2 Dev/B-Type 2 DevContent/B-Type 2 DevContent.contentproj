@@ -86,20 +86,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\GameTest.xml">
+    <None Include="Scripts\GameTest.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>GameTest</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
-    </Content>
-    <Content Include="Scripts\SpriteTest1.xml">
+    </None>
+    <None Include="Scripts\SpriteTest1.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>SpriteTest1</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
-    </Content>
+    </None>
     <Compile Include="Sprites\spaceship3.png">
       <Name>spaceship3</Name>
       <Importer>TextureImporter</Importer>
@@ -135,6 +135,13 @@
       <Name>GaussianBlur</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\lifeforce.png">
+      <Name>lifeforce</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

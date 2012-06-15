@@ -23,9 +23,16 @@ namespace B_Type_2_Dev
             AddAnimation("main", Animation.Load("player"));
             Name = "player";
             //Shape = new Rectangle(0, 0, 64, 64);
-            Shape = new Circle(10,10,8);
+            Shape = new Circle(0, 0, 8) {OffsetX = 24, OffsetY = 15};
 
             Guns = new Dictionary<string, PlayerGun>();
+
+            var lifeforce = new Sprite(Vector2.Zero);
+            lifeforce.AddAnimation("main", Animation.Load("lifeforce"));
+            lifeforce.Name = "lifeforce";
+            lifeforce.OffsetX = 24;
+            lifeforce.OffsetY = 15;
+            Add(lifeforce);
 
             var leftGun = new PlayerGun();
             leftGun.Position = new Vector2(8, 28);

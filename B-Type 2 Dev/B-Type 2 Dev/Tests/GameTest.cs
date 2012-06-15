@@ -26,11 +26,15 @@ namespace B_Type_2_Dev
 
         private double elapsedTime;
 
-        private Enemy enemy;
+        private bool colorChange;
+
+        //private Enemy enemy;
 
         public void GetHitByABullet(Sprite s, Particle p)
         {
-            s.Rotation += 0.1f;
+            colorChange = !colorChange;
+            //s.Rotation += 0.1f;
+            s.Color = colorChange ? new Color(255, 0, 0) : new Color(0, 255, 0);
         }
 
         public void GetHitByASprite(Sprite s, Sprite p)

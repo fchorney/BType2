@@ -41,11 +41,11 @@
     
     <script for="enemies">
         
-        <wait duration="500"/>
+        <wait duration="250"/>
         
-        <repeat count="60">
-            <create id="enemy1" x="$SEQ$ + 30" y="0"/>
-            <wait duration="100"/>
+        <repeat count="10">
+            <create id="enemy1" x="($SEQ$ + 80)" y="0"/>
+            <wait duration="50"/>
         </repeat>
     </script>
     

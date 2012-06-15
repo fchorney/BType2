@@ -111,12 +111,12 @@ namespace Rollout.Screens
         /// <summary>
         /// Load graphics content for the screen.
         /// </summary>
-        public new virtual void LoadContent() { }
+        public virtual void LoadContent() { }
 
         /// <summary>
         /// Unload content for the screen.
         /// </summary>
-        public new virtual void UnloadContent() { }
+        public virtual void UnloadContent() { }
 
         #endregion
 

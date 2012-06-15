@@ -17,6 +17,8 @@
         double Y { get; set; }
         double W { get; set; }
         double H { get; set; }
+        float OffsetX { get; set; }
+        float OffsetY { get; set; }
         IShape DeepCopy();
     }
 
@@ -34,7 +36,7 @@
 
         public double X
         {
-            get { return -int.MaxValue/2; }
+            get { return -int.MaxValue / 2; }
             set { }
         }
 
@@ -56,6 +58,17 @@
             set { }
         }
 
+        public float OffsetX
+        {
+            get { return 0; }
+            set { }
+        }
+        public float OffsetY 
+        { 
+            get { return 0; } 
+            set { }
+        }
+        
         public bool Intersects(IShape shape)
         {
             return Intersect.EverywhereToShape(this, shape);
@@ -70,14 +83,17 @@
         private double y;
         private double r;
 
+        public float OffsetX { get; set; }
+        public float OffsetY { get; set; }
+
         public double X
         {
-            get { return x; }
+            get { return x + OffsetX; }
             set { x = value; }
         }
         public double Y
         {
-            get { return y; }
+            get { return y + OffsetY; }
             set { y = value; }
         }
         public double W
@@ -98,12 +114,12 @@
 
         public double cX
         {
-            get { return x + r; }
+            get { return X + r; }
         }
 
         public double cY
         {
-            get { return y + r; }
+            get { return Y + r; }
         }
 
         public Circle(float x, float y, float r)
@@ -141,14 +157,17 @@
 
         private Vector2D v;
 
+        public float OffsetX { get; set; }
+        public float OffsetY { get; set; }
+
         public double X
         {
-            get { return v.Position.X; }
+            get { return v.Position.X + OffsetX; }
             set { v.Position.X = value; }
         }
         public double Y
         {
-            get { return v.Position.Y; }
+            get { return v.Position.Y + OffsetY; }
             set { v.Position.Y = value; }
         }
         public double W

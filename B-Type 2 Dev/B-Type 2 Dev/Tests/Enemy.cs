@@ -26,10 +26,9 @@ namespace B_Type_2_Dev
             Primary = true;
 
             Rotation = MathHelper.Pi;
-            Shape = new Rectangle(0, 0, 16, 16);
+            Shape = new Rectangle(0, 0, 64, 64);
 
-
-            Gun = new EnemyGun();
+            Gun = new EnemyGun() {OffsetX = 23, OffsetY = 23};
             Add(Gun);
         }
 

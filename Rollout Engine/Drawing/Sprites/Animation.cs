@@ -142,6 +142,19 @@ namespace Rollout.Drawing.Sprites
 
             LoadAnimation(animationInfo);
 
+            animationInfo = new AnimationInfo()
+                                {
+                                    Name = "lifeforce",
+                                    AssetName = @"Sprites/lifeforce",
+                                    Width = 16,
+                                    Height = 16,
+                                    Frames = new List<FrameInfo>
+                                                 {
+                                                     new FrameInfo() {Index = 0, Duration = 0}
+                                                 }
+                                };
+            LoadAnimation(animationInfo);
+
             animationInfo = new AnimationInfo
             {
                 Name = "bullet",

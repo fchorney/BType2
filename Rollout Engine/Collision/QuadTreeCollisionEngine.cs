@@ -14,11 +14,9 @@ namespace Rollout.Collision
 
         public List<PrimitiveLine> ShapeSprites = new List<PrimitiveLine>(); 
 
-
         public QuadTreeCollisionEngine()
         {
             quadTree = new QuadTree(0, 0, G.Game.GraphicsDevice.Viewport.Width, G.Game.GraphicsDevice.Viewport.Height);
-
 
             for (int i = 0; i < 3; i++)
             {
@@ -28,7 +26,6 @@ namespace Rollout.Collision
             objects = new List<ICollidable>();
 
             CollisionHandlers = new Dictionary<int, CollisionHandler>();
-
         }
 
 

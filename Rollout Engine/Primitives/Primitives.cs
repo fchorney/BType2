@@ -26,11 +26,6 @@ namespace Rollout.Primitives
         public Color Colour;
 
         /// <summary>
-        /// Gets/sets the position of the primitive line object.
-        /// </summary>
-       // public Vector2 Position;
-
-        /// <summary>
         /// Gets/sets the render depth of the primitive line object (0 = front, 1 = back)
         /// </summary>
         public float Depth;

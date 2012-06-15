@@ -22,7 +22,7 @@ namespace Rollout.Core
 
         }
 
-        public new void Begin(Matrix? transform = null)
+        public void Begin(Matrix? transform = null)
         {
             if (HasBegun)
                 base.End();

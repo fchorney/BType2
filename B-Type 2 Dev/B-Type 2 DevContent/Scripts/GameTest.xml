@@ -43,8 +43,8 @@
         
         <wait duration="250"/>
         
-        <repeat count="10">
-            <create id="enemy1" x="($SEQ$ + 80)" y="0"/>
+        <repeat count="5">
+            <create id="enemy1" x="($SEQ$ + 100)" y="300"/>
             <wait duration="50"/>
         </repeat>
     </script>

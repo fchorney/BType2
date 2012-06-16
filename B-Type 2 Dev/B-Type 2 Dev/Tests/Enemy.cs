@@ -46,23 +46,23 @@ namespace B_Type_2_Dev
 
         public void Fire()
         {
-
             var bullet = GetParticle();
 
             //reset bullet state
             bullet.Reset();
-            ScriptingEngine.Engine.ClearActionQueue(bullet.Name);
+            ScriptingEngine.Engine.ClearActionQueue(bullet.Name);            
 
+
+            /**
+             * CRAZY RESET JUNK
+             **/
+            bullet.Initialize();
+            bullet.Enabled = true;
             bullet.X = X;
             bullet.Y = Y;
-
-            bullet.Initialize();
-
-
+            bullet.Shape.X = X;
+            bullet.Shape.Y = Y;
             bullet.TimeToLive = 10;
-
-            bullet.Enabled = true;
-
         }
     }
 
@@ -77,19 +77,17 @@ namespace B_Type_2_Dev
             Shape = new Circle(0, 0, 8);
             Scale = 1.5f;
 
-            ScriptingEngine.Add(this.Name, this);
-
+            ScriptingEngine.Add(Name, this);
             CollisionEngine.Add(this);
-
         }
 
         public override void Initialize()
         {
             base.Initialize();
 
-            var attackVector = GetAttackVector();
-            var action = new MoveAction(this.Name,"player","0","450");
-            ScriptingEngine.AddAction(this.Name, action);
+            //var attackVector = GetAttackVector();
+            var action = new MoveAction(Name,"player","0","450");
+            ScriptingEngine.AddAction(Name, action);
         }
 
         private Vector2 GetAttackVector()
@@ -97,8 +95,8 @@ namespace B_Type_2_Dev
             var v = new Vector2();
             ITransformable target = ScriptingEngine.Item("player");
 
-            v.X = target.X - this.X;
-            v.Y = target.Y - this.Y;
+            v.X = target.X - X;
+            v.Y = target.Y - Y;
 
             return v;
         }
@@ -108,7 +106,7 @@ namespace B_Type_2_Dev
         {
             base.Update(gameTime);
 
-            this.Rotation += (float)(2 * gameTime.ElapsedGameTime.TotalSeconds);
+            Rotation += (float)(2 * gameTime.ElapsedGameTime.TotalSeconds);
         }
     }
 

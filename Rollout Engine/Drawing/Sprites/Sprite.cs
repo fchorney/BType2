@@ -69,11 +69,9 @@ namespace Rollout.Drawing.Sprites
             animation.Update(gameTime);
             base.Update(gameTime);
 
-            if (Shape != null)
-            {
-                Shape.X = X;
-                Shape.Y = Y;
-            }
+            if (Shape == null) return;
+            Shape.X = X;
+            Shape.Y = Y;
         }
 
         public override void Draw(GameTime gameTime)

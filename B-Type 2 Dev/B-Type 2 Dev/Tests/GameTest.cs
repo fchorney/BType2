@@ -5,7 +5,6 @@ using Rollout.Collision;
 using Rollout.Collision.Shapes;
 using Rollout.Core;
 using Rollout.Core.GameObject;
-using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Input;
@@ -29,12 +28,13 @@ namespace B_Type_2_Dev
         private bool colorChange;
 
         //private Enemy enemy;
-
+        
         public void GetHitByABullet(Sprite s, Particle p)
         {
             colorChange = !colorChange;
             //s.Rotation += 0.1f;
             s.Color = colorChange ? new Color(255, 0, 0) : new Color(0, 255, 0);
+            //p.Disable();
         }
 
         public void GetHitByASprite(Sprite s, Sprite p)

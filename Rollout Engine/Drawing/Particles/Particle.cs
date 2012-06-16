@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
+using Rollout.Scripting;
 
 namespace Rollout.Drawing.Particles
 {
@@ -27,6 +28,16 @@ namespace Rollout.Drawing.Particles
         {
             Age = 0;
             ElapsedTime = 0;
+        }
+
+        public void Disable()
+        {
+            Reset();
+            Shape.X = 0;
+            Shape.Y = 0;
+            Enabled = false;
+            Position = new Vector2(0,0);
+            ScriptingEngine.Engine.ClearActionQueue(Name);
         }
 
         public override void Update(GameTime gameTime)

@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
-using Rollout.Collision.Shapes;
 using Rollout.Core.GameObject;
 using Rollout.Drawing.Sprites;
-using Rollout.Utility;
 using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting.Actions

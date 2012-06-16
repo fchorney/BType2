@@ -1,5 +1,4 @@
-﻿using System;
-using Rollout.Collision.Shapes;
+﻿using Rollout.Collision.Shapes;
 
 namespace Rollout.Collision
 {

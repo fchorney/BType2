@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Rollout.Core;
 using Rollout.Core.GameObject;
-using Rollout.Drawing.Particles;
-using Rollout.Drawing.Sprites;
 
-namespace Rollout.Drawing
+namespace Rollout.Drawing.Particles
 {
 
-    public class ParticlePool<TParticle> : DrawableGameObject where TParticle : IParticle
+    public class ParticlePool<TParticle> : DrawableGameObject where TParticle : class, IParticle
     {
 
         protected List<TParticle> Pool { get; set; }

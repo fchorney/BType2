@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Rollout.Drawing;
 using Rollout.Scripting;
 
 namespace Rollout.Core.GameObject

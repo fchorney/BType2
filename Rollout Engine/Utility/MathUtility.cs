@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Rollout.Collision.Shapes;
-using Rollout.Drawing;
 using Rollout.Drawing.Sprites;
 
 namespace Rollout.Utility

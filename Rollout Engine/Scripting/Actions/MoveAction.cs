@@ -50,21 +50,20 @@ namespace Rollout.Scripting.Actions
             int currSpeed = speed.SolveAsInt();
             //int currDirection = direction.SolveAsInt();
 
-            var spriteT = Target as Sprite;
-            var spriteS = Source as Sprite;
+            var spriteT = Target is Sprite ? Target as Sprite : null;
+            var spriteS = Source is Sprite ? Source as Sprite : null;
             var vT = new Vector2(target.X, target.Y);
             var vS = new Vector2(source.X, source.Y);
-            double dx, dy, ax, ay;
 
             if (spriteT != null)
                 vT = spriteT.Shape != null ? MathUtility.GetCenter(spriteT.Shape) : MathUtility.GetCenter(spriteT);
             if (spriteS != null)
                 vS = spriteS.Shape != null ? MathUtility.GetCenter(spriteS.Shape) : MathUtility.GetCenter(spriteS);
 
-            dx = vT.X - vS.X;
-            dy = vT.Y - vS.Y;
-            ax = Math.Abs(dx);
-            ay = Math.Abs(dy);
+            double dx = vT.X - vS.X;
+            double dy = vT.Y - vS.Y;
+            double ax = Math.Abs(dx);
+            double ay = Math.Abs(dy);
 
             double ratio = 1 / Math.Max(ax, ay);
             ratio = ratio * (1.29289 - (ax + ay) * ratio * 0.29289);

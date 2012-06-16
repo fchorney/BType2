@@ -1,15 +1,12 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
-using Rollout.Core;
 using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
-using Rollout.Utility;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev

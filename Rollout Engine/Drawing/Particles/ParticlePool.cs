@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Rollout.Core;
 using Rollout.Core.GameObject;
-using Rollout.Drawing.Particles;
-using Rollout.Drawing.Sprites;
-using Rollout.Scripting;
 
 namespace Rollout.Drawing.Particles
 {

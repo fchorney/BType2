@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Drawing;
 using Rollout.Utility;
@@ -7,10 +8,10 @@ using Rollout.Utility.EquationHelper;
 namespace Rollout.Scripting.Actions
 {
     [Action("moveto")]
-    [ActionParam(0, "x", typeof(int))]
-    [ActionParam(1, "y", typeof(int))]
-    [ActionParam(2, "speed", typeof(double))]
-    [ActionParam(3, "duration", typeof(String))]
+    [ActionParam("x")]
+    [ActionParam("y")]
+    [ActionParam("speed")]
+    [ActionParam("duration")]
     public sealed class MoveToAction : Action
     {
         const double PixelsInAMeter = 100;
@@ -22,10 +23,6 @@ namespace Rollout.Scripting.Actions
         private TimeSpan ElapsedTime { get; set; }
         private TimeSpan Duration { get; set; }
 
-        private int x, y;
-        private double speed;
-        private Equation rpn;
-
         private string targetName;
         private ITransformable target;
 
@@ -34,15 +31,19 @@ namespace Rollout.Scripting.Actions
             get { return target ?? (target = ScriptingEngine.Item(targetName) as ITransformable); }
         }
 
-        public MoveToAction(String targetName, int x, int y, double speed, String duration)
+        public MoveToAction(Dictionary<string, Expression> args) : base(args)
+        {
+            Reset();
+        }
+
+        public MoveToAction(String targetName, int x, string y, double speed, String duration)
         {
             this.targetName = targetName;
 
-            this.x = x;
-            this.y = y;
-            this.speed = speed;
-
-            rpn = Equation.Parse(duration);
+            Args.Add("x", new Expression(x.ToString()));
+            Args.Add("y", new Expression(y.ToString()));
+            Args.Add("speed", new Expression(speed.ToString()));
+            Args.Add("duration", new Expression(duration));
 
             Reset();
         }
@@ -51,6 +52,9 @@ namespace Rollout.Scripting.Actions
         {
             base.Reset();
 
+            int x = Args["x"].AsInt();
+            int y = Args["y"].AsInt();
+            int speed = Args["speed"].AsInt();
             if (speed > 0)
             {
                 double distance = Math.Sqrt(x * x + y * y);
@@ -58,7 +62,7 @@ namespace Rollout.Scripting.Actions
             }
             else
             {
-                Duration = Time.ms(rpn.SolveAsInt());
+                Duration = Time.ms(Args["duration"].AsInt());
             }
 
             TargetDelta = new Vector2(x, y);

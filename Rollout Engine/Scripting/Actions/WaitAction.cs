@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Utility;
 using Rollout.Utility.EquationHelper;
@@ -7,12 +8,18 @@ namespace Rollout.Scripting.Actions
 {
 
     [Action("wait")]
-    [ActionParam(0, "duration", typeof(string))]
+    [ActionParam("duration")]
     public sealed class WaitAction : Action
     {
         private TimeSpan waitTime;
         private TimeSpan currentTime;
         private Equation rpn;
+
+        public WaitAction(Dictionary<string, Expression> args)
+            : base(args)
+        {
+            Reset();
+        }
 
         public WaitAction(string target, string duration) : base (true)
         {
@@ -32,7 +39,7 @@ namespace Rollout.Scripting.Actions
         public override void Reset()
         {
             base.Reset();
-            waitTime = Time.ms(rpn.SolveAsInt());
+            waitTime = Time.ms(Args["duration"].AsInt());
             currentTime = new TimeSpan();
         }
 

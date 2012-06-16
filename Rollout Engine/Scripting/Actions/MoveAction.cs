@@ -8,9 +8,9 @@ using Rollout.Utility.EquationHelper;
 namespace Rollout.Scripting.Actions
 {
     [Action("move")]
-    [ActionParam(0, "target", typeof(string))]
-    [ActionParam(1, "direction", typeof(string))]
-    [ActionParam(2, "speed", typeof(string))]
+    [ActionParam("target")]
+    [ActionParam("direction")]
+    [ActionParam("speed")]
     public sealed class MoveAction : Action
     {
         private Vector2 Speed;

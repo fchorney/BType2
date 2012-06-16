@@ -57,7 +57,7 @@
                 <moveto x="-1280" y="0" duration="1000 + ($RAND$ * 500)" />
             </repeat>-->
             
-            <repeat>
+            <repeat count="10">
                 <fire />
                 <wait duration="$RAND$ * 1000"/>
             </repeat>

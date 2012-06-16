@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Rollout.Scripting;
+using Rollout.Utility.EquationHelper;
 using Action = Rollout.Scripting.Actions.Action;
 
 namespace B_Type_2_Dev
@@ -13,6 +15,16 @@ namespace B_Type_2_Dev
     public sealed class FireAction : Action
     {
         private string target;
+
+        public FireAction(Dictionary<string, Expression> args)
+            : base(args)
+        {
+            target = Args["source"].AsString();
+            Reset();
+        }
+
+
+
         public FireAction(string target)
         {
             this.target = target;

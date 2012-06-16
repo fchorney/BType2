@@ -15,14 +15,10 @@ namespace Rollout.Scripting
     public class ActionParamAttribute : Attribute
     {
         public string Name { get; set; }
-        public Type Type { get; set; }
-        public int Order { get; set; }
 
-        public ActionParamAttribute(int order, string name, Type type)
+        public ActionParamAttribute(string name)
         {
             this.Name = name;
-            this.Type = type;
-            this.Order = order;
         }
     }
 }

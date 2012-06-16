@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Rollout.Core;
 using Rollout.Utility;
+using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting
 {
@@ -62,19 +63,19 @@ namespace Rollout.Scripting
             foreach (var actionType in actionTypes)
             {
                 var actionAttribute = (ActionAttribute)actionType.GetCustomAttributes(typeof (ActionAttribute), false)[0];
-                var actionInfo2 = new ActionInfo() {Name = actionAttribute.Name, Type = actionType};
+                var actionInfo = new ActionInfo() {Name = actionAttribute.Name, Type = actionType};
 
                 //get all ActionParam attributes on the Type
                 foreach(ActionParamAttribute actionParam in actionType.GetCustomAttributes(typeof(ActionParamAttribute), false))
                 {
-                    var paramInfo = new ActionInfo.ParamInfo() {Name = actionParam.Name, Type= actionParam.Type, Order = actionParam.Order};
-                    actionInfo2.Params.Add(paramInfo);
+                    var paramInfo = new ActionInfo.ParamInfo() {Name = actionParam.Name};
+                    actionInfo.Params.Add(paramInfo);
                 }
 
                 //sort the ActionParams since we can't guarantee order
-                actionInfo2.Params = actionInfo2.Params.OrderBy(p => p.Order).ToList();
+                actionInfo.Params = actionInfo.Params.OrderBy(p => p.Order).ToList();
 
-                ActionTypes.Add(actionInfo2.Name, actionInfo2);
+                ActionTypes.Add(actionInfo.Name, actionInfo);
             }
         }
 
@@ -84,14 +85,14 @@ namespace Rollout.Scripting
 
             foreach (var child in script.Elements())
             {
-                //Engine.AddAction(forName, ProcessElement(child,forName));
+                //Engine.AddAction(source, ProcessElement(child,source));
                 IAction action = ProcessAction(child, forName);
                 if (action != null)
                     Engine.AddAction(forName, action);
             }
         }
 
-        public static IAction ProcessAction(XElement node, string forName)
+        public static IAction ProcessAction(XElement node, string source)
         {
             IAction action = null;
             string actionName = node.Name.ToString();
@@ -99,21 +100,19 @@ namespace Rollout.Scripting
             if (ActionTypes.ContainsKey(actionName))
             {
                 ActionInfo actionInfo = ActionTypes[actionName];
+                Dictionary<string, Expression> args = new Dictionary<string, Expression>();
 
-                List<object> args = new List<object>();
-
-                args.Add(forName);
+                args.Add("source", new Expression(source));
 
                 foreach (var paramInfo in actionInfo.Params)
                 {
-                    object param = node.Attribute(paramInfo.Name) != null
-                                       ? Convert.ChangeType(node.Attribute(paramInfo.Name).Value, paramInfo.Type)
-                                       : (paramInfo.DefaultValue ?? Activator.CreateInstance(paramInfo.Type));
+                    string name = paramInfo.Name;
+                    string value = node.Attribute(paramInfo.Name) != null ? node.Attribute(paramInfo.Name).Value : "";
 
-                    args.Add(param);
+                    args.Add(name, new Expression(value));
                 }
 
-                action = Activator.CreateInstance(actionInfo.Type, args.ToArray()) as IAction;
+                action = Activator.CreateInstance(actionInfo.Type, args) as IAction;
 
                 if (action != null)
                 {
@@ -121,7 +120,7 @@ namespace Rollout.Scripting
 
                     foreach (var child in node.Elements())
                     {
-                        var childAction = ProcessAction(child, forName);
+                        var childAction = ProcessAction(child, source);
                         if (childAction != null)
                         action.AddAction(childAction);
                     }

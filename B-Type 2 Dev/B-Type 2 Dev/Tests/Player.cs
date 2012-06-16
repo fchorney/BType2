@@ -7,6 +7,7 @@ using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
+using Rollout.Utility.EquationHelper;
 using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
@@ -83,7 +84,8 @@ namespace B_Type_2_Dev
 
             Shape = new Circle(0, 0, 8);
 
-            var action = new MoveToAction(Name, 0, -2000, 10f, "0");
+            var action = new MoveToAction(Name, 0, "0 - " +
+                                                   "2000", 10f, "0");
 
             ScriptingEngine.Add(Name, this);
             ScriptingEngine.AddAction(Name, action);

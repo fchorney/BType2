@@ -5,6 +5,39 @@ using System.Text;
 
 namespace Rollout.Utility.EquationHelper
 {
+    public class Expression
+    {
+        private string Value { get; set; }
+        private Equation Eq { get; set; }
+    
+
+        public Expression(string exp)
+        {
+            Value = exp;
+            Eq = Equation.Parse(exp);
+        }
+
+        public int AsInt()
+        {
+            return Eq.SolveAsInt();
+        }
+
+        public float AsFloat()
+        {
+            return 10f;
+        }
+
+        public double AsDouble()
+        {
+            return 10.0;
+        }
+
+        public string AsString()
+        {
+            return Value;
+        }
+    }
+
     /// <summary>
     /// Reverse Polish Notation Calculation
     /// </summary>

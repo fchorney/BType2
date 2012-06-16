@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
@@ -10,22 +11,24 @@ using Rollout.Utility.EquationHelper;
 namespace Rollout.Scripting.Actions
 {
     [Action("create")]
-    [ActionParam(0, "id", typeof(string))]
-    [ActionParam(1, "x", typeof(string))]
-    [ActionParam(2, "y", typeof(string))]
+    [ActionParam("id")]
+    [ActionParam("x")]
+    [ActionParam("y")]
     public sealed class CreateAction : Action
     {
         private string target;
         private string templateid;
-        private Vector2 position;
         private static int Counter;
-        private Equation x,y;
+
+        public CreateAction(Dictionary<string, Expression> args)
+            : base(args)
+        {
+            target = Args["source"].AsString();
+            templateid = Args["id"].AsString();
+        }
 
         public CreateAction(string target, string id, string x,  string y)
         {
-            this.y = Equation.Parse(y);
-            this.x = Equation.Parse(x);          
-            position = new Vector2(this.x.SolveAsInt(), this.y.SolveAsInt());
 
             this.target = target;
             templateid = id;
@@ -35,7 +38,6 @@ namespace Rollout.Scripting.Actions
         {
             this.target = target;
             this.templateid = templateid;
-            this.position = position;
             this.actions = actions;
         }
 
@@ -70,7 +72,7 @@ namespace Rollout.Scripting.Actions
             var sprite = (Sprite)Activator.CreateInstance(type);
 
             sprite.Name = name;
-            sprite.Position = new Vector2(this.x.SolveAsInt(), this.y.SolveAsInt());
+            sprite.Position = new Vector2(Args["x"].AsInt(), Args["y"].AsInt());
 
             return sprite;
         }

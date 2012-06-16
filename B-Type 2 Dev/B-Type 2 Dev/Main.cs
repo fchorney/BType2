@@ -14,12 +14,12 @@ namespace B_Type_2_Dev
 
         public Main()
         {
-            IsFixedTimeStep = true;
+            IsFixedTimeStep = false;
 
             graphics = new GraphicsDeviceManager(this)
                            {
                                IsFullScreen = false,
-                               SynchronizeWithVerticalRetrace = false,
+                               SynchronizeWithVerticalRetrace = true,
                                PreferredBackBufferHeight = 720,
                                PreferredBackBufferWidth = 1280
                            };
@@ -39,7 +39,6 @@ namespace B_Type_2_Dev
         {
             G.SetGame(this);
             Components.Add(new TextWriter(@"SpriteFonts/Debug"));
-            //Components.Add(new FPS());
             //Components.AddScreen(new ParticlesTest());
             //Components.AddScreen(new PlayerTest());
             //Components.AddScreen(new QuadTest());

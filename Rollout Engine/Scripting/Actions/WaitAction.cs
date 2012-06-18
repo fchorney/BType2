@@ -11,9 +11,8 @@ namespace Rollout.Scripting.Actions
     [ActionParam("duration")]
     public sealed class WaitAction : Action
     {
-        private TimeSpan waitTime;
-        private TimeSpan currentTime;
-        private Equation rpn;
+        private TimeSpan WaitTime { get; set; }
+        private TimeSpan ElapsedTime { get; set; }
 
         public WaitAction(Dictionary<string, Expression> args)
             : base(args)
@@ -21,33 +20,18 @@ namespace Rollout.Scripting.Actions
             Reset();
         }
 
-        public WaitAction(string target, string duration) : base (true)
-        {
-            rpn = Equation.Parse(duration);
-            waitTime = Time.ms(rpn.SolveAsInt());
-
-            Reset();
-        }
-
-        public WaitAction(TimeSpan timeSpan) : base (true)
-        {
-            waitTime = timeSpan;
-
-            Reset();
-        }
-
         public override void Reset()
         {
             base.Reset();
-            waitTime = Time.ms(Args["duration"].AsInt());
-            currentTime = new TimeSpan();
+            WaitTime = Time.ms(Args["duration"].AsInt());
+            ElapsedTime = new TimeSpan();
         }
 
         public override void Update(GameTime gameTime)
         {
-            currentTime += gameTime.ElapsedGameTime;
+            ElapsedTime += gameTime.ElapsedGameTime;
 
-            if(currentTime > waitTime)
+            if (ElapsedTime > WaitTime)
             {
                 Finished = true;
             }

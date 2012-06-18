@@ -14,29 +14,13 @@ namespace Rollout.Scripting.Actions
     [ActionParam("y")]
     public sealed class CreateAction : Action
     {
-        private string target;
         private string templateid;
         private static int Counter;
 
         public CreateAction(Dictionary<string, Expression> args)
             : base(args)
         {
-            target = Args["source"].AsString();
             templateid = Args["id"].AsString();
-        }
-
-        public CreateAction(string target, string id, string x,  string y)
-        {
-
-            this.target = target;
-            templateid = id;
-        }
-
-        public CreateAction(string target, string templateid, Vector2 position, ActionQueue actions)
-        {
-            this.target = target;
-            this.templateid = templateid;
-            this.actions = actions;
         }
 
         public override void Update(GameTime gameTime)
@@ -47,7 +31,7 @@ namespace Rollout.Scripting.Actions
 
             var sprite = CreateSprite(targetName, template.Attribute("sprite").Value);
 
-            var createTarget = ScriptingEngine.Item(target) as DrawableGameObject;
+            var createTarget = Source as DrawableGameObject;
             if (createTarget != null) createTarget.Add(sprite);
 
 

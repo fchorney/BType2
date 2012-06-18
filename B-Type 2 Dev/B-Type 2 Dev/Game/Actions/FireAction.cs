@@ -14,26 +14,16 @@ namespace B_Type_2_Dev
     [Action("fire")]
     public sealed class FireAction : Action
     {
-        private string target;
-
         public FireAction(Dictionary<string, Expression> args)
             : base(args)
         {
-            target = Args["source"].AsString();
             Reset();
-        }
-
-
-
-        public FireAction(string target)
-        {
-            this.target = target;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            var shooter = ScriptingEngine.Item(target) as IFireable;
+            var shooter = Source as IFireable;
             if (shooter != null) 
                 shooter.Fire();
             Finished = true;

@@ -83,7 +83,7 @@ namespace B_Type_2_Dev
             base.Initialize();
 
             //var attackVector = GetAttackVector();
-            var action = new MoveAction(Name,"player","0","450");
+            var action = new MoveAction(Name,"player","0","150");
             ScriptingEngine.AddAction(Name, action);
         }
 

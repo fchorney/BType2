@@ -12,7 +12,7 @@ namespace Rollout.Utility.EquationHelper
         public Expression(string exp)
         {
             Value = exp;
-            Eq = Equation.Parse(exp);
+            Eq = Equation.Parse(Value.Length != 0 ? exp : "0");
         }
 
         public int AsInt()

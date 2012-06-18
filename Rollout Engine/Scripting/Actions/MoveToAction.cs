@@ -23,23 +23,14 @@ namespace Rollout.Scripting.Actions
         private TimeSpan ElapsedTime { get; set; }
         private TimeSpan Duration { get; set; }
 
-        private string targetName;
-        private ITransformable target;
-
-        private ITransformable Target
-        {
-            get { return target ?? (target = ScriptingEngine.Item(targetName) as ITransformable); }
-        }
-
         public MoveToAction(Dictionary<string, Expression> args) : base(args)
         {
             Reset();
         }
 
-        public MoveToAction(String targetName, int x, string y, double speed, String duration)
+        public MoveToAction(String source, int x, string y, double speed, String duration)
         {
-            this.targetName = targetName;
-
+            this.SourceId = source;
             Args.Add("x", new Expression(x.ToString()));
             Args.Add("y", new Expression(y.ToString()));
             Args.Add("speed", new Expression(speed.ToString()));
@@ -71,6 +62,8 @@ namespace Rollout.Scripting.Actions
 
             ElapsedTime = new TimeSpan();
             TotalDelta = new Vector2(0f, 0f);
+
+
         }
 
         public override void Update(GameTime gameTime)
@@ -86,15 +79,15 @@ namespace Rollout.Scripting.Actions
                 TotalDelta.X += dX;
                 TotalDelta.Y += dY;
 
-                Target.X += dX;
-                Target.Y += dY;
+                Source.X += dX;
+                Source.Y += dY;
 
             }
             else
             {
                 
-                Target.X += TargetDelta.X - TotalDelta.X;
-                Target.Y += TargetDelta.Y - TotalDelta.Y;
+                Source.X += TargetDelta.X - TotalDelta.X;
+                Source.Y += TargetDelta.Y - TotalDelta.Y;
 
                 Finished = true;
             }

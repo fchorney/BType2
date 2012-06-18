@@ -43,38 +43,38 @@
         
         <wait duration="250"/>
         
-        <repeat count="40" wait="false">
-            <create id="enemy1" x="($SEQ$ + 25)" y="100"/>
-            <wait duration="50"/>
+        <repeat count="10" wait="false">
+            <create id="enemy1" x="($SEQ$ + 100)" y="100"/>
+            <wait duration="0"/>
         </repeat>
 
-        <repeat count="40" wait="false">
-            <create id="enemy1" x="($SEQ$ + 25)" y="200"/>
-            <wait duration="50"/>
+        <!--<repeat count="4" wait="false">
+            <create id="enemy1" x="($SEQ$ + 100)" y="200"/>
+            <wait duration="0"/>
         </repeat>
 
-        <repeat count="40" wait="false">
-            <create id="enemy1" x="($SEQ$ + 25)" y="300"/>
-            <wait duration="50"/>
+        <repeat count="4" wait="false">
+            <create id="enemy1" x="($SEQ$ + 100)" y="300"/>
+            <wait duration="0"/>
         </repeat>
 
-        <repeat count="40" wait="false">
-            <create id="enemy1" x="($SEQ$ + 25)" y="400"/>
-            <wait duration="50"/>
-        </repeat>
+        <repeat count="4" wait="false">
+            <create id="enemy1" x="($SEQ$ + 100)" y="400"/>
+            <wait duration="0"/>
+        </repeat>-->
     </script>
     
     <template id="enemy1" sprite="enemy">
         <repeat count="0">
             
-            <!--<repeat wait="false">
-                <moveto x="1280" y="0" duration="1000 + ($RAND$ * 500)" />
-                <moveto x="-1280" y="0" duration="1000 + ($RAND$ * 500)" />
-            </repeat>-->
+            <repeat wait="false">
+                <moveto x="200" y="0" duration="5000" />
+                <moveto x="0-200" y="0" duration="5000" />
+            </repeat>
             
-            <repeat count="10">
+            <repeat>
                 <fire />
-                <wait duration="$RAND$ * 1000"/>
+                <wait duration="200"/>
             </repeat>
         </repeat>
     </template>

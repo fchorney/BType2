@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Rollout.Drawing;
 using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting.Actions
@@ -17,6 +18,13 @@ namespace Rollout.Scripting.Actions
 
         public bool Wait { get; set; }
 
+        protected string SourceId { get; set; }
+        protected ITransformable source { get; set; }
+        protected ITransformable Source
+        {
+            get { return source ?? (source = ScriptingEngine.Item(SourceId) as ITransformable); }
+        }
+
         public Action(bool wait = false)
         {
             Args = new Dictionary<string, Expression>();
@@ -29,6 +37,7 @@ namespace Rollout.Scripting.Actions
             : this(false)
         {
             this.Args = args;
+            SourceId = Args["source"].AsString();
         }
 
         public Action(string target) : this(false)

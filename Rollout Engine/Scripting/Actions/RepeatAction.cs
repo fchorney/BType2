@@ -15,18 +15,10 @@ namespace Rollout.Scripting.Actions
         public RepeatAction(Dictionary<string, Expression> args)
             : base(args)
         {
-            int n = Args["count"].AsInt();
-            if (n == 0) n = -1;
-            Iterations = n;
-            CurrentIterations = n;
-        }
-
-
-        public RepeatAction(string target, int n)
-        {
-            if(n==0) n=-1;
-            Iterations = n;
-            CurrentIterations = n;
+            int count = Args["count"].AsInt();
+            if (count == 0) count = -1;
+            Iterations = count;
+            CurrentIterations = count;
         }
 
         public override void Update(GameTime gameTime)

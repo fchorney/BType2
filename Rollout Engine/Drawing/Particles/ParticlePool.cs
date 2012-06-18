@@ -6,10 +6,8 @@ using Rollout.Core.GameObject;
 
 namespace Rollout.Drawing.Particles
 {
-
     public class ParticlePool<TParticle> : DrawableGameObject where TParticle : class, IParticle
     {
-
         protected List<TParticle> Pool { get; set; }
         protected List<TParticle> Buffer { get; set; }
 
@@ -48,10 +46,8 @@ namespace Rollout.Drawing.Particles
         public TParticle CreateParticle()
         {
             var p = Activator.CreateInstance<TParticle>();
-
             return p;
         }
-
 
         public override void Update(GameTime gameTime)
         {
@@ -70,8 +66,6 @@ namespace Rollout.Drawing.Particles
 
         public override void Draw(GameTime gameTime)
         {
-            //G.SpriteBatch.DrawString(this.Pool.Count.ToString(), new Vector2(X, Y - 20));
-
             foreach (var p in Pool.AsParallel().Where(p => p.Enabled))
                 p.Draw(gameTime);
             base.Draw(gameTime);

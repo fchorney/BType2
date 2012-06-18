@@ -14,26 +14,48 @@ namespace Rollout.Drawing.Sprites
 
         protected Vector2 position;
 
-        private Animation animation;
         private Dictionary<string, Animation> animations;
 
         public Color Color { get; set; }
         public string Name { get; set; }
 
-        public Animation Animation
-        {
-            get { return animation; }
-        }
+        public Animation Animation { get; private set; }
 
         public int H
         {
-            get { return animation.SourceRectangle.Height; }
+            get { return Animation.SourceRectangle.Height; }
         }
 
         public int W
         {
-            get { return animation.SourceRectangle.Width; }
+            get { return Animation.SourceRectangle.Width; }
         }
+
+        public override float X
+        {
+            get { return base.X; }
+            set
+            {
+                base.X = value;
+                if (Shape != null)
+                    Shape.X = X;
+            }
+        }
+
+        public override float Y
+        {
+            get { return base.Y; }
+            set
+            {
+                base.Y = value;
+                if (Shape != null)
+                    Shape.Y = Y;
+            }
+        }
+
+        public IShape Shape { get; set; }
+
+        public bool Primary { get; set; }
 
         #endregion
 
@@ -66,12 +88,13 @@ namespace Rollout.Drawing.Sprites
 
         public override void Update(GameTime gameTime)
         {
-            animation.Update(gameTime);
+            Animation.Update(gameTime);
+            if (Shape != null)
+            {
+                Shape.X = X;
+                Shape.Y = Y;
+            }
             base.Update(gameTime);
-
-            if (Shape == null) return;
-            Shape.X = X;
-            Shape.Y = Y;
         }
 
         public override void Draw(GameTime gameTime)
@@ -82,35 +105,35 @@ namespace Rollout.Drawing.Sprites
 
         public void Draw(float x, float y, Color color, float scale, float rotation)
         {
-            Vector2 texCenter = new Vector2(W/2, H/2);
+            var texCenter = new Vector2(W/2, H/2);
             //Vector2 texCenter = new Vector2(0, 0); //scale from top left
-            G.SpriteBatch.Draw(animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
+            G.SpriteBatch.Draw(Animation.Texture, new Vector2(x + texCenter.X, y + texCenter.Y),Animation.CurrentFrame.SourceRectangle,color, rotation, texCenter, scale, SpriteEffects.None, 0);
         }
 
         public void SetAnimation(string animationName)
         {
-            animation = animations[animationName];
-            animation.Reset();
+            Animation = animations[animationName];
+            Animation.Reset();
         }
 
         public void Pause()
         {
-            animation.Paused = true;
+            Animation.Paused = true;
         }
 
         public void UnPause()
         {
-            animation.Paused = false;
+            Animation.Paused = false;
         }
 
         public void ReStart()
         {
-            animation.Reset();
+            Animation.Reset();
         }
 
         public bool Paused()
         {
-            return animation.Paused;
+            return Animation.Paused;
         }
 
         public void AddAnimation(string animationName, Animation animation)
@@ -121,9 +144,5 @@ namespace Rollout.Drawing.Sprites
             if (animations.Count == 1)
                 SetAnimation(animationName);
         }
-
-        public IShape Shape { get; set; }
-
-        public bool Primary { get; set; }
     }
 }

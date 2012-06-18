@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
@@ -56,39 +57,32 @@ namespace B_Type_2_Dev
         public void Fire()
         {
             var bullet = GetParticle();
-
-            //reset bullet state
             bullet.Reset();
-            ScriptingEngine.Engine.ResetActionQueue(bullet.Name);
-
-            bullet.X = X;
-            bullet.Y = Y;
-
+            bullet.Position = new Vector2(X, Y);
             bullet.TimeToLive = 2;
-
             bullet.Enabled = true;
-
         }
     }
 
-    public class PlayerBullet : Particle
+    public sealed class PlayerBullet : Particle
     {
         public PlayerBullet()
         {
-            Name = "PlayerBullet_" + GetHashCode().ToString();
+            Name = "PlayerBullet_" + GetHashCode().ToString(CultureInfo.InvariantCulture);
 
             AddAnimation("main", Animation.Load("bullet"));
             Color = Color.LightCyan;
-
             Shape = new Circle(0, 0, 8);
 
-            var action = new MoveToAction(Name, 0, -2000, 10f, "0");
-
-            ScriptingEngine.Add(Name, this);
-            ScriptingEngine.AddAction(Name, action);
-
+            ScriptingEngine.Add(Name, this);    
             CollisionEngine.Add(this);
+        }
 
+        public new void Reset()
+        {
+            base.Reset();
+            var action = new MoveToAction(Name, 0, -2000, 10f, "0");
+            ScriptingEngine.AddAction(Name, action);
         }
     }
 

@@ -75,13 +75,13 @@ namespace Rollout.Scripting
 
         public void ClearActionQueue(string name)
         {
-            if (Scriptables.ContainsKey(name))
+            if (name != null && Scriptables.ContainsKey(name))
                 Scriptables[name].Actions.Clear();
         }
 
         public void ResetActionQueue(string name)
         {
-            if (Scriptables.ContainsKey(name))
+            if (name != null && Scriptables.ContainsKey(name))
                 Scriptables[name].Actions.Reset();
         }
 

@@ -10,7 +10,7 @@ namespace Rollout.Core.GameObject
         public float Scale { get; set; }
         public float Rotation { get; set; }
 
-        public float X
+        public virtual float X
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Rollout.Core.GameObject
             set { OffsetX = value; }
         }
 
-        public float Y
+        public virtual float Y
         {
             get
             {

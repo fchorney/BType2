@@ -37,28 +37,14 @@ namespace B_Type_2_Dev
 
     public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
     {
-        public EnemyGun() : base(10)
-        {
-        }
-
         public void Fire()
         {
             var bullet = GetParticle();
 
             //reset bullet state
             bullet.Reset();
-            ScriptingEngine.Engine.ClearActionQueue(bullet.Name);            
-
-
-            /**
-             * CRAZY RESET JUNK
-             **/
-            bullet.Initialize();
             bullet.Enabled = true;
-            bullet.X = X;
-            bullet.Y = Y;
-            bullet.Shape.X = X;
-            bullet.Shape.Y = Y;
+            bullet.Position = new Vector2(X, Y);
             bullet.TimeToLive = 10;
         }
     }
@@ -68,9 +54,7 @@ namespace B_Type_2_Dev
         public EnemyBullet()
         {
             Name = "EnemyBullet_" + Guid.NewGuid();
-
             AddAnimation("main", Animation.Load("bullet"));
-
             Shape = new Circle(0, 0, 8);
             Scale = 1.5f;
 
@@ -78,31 +62,16 @@ namespace B_Type_2_Dev
             CollisionEngine.Add(this);
         }
 
-        public override void Initialize()
+        public new void Reset()
         {
-            base.Initialize();
-
-            //var attackVector = GetAttackVector();
-            var action = new MoveAction(Name,"player","0","450");
+            base.Reset();
+            var action = new MoveAction(Name, "player", "0", "450");
             ScriptingEngine.AddAction(Name, action);
         }
-
-        private Vector2 GetAttackVector()
-        {
-            var v = new Vector2();
-            ITransformable target = ScriptingEngine.Item("player");
-
-            v.X = target.X - X;
-            v.Y = target.Y - Y;
-
-            return v;
-        }
-       
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
             Rotation += (float)(2 * gameTime.ElapsedGameTime.TotalSeconds);
         }
     }

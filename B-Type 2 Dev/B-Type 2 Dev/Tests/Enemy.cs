@@ -2,7 +2,6 @@ using System;
 using Microsoft.Xna.Framework;
 using Rollout.Collision;
 using Rollout.Collision.Shapes;
-using Rollout.Drawing;
 using Rollout.Drawing.Particles;
 using Rollout.Drawing.Sprites;
 using Rollout.Scripting;
@@ -37,6 +36,9 @@ namespace B_Type_2_Dev
 
     public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
     {
+        private int speed = 250;
+        private int count = 0;
+
         public void Fire()
         {
             var bullet = GetParticle();
@@ -46,6 +48,21 @@ namespace B_Type_2_Dev
             bullet.Enabled = true;
             bullet.Position = new Vector2(X, Y);
             bullet.TimeToLive = 10;
+
+            count++;
+
+
+            speed += 25;
+
+            var action = new MoveAction(bullet.Name, "player", "0", speed.ToString());
+            ScriptingEngine.AddAction(bullet.Name, action);
+
+            if (count >= 10)
+            {
+                count = 0;
+                speed = 250;
+            }
+
         }
     }
 
@@ -65,8 +82,6 @@ namespace B_Type_2_Dev
         public new void Reset()
         {
             base.Reset();
-            var action = new MoveAction(Name, "player", "0", "450");
-            ScriptingEngine.AddAction(Name, action);
         }
 
         public override void Update(GameTime gameTime)

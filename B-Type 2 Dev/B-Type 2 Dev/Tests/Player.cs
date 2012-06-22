@@ -7,8 +7,6 @@ using Rollout.Drawing.Sprites;
 using Rollout.Drawing.Particles;
 using Rollout.Scripting;
 using Rollout.Scripting.Actions;
-using Rollout.Utility.EquationHelper;
-using Rectangle = Rollout.Collision.Shapes.Rectangle;
 
 namespace B_Type_2_Dev
 {
@@ -86,5 +84,4 @@ namespace B_Type_2_Dev
             ScriptingEngine.AddAction(Name, action);
         }
     }
-
 }

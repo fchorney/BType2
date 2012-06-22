@@ -71,10 +71,13 @@
                 <moveto x="200" y="0" duration="5000" />
                 <moveto x="0-200" y="0" duration="5000" />
             </repeat>
-            
+
             <repeat>
-                <fire />
-                <wait duration="200"/>
+                <repeat count="10">
+                    <fire />
+                    <wait duration="50"/>
+                </repeat>
+                <wait duration="500"/>
             </repeat>
         </repeat>
     </template>

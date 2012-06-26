@@ -78,8 +78,7 @@ namespace B_Type_2_Dev
             Add(enemies);
             ScriptingEngine.Add("enemies", enemies);
 
-            var scriptProvider = new ScriptProvider(ScriptingEngine.Engine as XmlScriptingEngine);
-            scriptProvider.Load("GameTest");
+            ScriptingEngine.Load("GameTest");
 
         }
 

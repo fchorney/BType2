@@ -30,7 +30,7 @@ namespace Rollout.Drawing.Particles
             ElapsedTime = 0;
             Enabled = false;
             Position = new Vector2(0, 0);
-            ScriptingEngine.Engine.ClearActionQueue(Name);
+            ScriptingEngine.Engine.ClearTarget(Name);
         }
 
         public override void Update(GameTime gameTime)

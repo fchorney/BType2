@@ -1,21 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 
 namespace Rollout.Scripting
 {
-    class Scriptable
-    {
-        public string Name { get; set; }
-        public IScriptable Object { get; set; }
-        public ActionQueue Actions { get; set; } 
-
-        public Scriptable()
-        {
-            Actions = new ActionQueue();
-        }
-    }
-
     public class XmlScriptingEngine: IScriptingEngine
     {
         private bool IsUpdating { get; set; }
@@ -23,11 +13,24 @@ namespace Rollout.Scripting
         private List<Scriptable> AddQueue { get; set; } 
         private Dictionary<string, Scriptable> Scriptables { get; set; }
 
+        private IScriptProvider provider;
+        public IScriptProvider Provider
+        {
+            get { return provider; }
+        }
+
+        public Dictionary<string, Type> SpriteTypes { get; set; }
+        public Dictionary<string, XElement> Templates { get; set; }
+
         public XmlScriptingEngine()
         {
+            provider = new XmlScriptProvider();
             Scriptables = new Dictionary<string, Scriptable>();
             AddQueue = new List<Scriptable>();
             IsUpdating = false;
+
+            SpriteTypes = new Dictionary<string, Type>();
+            Templates = new Dictionary<string, XElement>();
         }
 
         public void Add(string name, IScriptable obj, List<IAction> actions = null)
@@ -51,7 +54,7 @@ namespace Rollout.Scripting
             }
         }
 
-        public void AddAction(string name, IAction action)
+        public void AttachAction(string name, IAction action)
         {
             if (Scriptables.ContainsKey(name))
             {
@@ -73,13 +76,13 @@ namespace Rollout.Scripting
             get { return Scriptables[name].Object; }
         }
 
-        public void ClearActionQueue(string name)
+        public void ClearTarget(string name)
         {
             if (name != null && Scriptables.ContainsKey(name))
                 Scriptables[name].Actions.Clear();
         }
 
-        public void ResetActionQueue(string name)
+        public void ResetTarget(string name)
         {
             if (name != null && Scriptables.ContainsKey(name))
                 Scriptables[name].Actions.Reset();
@@ -102,6 +105,11 @@ namespace Rollout.Scripting
             AddQueue.Clear();
 
             IsUpdating = false;
+        }
+
+        public void Load(string assetName)
+        {
+            Provider.Load(assetName);
         }
     }
 }

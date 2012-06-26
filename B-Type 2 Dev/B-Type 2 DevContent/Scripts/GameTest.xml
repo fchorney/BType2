@@ -45,7 +45,7 @@
         
         <repeat count="10" wait="false">
             <create id="enemy1" x="($SEQ$ + 100)" y="100"/>
-            <wait duration="0"/>
+            <wait duration="500"/>
         </repeat>
 
         <!--<repeat count="4" wait="false">
@@ -72,17 +72,19 @@
                 <moveto x="0-200" y="0" duration="5000" />
             </repeat>
 
-            <repeat>
+            <repeat wait="false">
                 <repeat count="10">
-                    <fire />
-                    <wait duration="50"/>
+                    <fire bullet="spread">
+                        <param>$i</param>
+                    </fire>
                 </repeat>
                 <wait duration="500"/>
             </repeat>
         </repeat>
     </template>
 
-    <template id="enemy2" sprite="enemy">
-    </template>
+    <bullet id="spread" sprite="bullet">
+        <changeDirection type="relative" value="$1" duration="0"/> 
+    </bullet>
 
 </scripts>

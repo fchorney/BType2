@@ -25,7 +25,7 @@ namespace Rollout.Scripting.Actions
 
         public override void Update(GameTime gameTime)
         {
-            var template = ScriptProvider.Templates[templateid];
+            var template = ScriptingEngine.Engine.Templates[templateid];
 
             var targetName = templateid + "|" + Counter++;
 
@@ -38,7 +38,7 @@ namespace Rollout.Scripting.Actions
             var targetActions = new ActionQueue();
             foreach (var action in template.Elements())
             {
-                targetActions.Add(ScriptProvider.ProcessAction(action, targetName));
+                targetActions.Add(ScriptingEngine.Engine.Provider.ProcessTemplate(action, targetName));
             }
 
             ScriptingEngine.Add(targetName, sprite, targetActions);
@@ -50,7 +50,7 @@ namespace Rollout.Scripting.Actions
         public Sprite CreateSprite(string name, string spriteType)
         {
 
-            var type = ScriptProvider.SpriteTypes.ContainsKey(spriteType) ? ScriptProvider.SpriteTypes[spriteType] : typeof (Sprite);
+            var type = ScriptingEngine.SpriteTypes.ContainsKey(spriteType) ? ScriptingEngine.SpriteTypes[spriteType] : typeof(Sprite);
             var sprite = (Sprite)Activator.CreateInstance(type);
 
             sprite.Name = name;

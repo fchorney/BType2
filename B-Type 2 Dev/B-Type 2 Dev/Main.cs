@@ -14,7 +14,7 @@ namespace B_Type_2_Dev
 
         public Main()
         {
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
 
             graphics = new GraphicsDeviceManager(this)
                            {

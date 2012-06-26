@@ -34,9 +34,9 @@ namespace B_Type_2_Dev
         }
     }
 
-    public class EnemyGun : ParticlePool<EnemyBullet>, IFireable
+    public class EnemyGun : ParticlePool<EnemyBullet>
     {
-        private int speed = 250;
+        private int speed = 20;
         private int count = 0;
 
         public void Fire()
@@ -47,12 +47,12 @@ namespace B_Type_2_Dev
             bullet.Reset();
             bullet.Enabled = true;
             bullet.Position = new Vector2(X, Y);
-            bullet.TimeToLive = 10;
+            bullet.TimeToLive = 30;
 
             count++;
 
 
-            speed += 25;
+            speed += 5;
 
             var action = new MoveAction(bullet.Name, "player", "0", speed.ToString());
             ScriptingEngine.AddAction(bullet.Name, action);
@@ -60,7 +60,7 @@ namespace B_Type_2_Dev
             if (count >= 10)
             {
                 count = 0;
-                speed = 250;
+                speed = 10;
             }
 
         }

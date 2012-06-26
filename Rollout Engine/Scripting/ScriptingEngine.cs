@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Rollout.Screens;
@@ -17,6 +18,11 @@ namespace Rollout.Scripting
             }
         }
 
+        public static Dictionary<string, Type> SpriteTypes
+        {
+            get { return Engine.SpriteTypes; }
+        }
+
         public static void Add(string name, IScriptable scriptable, List<IAction> actions = null)
         {
             Engine.Add(name, scriptable, actions);
@@ -24,7 +30,7 @@ namespace Rollout.Scripting
 
         public static void AddAction(string name, IAction action)
         {
-            Engine.AddAction(name, action);
+            Engine.AttachAction(name, action);
         }
 
         public static void Update(GameTime gameTime)
@@ -35,6 +41,11 @@ namespace Rollout.Scripting
         public static IScriptable Item(string name)
         {
             return Engine[name];
+        }
+
+        public static void Load(string assetName)
+        {
+            Engine.Load(assetName);
         }
     }
 }

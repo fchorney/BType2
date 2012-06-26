@@ -8,20 +8,13 @@ using Rollout.Utility.EquationHelper;
 
 namespace Rollout.Scripting
 {
-    public class ScriptProvider
+    public class XmlScriptProvider : IScriptProvider
     {
-        public XmlScriptingEngine Engine { get; private set; }
+        private Dictionary<string, ActionInfo> ActionTypes { get; set; } 
 
-        public static Dictionary<string, Type> SpriteTypes { get; set; }
-        public static Dictionary<string, XElement> Templates;
-        private static Dictionary<string, ActionInfo> ActionTypes { get; set; } 
-
-        public ScriptProvider(XmlScriptingEngine engine)
+        public XmlScriptProvider()
         {
-            Engine = engine;
-            Templates = new Dictionary<string, XElement>();
             ActionTypes = new Dictionary<string, ActionInfo>();
-            SpriteTypes = new Dictionary<string, Type>();
 
             RegisterActions();
         }
@@ -36,7 +29,7 @@ namespace Rollout.Scripting
             {
                 var spriteAttribute = (SpriteAttribute)spriteType.GetCustomAttributes(typeof (SpriteAttribute), false)[0];
 
-                SpriteTypes.Add(spriteAttribute.Name,spriteType);
+                ScriptingEngine.SpriteTypes.Add(spriteAttribute.Name,spriteType);
             }
 
             //load templates
@@ -44,7 +37,7 @@ namespace Rollout.Scripting
             foreach (var template in templates)
             {
                 var id = template.Attribute("id").Value;
-                Templates.Add(id, template);
+                ScriptingEngine.Engine.Templates.Add(id, template);
             }
 
             //load action scripts
@@ -85,14 +78,13 @@ namespace Rollout.Scripting
 
             foreach (var child in script.Elements())
             {
-                //Engine.AddAction(source, ProcessElement(child,source));
-                IAction action = ProcessAction(child, forName);
+                IAction action = ProcessTemplate(child, forName);
                 if (action != null)
-                    Engine.AddAction(forName, action);
+                    ScriptingEngine.Engine.AttachAction(forName, action);
             }
         }
 
-        public static IAction ProcessAction(XElement node, string source)
+        public IAction ProcessTemplate(XElement node, string sourceId)
         {
             IAction action = null;
             string actionName = node.Name.ToString();
@@ -102,7 +94,7 @@ namespace Rollout.Scripting
                 ActionInfo actionInfo = ActionTypes[actionName];
                 Dictionary<string, Expression> args = new Dictionary<string, Expression>();
 
-                args.Add("source", new Expression(source));
+                args.Add("source", new Expression(sourceId));
 
                 foreach (var paramInfo in actionInfo.Params)
                 {
@@ -120,7 +112,7 @@ namespace Rollout.Scripting
 
                     foreach (var child in node.Elements())
                     {
-                        var childAction = ProcessAction(child, source);
+                        var childAction = ProcessTemplate(child, sourceId);
                         if (childAction != null)
                         action.AddAction(childAction);
                     }
